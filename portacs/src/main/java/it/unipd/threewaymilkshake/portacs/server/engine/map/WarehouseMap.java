@@ -1,5 +1,6 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.map;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,5 +34,14 @@ public class WarehouseMap extends Subject{
 
   public void setStrategy(PathFindingStrategy strategy){
     this.strategy=strategy;
+  }
+
+  public String toString(){
+    StringBuilder b=new StringBuilder();
+		Arrays.stream(map)
+			.forEach(r->{
+				b.append(String.valueOf(r));
+		});
+		return b.toString();
   }
 }

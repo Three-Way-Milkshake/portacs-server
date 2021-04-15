@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ConnectionConfig {
-  @Bean
+  /* @Bean
   public ConnectionHandler connectionHandler(){
-    return new ConnectionHandler();
-  }
+    //return new ConnectionHandler(usersList());
+  } */
 }

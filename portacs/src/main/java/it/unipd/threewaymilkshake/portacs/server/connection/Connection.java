@@ -52,7 +52,7 @@ public class Connection{
     return alive;
   }
 
-  private void close(){
+  public void close(){
     try{
       in.close();
       out.close();
