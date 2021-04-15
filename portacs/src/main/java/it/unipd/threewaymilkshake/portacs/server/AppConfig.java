@@ -13,11 +13,13 @@ import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
+import it.unipd.threewaymilkshake.portacs.server.persistency.JsonForklift;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
 
 @Configuration
 public class AppConfig {
   private final static String MAP_FILE="Map.json";
+  private final static String FORKLIFT_FILE="Forklift.json";
 
   @Bean
   @Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default
@@ -43,6 +45,6 @@ public class AppConfig {
 
   @Bean
   public ForkliftsList forkliftsList(){
-    return new ForkliftsList();
+    return new ForkliftsList(new JsonForklift(FORKLIFT_FILE));
   }
 }

@@ -9,15 +9,19 @@ import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 abstract class Client implements Observer{
   protected String id;
   protected boolean active=false;
-  protected Connection connection;
+  protected Connection connection=null;
   @Autowired WarehouseMap map;
 
-  Client(String id){
+  protected Client(String id){
     this.id=id;
   }
 
-  boolean isActive(){
+  public boolean isActive(){
     return active;
+  }
+
+  public String getId(){
+    return id;
   }
 
   void bindConnection(Connection c){
@@ -25,7 +29,16 @@ abstract class Client implements Observer{
     active=true;
   }
 
+  void clearConnection(){
+    connection.close();
+    connection=null;
+    active=false;
+  }
+
   public void update(){
     connection.writeToBuffer(map.toString());
   }
+
+  public abstract void processCommunication();
+  public abstract boolean authenticate(String s);
 }

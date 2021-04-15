@@ -34,7 +34,12 @@ public class Connection{
     return !out.checkError();
   }
 
-  public boolean send(){
+  public boolean send(String msg){
+    out.println(msg);
+    return !out.checkError();
+  }
+
+  public boolean sendBuffer(){
     out.println();
     return !out.checkError();
   }
@@ -50,6 +55,10 @@ public class Connection{
     }
 
     return alive;
+  }
+
+  public String getLastMessage(){
+    return lastMessage;
   }
 
   public void close(){
