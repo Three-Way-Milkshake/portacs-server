@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
+import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
 
@@ -15,9 +17,14 @@ public class AppConfig {
   private final static String MAP_FILE="Map.json";
 
   @Bean
-  @Scope("singleton")
+  @Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default
   public WarehouseMap mapSingleton(){
     Resource resource=new ClassPathResource(MAP_FILE);
-    return new WarehouseMap(new JsonMap(resource.getFile()));
+    return new WarehouseMap(new JsonMap(MAP_FILE));
+  }
+
+  @Bean
+  public PathFindingStrategy pathFindingStrategy(){
+    return new StrategyBreadthFirst();
   }
 }

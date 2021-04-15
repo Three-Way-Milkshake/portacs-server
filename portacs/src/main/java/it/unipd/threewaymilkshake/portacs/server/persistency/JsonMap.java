@@ -14,7 +14,7 @@ public class JsonMap implements MapDao{
 
   private String filePath;
 
-  public JsonMap(File f){
+  public JsonMap(String filepath){
     this.filePath=filePath;
     Gson g=new Gson();
   }
