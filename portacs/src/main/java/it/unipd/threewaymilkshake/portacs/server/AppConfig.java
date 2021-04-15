@@ -25,7 +25,7 @@ public class AppConfig {
   @Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default
   public WarehouseMap mapSingleton(){
     Resource resource=new ClassPathResource(MAP_FILE);
-    return new WarehouseMap(new JsonMap(MAP_FILE));
+    return new WarehouseMap(new JsonMap(MAP_FILE), pathFindingStrategy());
   }
 
   @Bean

@@ -1,6 +1,7 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.map;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,9 @@ public class StrategyBreadthFirst implements PathFindingStrategy{
 
   @Override
   public List<Move> getPath(int[][] map, AbstractLocation start, AbstractLocation end) {
-    // TODO Auto-generated method stub
     nodes=map;
+    int bakStart=map[start.getX()][start.getY()];
+    int bakend=map[end.getX()][end.getY()];
     return null;
   }
 

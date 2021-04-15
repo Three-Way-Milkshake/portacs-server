@@ -5,18 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
+import it.unipd.threewaymilkshake.portacs.server.engine.Move;
 import it.unipd.threewaymilkshake.portacs.server.engine.Subject;
 import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
 
 public class WarehouseMap extends Subject{
 
   private CellType[][] map;
+  private int[][] intMatrix;
   private Map<Long, Poi> pois;
   private PathFindingStrategy strategy;
   private MapDao mapDao;
 
   public WarehouseMap(CellType[][] map, List<Poi> pois, PathFindingStrategy pathFindingStrategy) {
     this.map = map;
+    updateIntMatrix();
     this.strategy=pathFindingStrategy;
     this.pois=new HashMap<>();
     pois.stream().forEach(p->{
@@ -24,7 +28,17 @@ public class WarehouseMap extends Subject{
     });
   }
 
-  public WarehouseMap(MapDao mapDao) {
+  private void updateIntMatrix(){
+    int rows=map.length, cols=map[0].length;
+    intMatrix=new int[rows][cols];
+    for(int i=0; i<rows; ++i){
+      for(int j=0; j<cols; ++j){
+        intMatrix[i][j]=map[i][j].ordinal();
+      }
+    }
+  }
+
+  public WarehouseMap(MapDao mapDao, PathFindingStrategy pathFindingStrategy) {
     this.mapDao=mapDao;
     this.map = mapDao.readMapStructure();
     List<Poi> poisList=mapDao.readPois();
@@ -32,6 +46,11 @@ public class WarehouseMap extends Subject{
     poisList.stream().forEach(p->{
       this.pois.put(p.getId(), p);
     });
+  }
+
+  public List<Move> getPath(AbstractLocation start, long poi){
+    AbstractLocation end=pois.get(poi).getLocation();
+    return strategy.getPath(intMatrix, start, end);
   }
 
   public void setStrategy(PathFindingStrategy strategy){
