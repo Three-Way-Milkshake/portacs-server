@@ -30,6 +30,11 @@ public class AppConfig {
     return new WarehouseMap(new JsonMap(mapFilePath));
   }
 
+  @Bean("warehouseMapTest")
+  public WarehouseMap warehouseMapTest(@Value("${server.database.json-map.test}") String mapFilePath){
+    return new WarehouseMap(new JsonMap(mapFilePath));
+  }
+
   @Bean
   public PathFindingStrategy pathFindingStrategy(){
     return new StrategyBreadthFirst();

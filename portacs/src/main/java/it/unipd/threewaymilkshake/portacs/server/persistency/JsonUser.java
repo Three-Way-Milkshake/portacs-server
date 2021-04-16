@@ -10,7 +10,6 @@ import it.unipd.threewaymilkshake.portacs.server.engine.clients.User;
 
 
 public class JsonUser implements UserDao{
-
   
   private String filePath;
 
