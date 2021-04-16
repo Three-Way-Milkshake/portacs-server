@@ -19,4 +19,8 @@ public abstract class AbstractLocation{
     this.x = x;
     this.y = y;
   }
+  public AbstractLocation(AbstractLocation other){
+    this.x=other.x;
+    this.y=other.y;
+  }
 }

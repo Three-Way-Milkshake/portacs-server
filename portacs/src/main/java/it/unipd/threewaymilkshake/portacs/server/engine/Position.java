@@ -1,12 +1,17 @@
 package it.unipd.threewaymilkshake.portacs.server.engine;
 
 public class Position extends AbstractLocation{
-  public Position(int x, int y) {
+  private Orientation orientation;
+  
+  public Position(int x, int y, Orientation o) {
     super(x, y);
-    //TODO Auto-generated constructor stub
+    orientation=o;
   }
 
-  private Orientation orientation;
+  public Position(Position p){
+    super(p);
+    orientation=((Position)p).orientation;
+  }
   
   public Orientation getOrientation() {
     return orientation;
