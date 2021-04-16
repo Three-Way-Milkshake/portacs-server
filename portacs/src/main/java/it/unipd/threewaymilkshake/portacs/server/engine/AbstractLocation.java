@@ -1,8 +1,8 @@
 package it.unipd.threewaymilkshake.portacs.server.engine;
 
 public abstract class AbstractLocation{
-  private int x;
-  private int y;
+  protected int x;
+  protected int y;
   public int getY() {
     return y;
   }

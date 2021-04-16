@@ -3,6 +3,7 @@ package it.unipd.threewaymilkshake.portacs.server.engine.map;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,6 +32,14 @@ public class StrategyBreadthFirst implements PathFindingStrategy{
       .collect(Collectors.toList());
 
     AbstractLocation iterator=new Position((Position)start);
+    List<Move> moves=new LinkedList<>();
+    //TODO finish here
+    /* pathPoints.stream().forEach(p->{
+      var tmp;
+      do{
+        tmp=iterator.transi
+      }
+    }); */
 
     //restore cells in map
     map[start.getX()][start.getY()]=bakStart;
