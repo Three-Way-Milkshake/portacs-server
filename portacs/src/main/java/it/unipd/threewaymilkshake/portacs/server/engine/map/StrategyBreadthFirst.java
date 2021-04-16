@@ -1,12 +1,17 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.map;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
+import it.unipd.threewaymilkshake.portacs.server.engine.Position;
+import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 
 public class StrategyBreadthFirst implements PathFindingStrategy{
 
@@ -14,8 +19,31 @@ public class StrategyBreadthFirst implements PathFindingStrategy{
 
   @Override
   public List<Move> getPath(int[][] map, AbstractLocation start, AbstractLocation end) {
-    // TODO Auto-generated method stub
     nodes=map;
+    int bakStart=map[start.getX()][start.getY()];
+    int bakEnd=map[end.getX()][end.getY()];
+    map[start.getX()][start.getY()]=9;
+    map[end.getX()][end.getY()]=10;
+
+    List<Node> path=shortestPath();
+    //checking to reverse path shouldn't be needed since it should always generate start to end
+    List<AbstractLocation> pathPoints=path.stream()
+      .map(n->new SimplePoint(n.x, n.y))
+      .collect(Collectors.toList());
+
+    AbstractLocation iterator=new Position((Position)start);
+    List<Move> moves=new LinkedList<>();
+    //TODO finish here
+    /* pathPoints.stream().forEach(p->{
+      var tmp;
+      do{
+        tmp=iterator.transi
+      }
+    }); */
+
+    //restore cells in map
+    map[start.getX()][start.getY()]=bakStart;
+    map[end.getX()][end.getY()]=bakEnd;
     return null;
   }
 
@@ -165,48 +193,49 @@ public class StrategyBreadthFirst implements PathFindingStrategy{
     System.out.println();
     System.out.println("Path: "+ path);
   }
+
+  private class Node {
+    private int x;
+    private int y;
+    private int value;
+  
+    private Node(int x, int y, int value) {
+      this.x = x;
+      this.y = y;
+      this.value = value;
+    }
+  
+    private int getX() {
+      return x;
+    }
+  
+    private int getY() {
+      return y;
+    }
+  
+    private int getValue() {
+      return value;
+    }
+  
+    @Override
+    public String toString() {
+      return "(x: " + x + " y: " + y + ")";
+    }
+  
+    @Override
+    public int hashCode() {
+      return x * y;
+    }
+  
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null) return false;
+      if (this.getClass() != o.getClass()) return false;
+      Node node = (Node) o;
+      return x == node.x && y == node.y;
+    }
+  }
 }
 
 
-class Node {
-  private int x;
-  private int y;
-  private int value;
-
-  public Node(int x, int y, int value) {
-    this.x = x;
-    this.y = y;
-    this.value = value;
-  }
-
-  public int getX() {
-    return x;
-  }
-
-  public int getY() {
-    return y;
-  }
-
-  public int getValue() {
-    return value;
-  }
-
-  @Override
-  public String toString() {
-    return "(x: " + x + " y: " + y + ")";
-  }
-
-  @Override
-  public int hashCode() {
-    return x * y;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null) return false;
-    if (this.getClass() != o.getClass()) return false;
-    Node node = (Node) o;
-    return x == node.x && y == node.y;
-  }
-}

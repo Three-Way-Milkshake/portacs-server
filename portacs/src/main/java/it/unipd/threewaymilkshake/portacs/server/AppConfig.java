@@ -19,15 +19,15 @@ import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
 
 @Configuration
 public class AppConfig {
-  //private final static String MAP_FILE="Map.json";
-  //private final static String FORKLIFT_FILE="Forklift.json";
+  // private final static String MAP_FILE="Map.json";
+  private final static String FORKLIFT_FILE="Forklift.json";
 
   @Bean
   //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default 
                         //l'ho letto da varie parti, vedi https://www.javadevjournal.com/spring/spring-singleton-vs-singleton-pattern/
   public WarehouseMap warehouseMap(@Value("${server.database.json-map}") String mapFilePath){
     //Resource resource=new ClassPathResource(MAP_FILE);
-    return new WarehouseMap(new JsonMap(mapFilePath));
+    return new WarehouseMap(new JsonMap(mapFilePath), pathFindingStrategy());
   }
 
   @Bean("warehouseMapTest")

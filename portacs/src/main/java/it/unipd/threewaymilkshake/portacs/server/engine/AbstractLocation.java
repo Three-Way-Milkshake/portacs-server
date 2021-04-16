@@ -1,8 +1,8 @@
 package it.unipd.threewaymilkshake.portacs.server.engine;
 
 public abstract class AbstractLocation{
-  private int x;
-  private int y;
+  protected int x;
+  protected int y;
   public int getY() {
     return y;
   }
@@ -18,5 +18,9 @@ public abstract class AbstractLocation{
   public AbstractLocation(int x, int y) {
     this.x = x;
     this.y = y;
+  }
+  public AbstractLocation(AbstractLocation other){
+    this.x=other.x;
+    this.y=other.y;
   }
 }
