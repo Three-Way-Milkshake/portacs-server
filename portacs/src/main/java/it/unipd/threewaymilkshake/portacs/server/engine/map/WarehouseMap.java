@@ -15,7 +15,7 @@ import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
 public class WarehouseMap extends Subject{
 
   private CellType[][] map;
-  private int[][] intMatrix;
+  @Expose(serialize = false, deserialize = false) private int[][] intMatrix;
   private Map<Long, Poi> pois;
   @Expose(serialize = false, deserialize = false) private PathFindingStrategy strategy;
   @Expose(serialize = false, deserialize = false) private MapDao mapDao;
@@ -30,7 +30,7 @@ public class WarehouseMap extends Subject{
     });
   }
 
-  /*public WarehouseMap(MapDao mapDao) {
+  //public WarehouseMap(MapDao mapDao) {
   private void updateIntMatrix(){
     int rows=map.length, cols=map[0].length;
     intMatrix=new int[rows][cols];
@@ -41,7 +41,7 @@ public class WarehouseMap extends Subject{
     }
   }
 
-  public WarehouseMap(MapDao mapDao, PathFindingStrategy pathFindingStrategy) {
+  /*public WarehouseMap(MapDao mapDao, PathFindingStrategy pathFindingStrategy) {
     this.mapDao=mapDao;
     this.map = mapDao.readMapStructure();
     List<Poi> poisList=mapDao.readPois();
@@ -56,7 +56,7 @@ public class WarehouseMap extends Subject{
     this.pois = m.pois;
   }
 
-  public WarehouseMap(MapDao mapDao) {
+  public WarehouseMap(MapDao mapDao, PathFindingStrategy pathFindingStrategy){
     this(mapDao.readMap());
     this.mapDao=mapDao;
   }

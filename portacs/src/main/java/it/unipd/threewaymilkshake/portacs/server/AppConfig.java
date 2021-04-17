@@ -32,7 +32,7 @@ public class AppConfig {
 
   @Bean("warehouseMapTest")
   public WarehouseMap warehouseMapTest(@Value("${server.database.json-map.test}") String mapFilePath){
-    return new WarehouseMap(new JsonMap(mapFilePath));
+    return new WarehouseMap(new JsonMap(mapFilePath), pathFindingStrategy());
   }
 
   @Bean
