@@ -13,6 +13,10 @@ public class JsonUser implements UserDao{
   
   private String filePath;
 
+  public JsonUser(String filePath) {
+      this.filePath = filePath;
+  }
+
 @Override
 public void updateUsers(List<User> u) {
     // TODO Auto-generated method stub

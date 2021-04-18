@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import it.unipd.threewaymilkshake.portacs.server.connection.ConnectionHandler;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
@@ -16,6 +18,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonForklift;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
+import it.unipd.threewaymilkshake.portacs.server.persistency.JsonUser;
 
 @Configuration
 public class AppConfig {
@@ -41,17 +44,22 @@ public class AppConfig {
   }
 
   @Bean
-  public ConnectionHandler connectionHandler(){
-    return new ConnectionHandler(usersList(), forkliftsList());
+  public ConnectionHandler connectionHandler(@Value("${server.database.json-user}") String userFilePath){
+    return new ConnectionHandler(usersList(userFilePath), forkliftsList());
   }
 
   @Bean
-  public UsersList usersList(){
-    return new UsersList();
+  public UsersList usersList(@Value("${server.database.json-user}") String userFilePath){
+    return new UsersList(new JsonUser(userFilePath), passwordEncoder());
   }
 
   @Bean
   public ForkliftsList forkliftsList(){
     return new ForkliftsList(new JsonForklift(FORKLIFT_FILE));
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder(){
+    return new BCryptPasswordEncoder();
   }
 }

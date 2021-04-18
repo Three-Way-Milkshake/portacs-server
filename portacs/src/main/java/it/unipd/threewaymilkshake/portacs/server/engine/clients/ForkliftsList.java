@@ -11,8 +11,8 @@ public class ForkliftsList{
   private Map<String, Forklift> forkliftsMap;
   private ForkliftDao forkliftDao;
 
-  private final static String UNRECOGNIZED_FORKLIFT="Unrecognized forklift";
-  private final static String WRONG_TOKEN="Wrong token";
+  private final static String UNRECOGNIZED_FORKLIFT="FAILED; Unrecognized forklift";
+  private final static String WRONG_TOKEN="FAILED; Wrong token";
 
   public ForkliftsList(ForkliftDao forkliftDao){
     this.forkliftDao=forkliftDao;
