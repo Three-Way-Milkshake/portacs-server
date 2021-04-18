@@ -6,27 +6,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.mockito.Mockito.when;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@EnableAutoConfiguration
+import it.unipd.threewaymilkshake.portacs.server.AppConfig;
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {AppConfig.class})
 public class UserTest {
-  //@Autowired
-  private PasswordEncoder passwordEncoder;
   
   @Autowired
-  public UserTest(PasswordEncoder passwordEncoder){
-    this.passwordEncoder=passwordEncoder;
-  }
-
+  private PasswordEncoder passwordEncoder;
 
   @Test
   public void testEncoder(){
-    //PasswordEncoder passwordEncoder2=new BCryptPasswordEncoder();;
     String pwd="caesar";
     String enc=passwordEncoder.encode(pwd);
     assertTrue(passwordEncoder.matches(pwd, enc));

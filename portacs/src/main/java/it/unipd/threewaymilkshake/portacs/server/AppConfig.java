@@ -53,26 +53,24 @@ public class AppConfig {
     return new StrategyBreadthFirst();
   }
 
-
-  /* commentati perchè mi dà degli errori quando facevo eseguire il test
-  @Bean
+  /* @Bean
   public ConnectionHandler connectionHandler(@Value("${server.database.json-user}") String userFilePath){
     return new ConnectionHandler(usersList(userFilePath), forkliftsList());
-  }
+  } */
 
-  @Bean
+  /* @Bean
   public UsersList usersList(@Value("${server.database.json-user}") String userFilePath){
     return new UsersList(new JsonUser(userFilePath), passwordEncoder());
-  }
+  } */
 
-  @Bean
+  /* @Bean
   public ForkliftsList forkliftsList(){
     return new ForkliftsList(new JsonForklift(FORKLIFT_FILE));
-  }
+  } */
 
   @Bean
   public PasswordEncoder passwordEncoder(){
     return new BCryptPasswordEncoder();
   }
-  */
+ 
 }
