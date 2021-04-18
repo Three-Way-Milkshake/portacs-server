@@ -1,11 +1,15 @@
 package it.unipd.threewaymilkshake.portacs.server.persistency;
 
+import org.skyscreamer.jsonassert.JSONAssert;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.*;
+
+import javax.annotation.Resource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,27 +19,43 @@ import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import it.unipd.threewaymilkshake.portacs.server.AppConfig;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.CellType;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.Poi;
 
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {AppConfig.class})
+//@EnableAutoConfiguration
 public class JsonMapTest {
-    
+
+    @Autowired
+    @Qualifier("jsonMapTest")
     private JsonMap jsonMap;
 
     private WarehouseMap warehouseMap;
     
     @BeforeEach
     public void setUp() {
-        jsonMap = new JsonMap("src/main/java/it/unipd/threewaymilkshake/portacs/server/database/map.json");
+        //jsonMap = new JsonMap("src/main/java/it/unipd/threewaymilkshake/portacs/server/database/map.json");
         
         CellType[][] templateMapItem = {
                 { CellType.OBSTACLE, CellType.NEUTRAL, CellType.UP, CellType.RIGHT },
@@ -56,7 +76,7 @@ public class JsonMapTest {
 
     @Test
     @DisplayName("Test of update")
-    public void updateMapTest() {
+    public void updateMapTest() throws JSONException {
         jsonMap.updateMap(warehouseMap);
         
         Scanner created;
@@ -64,9 +84,10 @@ public class JsonMapTest {
         try {
             created = new Scanner(new File(jsonMap.getFilePath()),"UTF-8");
             String createdContent = created.useDelimiter("\\Z").next();
-            compare = new Scanner(new File("src/test/java/it/unipd/threewaymilkshake/portacs/server/database/mapTest.json"),"UTF-8");
+            compare = new Scanner(new File("src/test/java/it/unipd/threewaymilkshake/portacs/server/database/mapComparisonTest.json"),"UTF-8");
             String comparedContent = compare.useDelimiter("\\Z").next();           
-            assertEquals(createdContent,comparedContent);
+            //assertEquals(createdContent,comparedContent);
+            JSONAssert.assertEquals(createdContent, comparedContent, false);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

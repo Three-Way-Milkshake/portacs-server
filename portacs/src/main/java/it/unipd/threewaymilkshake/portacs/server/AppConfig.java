@@ -1,5 +1,6 @@
 package it.unipd.threewaymilkshake.portacs.server;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ResourceCondition;
 import org.springframework.context.annotation.Bean;
@@ -25,17 +26,26 @@ public class AppConfig {
   // private final static String MAP_FILE="Map.json";
   private final static String FORKLIFT_FILE="Forklift.json";
 
-  @Bean
+  /*@Bean("warehouseMap")
   //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default 
                         //l'ho letto da varie parti, vedi https://www.javadevjournal.com/spring/spring-singleton-vs-singleton-pattern/
-  public WarehouseMap warehouseMap(@Value("${server.database.json-map}") String mapFilePath){
+  public WarehouseMap warehouseMap(PathFindingStrategy pathFindingStrategy){
     //Resource resource=new ClassPathResource(MAP_FILE);
-    return new WarehouseMap(new JsonMap(mapFilePath), pathFindingStrategy());
+    
+
+    return new WarehouseMap(jsonMap, pathFindingStrategy());
+  }*/
+
+  
+
+  @Bean("jsonMap")
+  public JsonMap jsonMap(@Value("${server.database.json-map}") String mapFilePath) {
+    return new JsonMap(mapFilePath);
   }
 
-  @Bean("warehouseMapTest")
-  public WarehouseMap warehouseMapTest(@Value("${server.database.json-map.test}") String mapFilePath){
-    return new WarehouseMap(new JsonMap(mapFilePath), pathFindingStrategy());
+  @Bean("jsonMapTest")
+  public JsonMap jsonMapTest(@Value("${server.database.json-map-test}") String mapFilePath) {
+    return new JsonMap(mapFilePath);
   }
 
   @Bean
@@ -43,6 +53,8 @@ public class AppConfig {
     return new StrategyBreadthFirst();
   }
 
+
+  /* commentati perchè mi dà degli errori quando facevo eseguire il test
   @Bean
   public ConnectionHandler connectionHandler(@Value("${server.database.json-user}") String userFilePath){
     return new ConnectionHandler(usersList(userFilePath), forkliftsList());
@@ -62,4 +74,5 @@ public class AppConfig {
   public PasswordEncoder passwordEncoder(){
     return new BCryptPasswordEncoder();
   }
+  */
 }
