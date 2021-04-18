@@ -15,6 +15,7 @@ public abstract class AbstractLocation{
   public void setY(int y) {
     this.y = y;
   }
+
   public AbstractLocation(int x, int y) {
     this.x = x;
     this.y = y;

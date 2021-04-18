@@ -1,12 +1,13 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.map;
 
 import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
+import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 
 public class Poi{
   long id;
   String name;
-  AbstractLocation location;
-  public Poi(long id, String name, AbstractLocation location) {
+  SimplePoint location; //TODO: capire se è corretto, prima era AbstractLocation
+  public Poi(long id, String name, SimplePoint location) {
     this.id = id;
     this.name = name;
     this.location = location;
@@ -58,7 +59,7 @@ public class Poi{
   public AbstractLocation getLocation() {
     return location;
   }
-  public void setLocation(AbstractLocation location) {
+  public void setLocation(SimplePoint location) {
     this.location = location;
   }
 }

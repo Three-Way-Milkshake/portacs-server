@@ -93,7 +93,14 @@ public class JsonMapTest {
             e.printStackTrace();
         }
          
-        
+    }
+
+    @Test
+    @DisplayName("Read of map")
+
+    public void readMapTest() {
+        WarehouseMap readMap = jsonMap.readMap();
+        assertEquals(readMap,warehouseMap); //TODO: sistemare uguaglianza
     }
 
 

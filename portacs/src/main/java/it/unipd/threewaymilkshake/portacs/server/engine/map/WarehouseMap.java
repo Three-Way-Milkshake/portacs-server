@@ -84,4 +84,20 @@ public class WarehouseMap extends Subject{
 		return b.toString();
   }
 
+  public CellType[][] getMap() {
+    return map;
+  }
+
+  public void setMap(CellType[][] map) {
+    this.map = map;
+  }
+
+  public Map<Long, Poi> getPois() {
+    return pois;
+  }
+
+  public void setPois(Map<Long, Poi> pois) {
+    this.pois = pois;
+  }
+
 }
