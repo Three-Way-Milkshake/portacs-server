@@ -31,20 +31,22 @@ public class StrategyBreadthFirst implements PathFindingStrategy{
       .map(n->new SimplePoint(n.x, n.y))
       .collect(Collectors.toList());
 
-    AbstractLocation iterator=new Position((Position)start);
+    Position iterator=new Position((Position)start);
     List<Move> moves=new LinkedList<>();
     //TODO finish here
-    /* pathPoints.stream().forEach(p->{
-      var tmp;
+    path.stream().forEach(p->{
+      Move tmp;
       do{
-        tmp=iterator.transi
+        tmp=iterator.transition(p.x, p.y);
+        moves.add(tmp);
       }
-    }); */
+      while(tmp!=Move.GOSTRAIGHT);
+    });
 
     //restore cells in map
     map[start.getX()][start.getY()]=bakStart;
     map[end.getX()][end.getY()]=bakEnd;
-    return null;
+    return moves;
   }
 
   public List<Node> shortestPath() {
