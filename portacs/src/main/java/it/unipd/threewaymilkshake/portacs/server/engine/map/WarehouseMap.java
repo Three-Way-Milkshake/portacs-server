@@ -1,5 +1,7 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.map;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +11,10 @@ import com.google.gson.annotations.Expose;
 
 import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
-import it.unipd.threewaymilkshake.portacs.server.engine.Subject;
 import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
 
-public class WarehouseMap extends Subject{
-
+public class WarehouseMap{
+  private PropertyChangeSupport support=new PropertyChangeSupport(this);
   private CellType[][] map;
   @Expose(serialize = false, deserialize = false) private int[][] intMatrix;
   private Map<Long, Poi> pois;
@@ -89,6 +90,7 @@ public class WarehouseMap extends Subject{
   }
 
   public void setMap(CellType[][] map) {
+    support.firePropertyChange("map", this.map, map);
     this.map = map;
   }
 
@@ -98,6 +100,15 @@ public class WarehouseMap extends Subject{
 
   public void setPois(Map<Long, Poi> pois) {
     this.pois = pois;
+  }
+
+
+  public void addPropertyChangeListener(PropertyChangeListener pcl) {
+    support.addPropertyChangeListener(pcl);
+  }
+
+  public void removePropertyChangeListener(PropertyChangeListener pcl) {
+      support.removePropertyChangeListener(pcl);
   }
 
 }

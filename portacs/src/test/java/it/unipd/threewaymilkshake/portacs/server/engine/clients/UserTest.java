@@ -27,7 +27,6 @@ import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AppConfig.class})
-@SpringBootTest
 public class UserTest {
   
   @Autowired
