@@ -1,7 +1,6 @@
 package it.unipd.threewaymilkshake.portacs.server;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ResourceCondition;
 import org.springframework.context.annotation.Bean;
@@ -27,14 +26,15 @@ public class AppConfig {
   // private final static String MAP_FILE="Map.json";
   private final static String FORKLIFT_FILE="Forklift.json";
 
-  /*
-  @Bean("warehouseMap")
-  public WarehouseMap warehouseMap(
-    @Autowired @Qualifier("jsonMap") JsonMap jsonMap,
-    PathFindingStrategy pathFindingStrategy) {
+  /*@Bean("warehouseMap")
+  //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default 
+                        //l'ho letto da varie parti, vedi https://www.javadevjournal.com/spring/spring-singleton-vs-singleton-pattern/
+  public WarehouseMap warehouseMap(PathFindingStrategy pathFindingStrategy){
+    //Resource resource=new ClassPathResource(MAP_FILE);
+    
+
     return new WarehouseMap(jsonMap, pathFindingStrategy());
-  }
-  */
+  }*/
 
   
 

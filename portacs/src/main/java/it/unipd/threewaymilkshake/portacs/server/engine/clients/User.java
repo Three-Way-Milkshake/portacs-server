@@ -7,7 +7,7 @@ public abstract class User extends Client{
   private String firstName;
   private String lastName;
   private String pwdHash;
-  @Autowired PasswordEncoder pwdEncoder;
+  @Autowired PasswordEncoder passwordEncoder;
 
   public User(String id, String firstName, String lastName, String pwdHash) {
     super(id);
@@ -16,9 +16,14 @@ public abstract class User extends Client{
     this.pwdHash = pwdHash;
   }
 
+  User(String id, String firstName, String lastName, String pwdHash, PasswordEncoder passwordEncoder){
+    this(id, firstName, lastName, pwdHash);
+    this.passwordEncoder=passwordEncoder;
+  }
+
   @Override
   public boolean authenticate(String s) {
-    return pwdEncoder.matches(s, pwdHash);
+    return passwordEncoder.matches(s, pwdHash);
   }
 
   public String getFirstName() {

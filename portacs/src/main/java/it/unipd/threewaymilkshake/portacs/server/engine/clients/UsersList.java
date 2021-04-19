@@ -33,7 +33,14 @@ public class UsersList{
     String rawPwd=c.read();
     User u=usersMap.get(id);
     if(u!=null){ //user exists
-      
+      if(u.authenticate(rawPwd)){
+        success=true;
+        u.bindConnection(c);
+      }
+      else{
+        c.send(WRONG_PWD);
+        c.close();
+      }
     }
     else{
       c.send(UNRECOGNIZED_USER);
