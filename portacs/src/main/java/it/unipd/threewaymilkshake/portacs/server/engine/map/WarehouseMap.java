@@ -108,7 +108,7 @@ public class WarehouseMap{
   }
 
   public void removePropertyChangeListener(PropertyChangeListener pcl) {
-      support.removePropertyChangeListener(pcl);
+    support.removePropertyChangeListener(pcl);
   }
 
 }

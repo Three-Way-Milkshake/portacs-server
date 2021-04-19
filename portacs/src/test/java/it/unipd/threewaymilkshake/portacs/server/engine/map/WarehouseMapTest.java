@@ -5,6 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.clients.User;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AppConfig.class})
 public class WarehouseMapTest {
+
   @Test
   public void testPropertyChangeMechanism(){
     CellType[][] arr=new CellType[][]{
@@ -39,7 +42,9 @@ public class WarehouseMapTest {
     //User observer=new Manager("id", "firstName", "lastName", "pwdHash");
     User observer=mock(Manager.class);
     map.addPropertyChangeListener(observer);
+    verifyNoInteractions(observer);
     map.setMap(arr2);
     verify(observer, times(1)).propertyChange(any());
+    verifyNoMoreInteractions(observer); 
   }
 }
