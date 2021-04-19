@@ -1,5 +1,7 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
+import com.google.gson.annotations.Expose;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -7,7 +9,9 @@ public abstract class User extends Client{
   private String firstName;
   private String lastName;
   private String pwdHash;
-  @Autowired PasswordEncoder passwordEncoder;
+  @Expose(serialize = false, deserialize = false)
+  @Autowired
+  PasswordEncoder passwordEncoder;
 
   public User(String id, String firstName, String lastName, String pwdHash) {
     super(id);

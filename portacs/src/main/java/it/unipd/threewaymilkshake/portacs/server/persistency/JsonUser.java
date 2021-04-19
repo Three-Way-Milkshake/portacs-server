@@ -5,21 +5,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.reflect.Type;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration;
 
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.User;
-import it.unipd.threewaymilkshake.portacs.server.engine.map.CellType;
-import it.unipd.threewaymilkshake.portacs.server.engine.map.Poi;
-import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 
 public class JsonUser implements UserDao {
 
@@ -29,8 +24,9 @@ public class JsonUser implements UserDao {
     this.filePath = filePath;
   }
 
-  @Override //TODO: capire perchè usa List<User> e non UserList
+  @Override //TODO: there must be a problem here
   public void updateUsers(List<User> u) {
+    
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     String serialized = gson.toJson(u);
     try (Writer writer = new FileWriter(filePath)) {
@@ -39,14 +35,14 @@ public class JsonUser implements UserDao {
       System.out.println("Error during file opening");
       e.printStackTrace();
     }
-
   }
 
   @Override
   public List<User> readUsers() {
-    /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    try {
-      List<User> deserialized = gson.fromJson(new FileReader(this.filePath), List<User>.class);
+  /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
+  Type listType = new TypeToken<LinkedList<User>>(){}.getType();    
+  try {
+      List<User> deserialized = gson.fromJson(new FileReader(this.filePath), listType);
       return deserialized;
     } catch (FileNotFoundException e) {
       System.out.println("The file does not exist!");
@@ -54,6 +50,10 @@ public class JsonUser implements UserDao {
       e.printStackTrace();
     }*/
     return null;
+  }
+
+  public String getFilePath() {
+    return filePath;
   }
 
 }
