@@ -25,8 +25,9 @@ public class Position extends AbstractLocation{
 
   public Move transition(int xn, int yn){
     Move r;
-
-    if(xn<x){
+    if(xn==x && yn==y)
+      r=Move.STOP;
+    else if(xn<x){
       //up
       r=switch(orientation){
         case UP -> {

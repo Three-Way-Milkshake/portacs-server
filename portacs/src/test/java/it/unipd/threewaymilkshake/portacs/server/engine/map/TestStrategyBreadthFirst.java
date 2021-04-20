@@ -43,6 +43,6 @@ public class TestStrategyBreadthFirst {
     List<Integer> l1=p1.stream()
       .map(m->m.ordinal())
       .collect(Collectors.toList());
-    assertEquals("[1,0,0,2,0,0,2,0,0]", l1.toString());
+    assertEquals("[1, 0, 0, 3, 0, 0, 3, 0, 0]", l1.toString());
   }
 }
