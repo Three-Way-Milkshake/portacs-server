@@ -48,6 +48,16 @@ public class AppConfig {
     return new JsonMap(mapFilePath);
   }
 
+  @Bean("jsonUser")
+  public JsonUser jsonUser(@Value("${server.database.json-users}") String usersFilePath) {
+    return new JsonUser(usersFilePath);
+  }
+
+  @Bean("jsonUserTest")
+  public JsonUser jsonUserTest(@Value("${server.database.json-users-test}") String usersFilePath) {
+    return new JsonUser(usersFilePath);
+  }
+
   @Bean
   public PathFindingStrategy pathFindingStrategy(){
     return new StrategyBreadthFirst();
