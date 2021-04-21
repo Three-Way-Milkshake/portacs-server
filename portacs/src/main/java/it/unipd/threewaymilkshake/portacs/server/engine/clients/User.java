@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public abstract class User extends Client{
-  private String firstName;
-  private String lastName;
-  private String pwdHash;
-  @Expose(serialize = false, deserialize = false)
+  @Expose private String firstName;
+  @Expose private String lastName;
+  @Expose private String pwdHash;
+  // @Expose(serialize = false, deserialize = false)
   @Autowired
   PasswordEncoder passwordEncoder;
 

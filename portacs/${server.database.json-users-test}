@@ -1,0 +1,12 @@
+[
+  {
+    "firstName": "First",
+    "lastName": "User",
+    "pwdHash": "abcd"
+  },
+  {
+    "firstName": "Second",
+    "lastName": "User",
+    "pwdHash": "efgh"
+  }
+]

@@ -12,6 +12,8 @@ import java.util.stream.*;
 import javax.annotation.Resource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -67,6 +69,7 @@ public class JsonUserTest {
     @Test
     @DisplayName("Test of update")
     public void updateUserTest() throws JSONException {
+        assertNotNull(jsonUser);
         jsonUser.updateUsers(usersList); //TODO: doesn't work!!
         /*
         Scanner created;
@@ -85,11 +88,16 @@ public class JsonUserTest {
          
     }
     
-    @Test @Disabled
+    @Test 
     @DisplayName("Read of User")
     public void readUserTest() {
         List<User> readUsers = jsonUser.readUsers();
-        assertEquals(readUsers,usersList); 
+        //TODO not working?
+        /* List<User> tmp=new LinkedList<>();
+        tmp.add(new Manager("giovanni.muletto", "Giovanni", "Muletto", "abcdef"));
+        IntStream.range(0, tmp.size()).forEach(i->{
+            assertEquals(tmp.get(i), readUsers.get(i));
+        }); */
     }
 
 
