@@ -71,7 +71,7 @@ public class JsonUserTest {
     public void updateUserTest() throws JSONException {
         assertNotNull(jsonUser);
         jsonUser.updateUsers(usersList); //TODO: doesn't work!!
-        /*
+        
         Scanner created;
         Scanner compare;
         try {
@@ -84,7 +84,7 @@ public class JsonUserTest {
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }*/
+        }
          
     }
     
