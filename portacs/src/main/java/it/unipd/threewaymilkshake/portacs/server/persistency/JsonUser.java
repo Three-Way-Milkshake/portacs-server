@@ -31,19 +31,14 @@ public class JsonUser implements UserDao {
     Gson gson = new GsonBuilder().setPrettyPrinting()
       .excludeFieldsWithoutExposeAnnotation()
       .create();
-    try(PrintWriter fp=new PrintWriter(filePath)){
-      fp.write(gson.toJson(u));
-    }
-    catch(FileNotFoundException e){
-      e.printStackTrace();
-    }
-    /* String serialized = gson.toJson(u);
+
+     String serialized = gson.toJson(u);
     try (Writer writer = new FileWriter(filePath)) {
       writer.write(serialized);
     } catch (IOException e) {
       System.out.println("Error during file opening");
       e.printStackTrace();
-    } */
+    } 
   }
 
   @Override

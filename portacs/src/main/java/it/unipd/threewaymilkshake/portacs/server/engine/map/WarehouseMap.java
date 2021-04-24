@@ -20,11 +20,11 @@ import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
  */
 public class WarehouseMap{
   private PropertyChangeSupport support=new PropertyChangeSupport(this);
-  private CellType[][] map;
-  @Expose(serialize = false, deserialize = false) private int[][] intMatrix;
-  private Map<Long, Poi> pois;
-  @Expose(serialize = false, deserialize = false) private PathFindingStrategy strategy;
-  @Expose(serialize = false, deserialize = false) private MapDao mapDao;
+  @Expose private CellType[][] map;
+  private int[][] intMatrix;
+  @Expose private Map<Long, Poi> pois;
+  private PathFindingStrategy strategy;
+  private MapDao mapDao;
 
   public WarehouseMap(CellType[][] map, List<Poi> pois, PathFindingStrategy pathFindingStrategy) {
     this.map = map;

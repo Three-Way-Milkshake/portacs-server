@@ -37,7 +37,7 @@ public class JsonMap implements MapDao{
    */
   @Override
   public void updateMap(WarehouseMap m) {
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
     String serialized = gson.toJson(m);
     try (Writer writer = new FileWriter(filePath)) {
       writer.write(serialized);
@@ -52,7 +52,7 @@ public class JsonMap implements MapDao{
    */
   @Override
   public WarehouseMap readMap() {
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
     try {
       WarehouseMap deserialized = gson.fromJson(new FileReader(this.filePath), WarehouseMap.class);
       return deserialized;
