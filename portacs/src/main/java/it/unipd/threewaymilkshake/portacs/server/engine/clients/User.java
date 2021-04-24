@@ -5,6 +5,9 @@ import com.google.gson.annotations.Expose;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Rappresenta un utente generico di portacs
+ */
 public abstract class User extends Client{
   @Expose private String firstName;
   @Expose private String lastName;
@@ -13,6 +16,12 @@ public abstract class User extends Client{
   @Autowired
   PasswordEncoder passwordEncoder;
 
+  /**
+   * @param id: identificativo dell'utente
+   * @param firstName: nome dell'utente
+   * @param lastName: cognome dell'utente
+   * @param pwdHash: stringa hash rappresentante la password dell'utente
+   */
   public User(String id, String firstName, String lastName, String pwdHash) {
     super(id);
     this.firstName = firstName;

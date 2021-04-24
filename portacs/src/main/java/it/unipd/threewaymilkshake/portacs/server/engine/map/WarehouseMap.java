@@ -13,6 +13,11 @@ import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
 import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
 
+/**
+ * Rappresenta la planimetria del magazzino ed espone un metodo per il calcolo automatico del percorso
+ * PAR: X
+ * ATT: Y
+ */
 public class WarehouseMap{
   private PropertyChangeSupport support=new PropertyChangeSupport(this);
   private CellType[][] map;
