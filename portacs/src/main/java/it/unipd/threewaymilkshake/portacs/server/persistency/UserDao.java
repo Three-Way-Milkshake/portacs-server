@@ -1,10 +1,11 @@
+/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.persistency;
 
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.User;
 import java.util.List;
 
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.User;
-
-public interface UserDao{
+public interface UserDao {
   void updateUsers(List<User> u);
+
   List<User> readUsers();
 }

@@ -1,5 +1,10 @@
+/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.map;
 
+import com.google.gson.annotations.Expose;
+import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
+import it.unipd.threewaymilkshake.portacs.server.engine.Move;
+import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
@@ -7,19 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.annotations.Expose;
-
-import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
-import it.unipd.threewaymilkshake.portacs.server.engine.Move;
-import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
-
 /**
- * Rappresenta la planimetria del magazzino ed espone un metodo per il calcolo automatico del percorso
- * PAR: X
- * ATT: Y
+ * Rappresenta la planimetria del magazzino ed espone un metodo per il calcolo automatico del
+ * percorso PAR: X ATT: Y
  */
-public class WarehouseMap{
-  private PropertyChangeSupport support=new PropertyChangeSupport(this);
+public class WarehouseMap {
+  private PropertyChangeSupport support = new PropertyChangeSupport(this);
   @Expose private CellType[][] map;
   private int[][] intMatrix;
   @Expose private Map<Long, Poi> pois;
@@ -29,20 +27,22 @@ public class WarehouseMap{
   public WarehouseMap(CellType[][] map, List<Poi> pois, PathFindingStrategy pathFindingStrategy) {
     this.map = map;
     updateIntMatrix();
-    this.strategy=pathFindingStrategy;
-    this.pois=new HashMap<>();
-    pois.stream().forEach(p->{
-      this.pois.put(p.getId(), p);
-    });
+    this.strategy = pathFindingStrategy;
+    this.pois = new HashMap<>();
+    pois.stream()
+        .forEach(
+            p -> {
+              this.pois.put(p.getId(), p);
+            });
   }
 
-  //public WarehouseMap(MapDao mapDao) {
-  private void updateIntMatrix(){
-    int rows=map.length, cols=map[0].length;
-    intMatrix=new int[rows][cols];
-    for(int i=0; i<rows; ++i){
-      for(int j=0; j<cols; ++j){
-        intMatrix[i][j]=map[i][j].ordinal();
+  // public WarehouseMap(MapDao mapDao) {
+  private void updateIntMatrix() {
+    int rows = map.length, cols = map[0].length;
+    intMatrix = new int[rows][cols];
+    for (int i = 0; i < rows; ++i) {
+      for (int j = 0; j < cols; ++j) {
+        intMatrix[i][j] = map[i][j].ordinal();
       }
     }
   }
@@ -62,32 +62,33 @@ public class WarehouseMap{
     this.pois = m.pois;
   }
 
-  public WarehouseMap(MapDao mapDao, PathFindingStrategy pathFindingStrategy){
+  public WarehouseMap(MapDao mapDao, PathFindingStrategy pathFindingStrategy) {
     this(mapDao.readMap());
-    this.mapDao=mapDao;
+    this.mapDao = mapDao;
   }
 
-  public List<Move> getPath(AbstractLocation start, long poi){
-    AbstractLocation end=pois.get(poi).getLocation();
+  public List<Move> getPath(AbstractLocation start, long poi) {
+    AbstractLocation end = pois.get(poi).getLocation();
     return strategy.getPath(intMatrix, start, end);
   }
 
-  public void setStrategy(PathFindingStrategy strategy){
-    this.strategy=strategy;
+  public void setStrategy(PathFindingStrategy strategy) {
+    this.strategy = strategy;
   }
 
-  public String toString(){
-    StringBuilder b=new StringBuilder();
+  public String toString() {
+    StringBuilder b = new StringBuilder();
     b.append("MAP,");
-    b.append(String.valueOf(map.length)); //rows
-    b.append(","+String.valueOf(map[0].length)+","); //cols
-		Arrays.stream(map)
-			.forEach(r->{
-        //Arrays.stream(r).forEach(c->{c.ordinal();});
-				b.append(String.valueOf(r));
-		});
+    b.append(String.valueOf(map.length)); // rows
+    b.append("," + String.valueOf(map[0].length) + ","); // cols
+    Arrays.stream(map)
+        .forEach(
+            r -> {
+              // Arrays.stream(r).forEach(c->{c.ordinal();});
+              b.append(String.valueOf(r));
+            });
     b.append(";");
-		return b.toString();
+    return b.toString();
   }
 
   public CellType[][] getMap() {
@@ -107,7 +108,6 @@ public class WarehouseMap{
     this.pois = pois;
   }
 
-
   public void addPropertyChangeListener(PropertyChangeListener pcl) {
     support.addPropertyChangeListener(pcl);
   }
@@ -115,5 +115,4 @@ public class WarehouseMap{
   public void removePropertyChangeListener(PropertyChangeListener pcl) {
     support.removePropertyChangeListener(pcl);
   }
-
 }

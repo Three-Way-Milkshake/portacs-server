@@ -1,20 +1,17 @@
+/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import com.google.gson.annotations.Expose;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- * Rappresenta un utente generico di portacs
- */
-public abstract class User extends Client{
+/** Rappresenta un utente generico di portacs */
+public abstract class User extends Client {
   @Expose private String firstName;
   @Expose private String lastName;
   @Expose private String pwdHash;
   // @Expose(serialize = false, deserialize = false)
-  @Autowired
-  PasswordEncoder passwordEncoder;
+  @Autowired PasswordEncoder passwordEncoder;
 
   /**
    * @param id: identificativo dell'utente
@@ -29,9 +26,14 @@ public abstract class User extends Client{
     this.pwdHash = pwdHash;
   }
 
-  User(String id, String firstName, String lastName, String pwdHash, PasswordEncoder passwordEncoder){
+  User(
+      String id,
+      String firstName,
+      String lastName,
+      String pwdHash,
+      PasswordEncoder passwordEncoder) {
     this(id, firstName, lastName, pwdHash);
-    this.passwordEncoder=passwordEncoder;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
@@ -54,6 +56,4 @@ public abstract class User extends Client{
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-
-  
 }

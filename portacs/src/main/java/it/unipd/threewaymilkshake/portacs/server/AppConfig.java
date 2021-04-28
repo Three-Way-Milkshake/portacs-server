@@ -1,44 +1,32 @@
+/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
+import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
+import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
+import it.unipd.threewaymilkshake.portacs.server.persistency.JsonUser;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ResourceCondition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import it.unipd.threewaymilkshake.portacs.server.connection.ConnectionHandler;
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
-import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
-import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
-import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
-import it.unipd.threewaymilkshake.portacs.server.persistency.JsonForklift;
-import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
-import it.unipd.threewaymilkshake.portacs.server.persistency.JsonUser;
 
 @Configuration
 @PropertySource("classpath:application.properties")
 public class AppConfig {
   // private final static String MAP_FILE="Map.json";
-  private final static String FORKLIFT_FILE="Forklift.json";
+  private static final String FORKLIFT_FILE = "Forklift.json";
 
   /*@Bean("warehouseMap")
-  //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default 
+  //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default
                         //l'ho letto da varie parti, vedi https://www.javadevjournal.com/spring/spring-singleton-vs-singleton-pattern/
   public WarehouseMap warehouseMap(PathFindingStrategy pathFindingStrategy){
     //Resource resource=new ClassPathResource(MAP_FILE);
-    
+
 
     return new WarehouseMap(jsonMap, pathFindingStrategy());
   }*/
-
-  
 
   @Bean("jsonMap")
   public JsonMap jsonMap(@Value("${server.database.json-map}") String mapFilePath) {
@@ -61,7 +49,7 @@ public class AppConfig {
   }
 
   @Bean
-  public PathFindingStrategy pathFindingStrategy(){
+  public PathFindingStrategy pathFindingStrategy() {
     return new StrategyBreadthFirst();
   }
 
@@ -81,8 +69,7 @@ public class AppConfig {
   } */
 
   @Bean
-  public PasswordEncoder passwordEncoder(){
+  public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
- 
 }

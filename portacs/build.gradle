@@ -23,11 +23,22 @@ spotless {
     // trimTrailingWhitespace()
     // indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
     // endWithNewline()
-    googleJavaFormat('1.8').aosp()
+    importOrder() // standard import order
+    // importOrder('java', 'javax', 'com.acme', '') // or importOrderFile
+    // You probably want an empty string at the end - all of the
+    // imports you didn't specify explicitly will go there.
+
+    removeUnusedImports()
+
+    googleJavaFormat() // has its own section below
+    // eclipse()          // has its own section below
+    // prettier()         // has its own section below
+    // clangFormat()      // has its own section below
+    // googleJavaFormat('1.8').aosp()
     // make sure every file has the following copyright header.
     // optionally, Spotless can set copyright years by digging
     // through git history (see "license" section below)
-    licenseHeader '/* (C)$YEAR Three Way Milkshake */'
+    licenseHeader '/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/'
   }
 }
 

@@ -1,21 +1,21 @@
+/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.persistency;
 
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.Forklift;
 import java.util.List;
 
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.Forklift;
-
-public class JsonForklift implements ForkliftDao{
+public class JsonForklift implements ForkliftDao {
 
   private String filePath;
 
-  public JsonForklift(String filePath){
-    this.filePath=filePath;
+  public JsonForklift(String filePath) {
+    this.filePath = filePath;
   }
 
   @Override
   public void addForklift(Forklift f) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
@@ -23,5 +23,4 @@ public class JsonForklift implements ForkliftDao{
     // TODO Auto-generated method stub
     return null;
   }
-
 }
