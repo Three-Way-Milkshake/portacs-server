@@ -16,7 +16,7 @@ public class ForkliftsList{
 
   public ForkliftsList(ForkliftDao forkliftDao){
     this.forkliftDao=forkliftDao;
-    List<Forklift> forklifts=forkliftDao.readfForklifts();
+    List<Forklift> forklifts=forkliftDao.readForklifts();
     forkliftsMap=new HashMap<>();
     forklifts.stream().forEach(f->{
       forkliftsMap.put(f.getId(), f);

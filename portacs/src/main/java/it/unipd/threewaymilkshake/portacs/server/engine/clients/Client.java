@@ -3,13 +3,15 @@ package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import com.google.gson.annotations.Expose;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 
 abstract class Client implements PropertyChangeListener{
-  protected String id;
+  @Expose protected String id;
   protected boolean active=false;
   protected Connection connection=null;
   @Autowired WarehouseMap map;

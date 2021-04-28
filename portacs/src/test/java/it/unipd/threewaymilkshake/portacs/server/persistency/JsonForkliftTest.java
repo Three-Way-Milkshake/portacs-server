@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Deque;
 
 import org.assertj.core.api.Assert;
 import org.json.JSONException;
@@ -42,44 +43,46 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import it.unipd.threewaymilkshake.portacs.server.AppConfig;
+import it.unipd.threewaymilkshake.portacs.server.engine.Move;
+import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
+import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
+import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequence;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.Admin;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.Manager;
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.User;
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.Forklift;
 
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AppConfig.class})
 //@EnableAutoConfiguration
-public class JsonUserTest {
+public class JsonForkliftTest {
 
     @Autowired
-    @Qualifier("jsonUserTest")
-    private JsonUser jsonUser;
+    @Qualifier("jsonForkliftTest")
+    private JsonForklift jsonForklift;
 
-    private List<User> usersList;
+    private List<Forklift> forkliftsList;
     
     @BeforeEach
     public void setUp() {
-        usersList = new LinkedList<User>();
-        User user1 = new Admin("first.user","First","User","abcd");
-        User user2 = new Manager("second.user","Second","User","efgh"); 
-        usersList.add(user1);
-        usersList.add(user2);
+        forkliftsList = new LinkedList<Forklift>();
+        Forklift forklift = new Forklift("first.forklift","token.forklift");
+        forkliftsList.add(forklift);
         
     }
 
     @Test
-    @DisplayName("Tests if updating the set of users in the JSON persistency works")
-    public void updateUserTest() throws JSONException {
-        jsonUser.updateUsers(usersList); 
+    @DisplayName("Tests if updating the set of forklifts in the JSON persistency works")
+    public void updateForkliftTest() throws JSONException {
+        jsonForklift.updateForklifts(forkliftsList); 
         
         Scanner created;
         Scanner compare;
         try {
-            created = new Scanner(new File(jsonUser.getFilePath()),"UTF-8");
+            created = new Scanner(new File(jsonForklift.getFilePath()),"UTF-8");
             String createdContent = created.useDelimiter("\\Z").next();
-            compare = new Scanner(new File("src/test/java/it/unipd/threewaymilkshake/portacs/server/database/userComparisonTest.json"),"UTF-8");
+            compare = new Scanner(new File("src/test/java/it/unipd/threewaymilkshake/portacs/server/database/forkliftComparisonTest.json"),"UTF-8");
             String comparedContent = compare.useDelimiter("\\Z").next();           
             //assertEquals(createdContent,comparedContent);
             JSONAssert.assertEquals(createdContent, comparedContent, false);
@@ -91,19 +94,19 @@ public class JsonUserTest {
     }
     
     @Test 
-    @DisplayName("Tests if updating the reading of users in the JSON persistency works")
-    public void readUserTest() {
-        List<User> readUsers = jsonUser.readUsers();
+    @DisplayName("Tests if updating the reading of forklifts in the JSON persistency works")
+    public void readForkliftTest() {
+        List<Forklift> readForklifts = jsonForklift.readForklifts();
         
         /*System.out.println("*****************************************************************");
-        IntStream.range(0, usersList.size()).forEach(i->{
-            System.out.println(readUsers.get(i).getId());
-        });
+        IntStream.range(0, forkliftsList.size()).forEach(i->{
+            System.out.println(readForklifts.get(i).getId());
+        });*/
         System.out.println("*****************************************************************");
-        /*IntStream.range(0, usersList.size()).forEach(i->{
-            assertTrue(new ReflectionEquals(usersList.get(i)).matches(readUsers.get(i)));
-            //assertEquals(usersList.get(i), readUsers.get(i));
-        }); */
+        IntStream.range(0, forkliftsList.size()).forEach(i->{
+            assertTrue(new ReflectionEquals(forkliftsList.get(i)).matches(readForklifts.get(i)));
+            //assertEquals(forkliftsList.get(i), readForklifts.get(i));
+        }); 
     }
 
 

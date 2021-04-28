@@ -12,6 +12,7 @@ import java.util.stream.*;
 import javax.annotation.Resource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,6 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,7 +81,7 @@ public class JsonMapTest {
         //assertEquals(jsonMap.getFilePath(),"src/main/java/it/unipd/threewaymilkshake/portacs/server/database/mapTest.json");
         jsonMap.updateMap(warehouseMap);
         
-        /*Scanner created;
+        Scanner created;
         Scanner compare;
         try {
             created = new Scanner(new File(jsonMap.getFilePath()));
@@ -87,11 +89,11 @@ public class JsonMapTest {
             compare = new Scanner(new File("src/test/java/it/unipd/threewaymilkshake/portacs/server/database/mapComparisonTest.json"));
             String comparedContent = compare.useDelimiter("\\Z").next();           
             //assertEquals(createdContent,comparedContent);
-            JSONAssert.assertEquals(createdContent, comparedContent, false);
+            JSONAssert.assertEquals(createdContent, comparedContent, true);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }*/
+        }
          
     }
 
@@ -99,7 +101,12 @@ public class JsonMapTest {
     @DisplayName("Read of map")
     public void readMapTest() {
         WarehouseMap readMap = jsonMap.readMap();
-        assertEquals(readMap,warehouseMap); //TODO: sistemare uguaglianza
+        //assertTrue(new ReflectionEquals(warehouseMap.getMap()).matches(readMap.getMap()));
+        System.out.println("***********************************************************************************************");
+        System.out.println(warehouseMap.getPois());
+        System.out.println("***********************************************************************************************");
+        System.out.println(readMap.getPois());
+        assertTrue(new ReflectionEquals(warehouseMap.getPois()).matches(readMap.getPois())); //TODO: to fix
     }
 
 

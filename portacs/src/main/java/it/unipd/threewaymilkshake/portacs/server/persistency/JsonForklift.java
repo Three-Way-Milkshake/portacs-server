@@ -1,6 +1,21 @@
 package it.unipd.threewaymilkshake.portacs.server.persistency;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.lang.reflect.Type;
+import java.util.LinkedList;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.Forklift;
 
@@ -13,15 +28,40 @@ public class JsonForklift implements ForkliftDao{
   }
 
   @Override
-  public void addForklift(Forklift f) {
-    // TODO Auto-generated method stub
+  public void updateForklifts(List<Forklift> f) {
+      Gson gson = new GsonBuilder().setPrettyPrinting()
+      .excludeFieldsWithoutExposeAnnotation()
+      .create();
+
+     String serialized = gson.toJson(f);
+    try (Writer writer = new FileWriter(filePath)) {
+      writer.write(serialized);
+    } catch (IOException e) {
+      System.out.println("Error during file opening");
+      e.printStackTrace();
+    } 
     
   }
 
   @Override
-  public List<Forklift> readfForklifts() {
-    // TODO Auto-generated method stub
+  public List<Forklift> readForklifts() {
+  Gson gson = new GsonBuilder()
+    .excludeFieldsWithoutExposeAnnotation()
+    .setPrettyPrinting().create();
+  Type listType = new TypeToken<LinkedList<Forklift>>(){}.getType();    
+  try {
+      List<Forklift> deserialized = gson.fromJson(new FileReader(this.filePath), listType);
+      return deserialized;
+    } catch (FileNotFoundException e) {
+      System.out.println("The file does not exist!");
+      // TODO define the behviour
+      e.printStackTrace();
+    }
     return null;
+  }
+
+  public String getFilePath() {
+    return filePath;
   }
 
 }

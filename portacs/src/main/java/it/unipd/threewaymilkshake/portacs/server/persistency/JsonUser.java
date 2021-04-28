@@ -43,7 +43,7 @@ public class JsonUser implements UserDao {
 
   @Override
   public List<User> readUsers() {
-  /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
+  Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
   Type listType = new TypeToken<LinkedList<User>>(){}.getType();    
   try {
       List<User> deserialized = gson.fromJson(new FileReader(this.filePath), listType);
@@ -52,7 +52,7 @@ public class JsonUser implements UserDao {
       System.out.println("The file does not exist!");
       // TODO define the behviour
       e.printStackTrace();
-    }*/
+    }
     return null;
   }
 

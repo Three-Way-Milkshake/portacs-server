@@ -6,7 +6,7 @@ import java.util.Deque;
 public class TasksSequence{
   private Deque<Long> tasks;
 
-  TasksSequence(Deque<Long> tasks){
+  public TasksSequence(Deque<Long> tasks){
     this.tasks=tasks;
   }
 

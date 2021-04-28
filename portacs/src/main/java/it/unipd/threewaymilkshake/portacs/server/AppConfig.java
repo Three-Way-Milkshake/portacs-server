@@ -60,6 +60,18 @@ public class AppConfig {
     return new JsonUser(usersFilePath);
   }
 
+  
+  @Bean("jsonForklift")
+  public JsonForklift jsonForklift(@Value("${server.database.json-forklifts}") String forkliftFilePath) {
+    return new JsonForklift(forkliftFilePath);
+  }
+
+  @Bean("jsonForkliftTest")
+  public JsonForklift jsonForkliftTest(@Value("${server.database.json-forklifts-test}") String forkliftFilePath) {
+    return new JsonForklift(forkliftFilePath);
+  }
+
+
   @Bean
   public PathFindingStrategy pathFindingStrategy(){
     return new StrategyBreadthFirst();
