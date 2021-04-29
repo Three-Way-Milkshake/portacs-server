@@ -24,6 +24,17 @@ public class Position extends AbstractLocation {
     orientation = o;
   }
 
+  public String toString(){
+    StringBuilder b=new StringBuilder();
+    b.append(x);
+    b.append(',');
+    b.append(y);
+    b.append(',');
+    b.append(orientation.ordinal());
+
+    return b.toString();
+  }
+
   public Move transition(int xn, int yn) {
     Move r;
     if (xn == x && yn == y) r = Move.STOP;

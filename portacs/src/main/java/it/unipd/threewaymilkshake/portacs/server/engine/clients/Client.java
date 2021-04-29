@@ -40,6 +40,18 @@ public abstract class Client implements PropertyChangeListener {
     connection.writeToBuffer(e.getNewValue().toString());
   }
 
+  public boolean write(String s){
+    return connection.writeToBuffer(s);
+  }
+
+  public boolean writeAndSend(String s){
+    return connection.send(s);
+  }
+
+  public boolean send(){
+    return connection.sendBuffer();
+  }
+
   public abstract void processCommunication();
 
   public abstract boolean authenticate(String s);

@@ -51,4 +51,21 @@ public class ForkliftsList {
       .filter(f->f.isActive())
       .collect(Collectors.toList());
   }
+
+  public String getForkliftsPositions(){
+    StringBuilder b=new StringBuilder();
+    b.append("UNI,");
+    b.append(forkliftsMap.size());
+    b.append(',');
+    forkliftsMap.values().stream().forEach(f->{
+      b.append(f.getId());
+      b.append(',');
+      b.append(f.getPositionString());
+      b.append(',');
+    });
+    b.deleteCharAt(b.length()-1);
+    b.append(';');
+
+    return b.toString();
+  }
 }

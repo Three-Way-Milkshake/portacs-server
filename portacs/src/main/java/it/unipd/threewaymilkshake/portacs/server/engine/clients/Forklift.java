@@ -27,11 +27,13 @@ public class Forklift extends Client {
           .forEach(
               c -> {
                 String[] par = c.split(",");
-                System.out.print("Command: " + par[0] + ", params: ");
+                
+                System.out.print(id+") Command: " + par[0] + ", params: ");
                 for (int i = 1; i < par.length; ++i) {
                   System.out.print(par[i] + " ");
                 }
                 System.out.println();
+
                 switch (par[0]) {
                   case "POS":
                     updatePosition(par);
@@ -67,5 +69,9 @@ public class Forklift extends Client {
   @Override
   public boolean authenticate(String s) {
     return s.equals(token);
+  }
+
+  public String getPositionString(){
+    return position.toString();
   }
 }

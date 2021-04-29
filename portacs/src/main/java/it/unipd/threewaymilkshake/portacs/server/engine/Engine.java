@@ -9,6 +9,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.clients.Client;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.User;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
+import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 
 @Component
 public class Engine /* implements Runnable */{
@@ -31,6 +32,9 @@ public class Engine /* implements Runnable */{
 
   @Autowired
   private ForkliftsList forkliftsList;
+
+  @Autowired
+  private WarehouseMap warehouseMap;
   
   @Scheduled(fixedDelay = 1000, initialDelay = 3000)
   public void execute(){
@@ -42,5 +46,10 @@ public class Engine /* implements Runnable */{
 
     usersList.getActiveUsers().stream().parallel()
       .forEach(Client::processCommunication);
+
+    usersList.getActiveUsers().stream().parallel()
+      .forEach(u->{
+        u.writeAndSend(forkliftsList.getForkliftsPositions());
+      });
   }
 }
