@@ -2,7 +2,6 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.map;
 
 import com.google.gson.annotations.Expose;
-
 import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 

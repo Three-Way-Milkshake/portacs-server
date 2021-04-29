@@ -56,24 +56,25 @@ public class AppConfig {
   }
 
   @Bean
-  public JsonUser jsonUser() { //TODO: da fare 1 versione, qui solo per evitare passagio file
+  public JsonUser jsonUser() { // TODO: da fare 1 versione, qui solo per evitare passagio file
     return new JsonUser(usersFilePath);
   }
 
-  
   @Bean("jsonForklift")
-  public JsonForklift jsonForklift(@Value("${server.database.json-forklifts}") String forkliftFilePath) {
+  public JsonForklift jsonForklift(
+      @Value("${server.database.json-forklifts}") String forkliftFilePath) {
     return new JsonForklift(forkliftFilePath);
   }
 
   @Bean("jsonForkliftTest")
-  public JsonForklift jsonForkliftTest(@Value("${server.database.json-forklifts-test}") String forkliftFilePath) {
+  public JsonForklift jsonForkliftTest(
+      @Value("${server.database.json-forklifts-test}") String forkliftFilePath) {
     return new JsonForklift(forkliftFilePath);
   }
 
-
   @Bean
-  public JsonForklift jsonForklift() {//TODO: da fare 1 versione, qui solo per evitare passagio file
+  public JsonForklift
+      jsonForklift() { // TODO: da fare 1 versione, qui solo per evitare passagio file
     return new JsonForklift(forkliftsFilePath);
   }
 

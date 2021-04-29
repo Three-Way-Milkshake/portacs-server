@@ -3,7 +3,7 @@ package it.unipd.threewaymilkshake.portacs.server.engine;
 
 import com.google.gson.annotations.Expose;
 
-public abstract class AbstractLocation{
+public abstract class AbstractLocation {
   @Expose protected int x;
   @Expose protected int y;
 
@@ -32,6 +32,7 @@ public abstract class AbstractLocation{
     this.x = other.x;
     this.y = other.y;
   }
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -40,19 +41,15 @@ public abstract class AbstractLocation{
     result = prime * result + y;
     return result;
   }
+
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
     AbstractLocation other = (AbstractLocation) obj;
-    if (x != other.x)
-      return false;
-    if (y != other.y)
-      return false;
+    if (x != other.x) return false;
+    if (y != other.y) return false;
     return true;
   }
 }

@@ -1,16 +1,13 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.Expose;
+import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- * Rappresenta un utente generico di portacs
- */
-public abstract class User extends Client implements Serializable{
+/** Rappresenta un utente generico di portacs */
+public abstract class User extends Client implements Serializable {
   @Expose private String firstName;
   @Expose private String lastName;
   @Expose private String pwdHash;

@@ -1,22 +1,17 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
+import com.google.gson.annotations.Expose;
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import com.google.gson.annotations.Expose;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
-import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
-
-abstract class Client implements PropertyChangeListener{
+abstract class Client implements PropertyChangeListener {
   @Expose protected String id;
-  protected boolean active=false;
-  protected Connection connection=null;
+  protected boolean active = false;
+  protected Connection connection = null;
   @Autowired WarehouseMap map;
 
   protected Client(String id) {

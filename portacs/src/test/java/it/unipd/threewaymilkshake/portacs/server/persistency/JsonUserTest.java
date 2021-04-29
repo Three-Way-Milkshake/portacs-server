@@ -2,6 +2,7 @@
 package it.unipd.threewaymilkshake.portacs.server.persistency;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import it.unipd.threewaymilkshake.portacs.server.AppConfig;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.Admin;
@@ -13,28 +14,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.*;
-
-import javax.annotation.Resource;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Arrays;
-import java.util.Collection;
-
-import org.assertj.core.api.Assert;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.internal.matchers.*;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.skyscreamer.jsonassert.JSONAssert;
-import org.mockito.internal.matchers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -85,37 +72,37 @@ public class JsonUserTest {
     }
   }
 
-    @Test
-    @DisplayName("Tests if updating the set of users in the JSON persistency works")
-    public void updateUserTest2() throws JSONException {
-        jsonUser.updateUsers(usersList); 
-        
-        Scanner created;
-        Scanner compare;
-        try {
-            created = new Scanner(new File(jsonUser.getFilePath()),"UTF-8");
-            String createdContent = created.useDelimiter("\\Z").next();
-            compare = new Scanner(new File("src/test/java/it/unipd/threewaymilkshake/portacs/server/database/userComparisonTest.json"),"UTF-8");
-            String comparedContent = compare.useDelimiter("\\Z").next();           
-            JSONAssert.assertEquals(createdContent, comparedContent, false);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-         
+  @Test
+  @DisplayName("Tests if updating the set of users in the JSON persistency works")
+  public void updateUserTest2() throws JSONException {
+    jsonUser.updateUsers(usersList);
+
+    Scanner created;
+    Scanner compare;
+    try {
+      created = new Scanner(new File(jsonUser.getFilePath()), "UTF-8");
+      String createdContent = created.useDelimiter("\\Z").next();
+      compare =
+          new Scanner(
+              new File(
+                  "src/test/java/it/unipd/threewaymilkshake/portacs/server/database/userComparisonTest.json"),
+              "UTF-8");
+      String comparedContent = compare.useDelimiter("\\Z").next();
+      JSONAssert.assertEquals(createdContent, comparedContent, false);
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
-    
-    @Test 
-    @DisplayName("Tests if the reading of users in the JSON persistency works")
-    public void readUserTest() {
-        List<User> readUsers = jsonUser.readUsers();       
-        IntStream.range(0, usersList.size()).forEach(i->{
-           assertTrue(new ReflectionEquals(usersList.get(i)).matches(readUsers.get(i)));
-        }); 
-    }
+  }
 
-
-
-
-
+  @Test
+  @DisplayName("Tests if the reading of users in the JSON persistency works")
+  public void readUserTest() {
+    List<User> readUsers = jsonUser.readUsers();
+    IntStream.range(0, usersList.size())
+        .forEach(
+            i -> {
+              assertTrue(new ReflectionEquals(usersList.get(i)).matches(readUsers.get(i)));
+            });
+  }
 }
