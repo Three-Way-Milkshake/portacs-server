@@ -1,27 +1,34 @@
+/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
+import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ForkliftsList {
   private Map<String, Forklift> forkliftsMap;
   private ForkliftDao forkliftDao;
 
-  private final static String UNRECOGNIZED_FORKLIFT = "FAILED; Unrecognized forklift";
-  private final static String WRONG_TOKEN = "FAILED; Wrong token";
+  @Autowired private WarehouseMap warehouseMap;
+
+  private static final String UNRECOGNIZED_FORKLIFT = "FAILED; Unrecognized forklift";
+  private static final String WRONG_TOKEN = "FAILED; Wrong token";
 
   public ForkliftsList(ForkliftDao forkliftDao) {
     this.forkliftDao = forkliftDao;
     List<Forklift> forklifts = forkliftDao.readForklifts();
     forkliftsMap = new HashMap<>();
-    forklifts.stream().forEach(f -> {
-      forkliftsMap.put(f.getId(), f);
-    });
+    forklifts.stream()
+        .forEach(
+            f -> {
+              forkliftsMap.put(f.getId(), f);
+            });
   }
 
   public boolean auth(Connection c) {
@@ -33,6 +40,8 @@ public class ForkliftsList {
       if (f.authenticate(token)) {
         success = true;
         f.bindConnection(c);
+        f.write(warehouseMap.toString());
+        f.writeAndSend(warehouseMap.poisToString());
       } else {
         c.send(WRONG_TOKEN);
         c.close();
@@ -52,5 +61,47 @@ public class ForkliftsList {
           //toReturn.put(key,forkliftsMap.get(key).getNextPosition(i));
         }
     return toReturn;
+  }
+
+  public List<Forklift> getActiveForklifts() {
+    return forkliftsMap.values().stream().filter(f -> f.isActive()).collect(Collectors.toList());
+  }
+
+  public String getForkliftsPositions() {
+    StringBuilder b = new StringBuilder();
+    b.append("UNI,");
+    b.append(forkliftsMap.size());
+    b.append(',');
+    forkliftsMap.values().stream()
+        .forEach(
+            f -> {
+              b.append(f.getId());
+              b.append(',');
+              b.append(f.getPositionString());
+              b.append(',');
+            });
+    b.deleteCharAt(b.length() - 1);
+    b.append(';');
+
+    return b.toString();
+  }
+
+  public String getForkliftsAndTokensString() {
+    StringBuilder b = new StringBuilder();
+    b.append("LISTF,");
+    b.append(forkliftsMap.size());
+    b.append(',');
+    forkliftsMap.forEach(
+        (k, v) -> {
+          b.append(k);
+          b.append(',');
+          b.append(v.getToken());
+          b.append(',');
+        });
+
+    b.deleteCharAt(b.length() - 1);
+    b.append(';');
+
+    return b.toString();
   }
 }

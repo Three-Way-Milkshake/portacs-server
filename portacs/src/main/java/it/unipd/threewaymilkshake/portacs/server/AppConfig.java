@@ -1,44 +1,39 @@
+/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ResourceCondition;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import it.unipd.threewaymilkshake.portacs.server.connection.ConnectionHandler;
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
-import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonForklift;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonUser;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @PropertySource("classpath:application.properties")
 public class AppConfig {
   // private final static String MAP_FILE="Map.json";
-  private final static String FORKLIFT_FILE="Forklift.json";
+  private static final String FORKLIFT_FILE = "Forklift.json";
+
+  @Value("${server.database.json-users}")
+  private String usersFilePath;
+
+  @Value("${server.database.json-forklifts}")
+  private String forkliftsFilePath;
 
   /*@Bean("warehouseMap")
-  //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default 
+  //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default
                         //l'ho letto da varie parti, vedi https://www.javadevjournal.com/spring/spring-singleton-vs-singleton-pattern/
   public WarehouseMap warehouseMap(PathFindingStrategy pathFindingStrategy){
     //Resource resource=new ClassPathResource(MAP_FILE);
-    
+
 
     return new WarehouseMap(jsonMap, pathFindingStrategy());
   }*/
-
-  
 
   @Bean("jsonMap")
   public JsonMap jsonMap(@Value("${server.database.json-map}") String mapFilePath) {
@@ -60,22 +55,38 @@ public class AppConfig {
     return new JsonUser(usersFilePath);
   }
 
-  
+  @Bean
+  public JsonUser jsonUser() { // TODO: da fare 1 versione, qui solo per evitare passagio file
+    return new JsonUser(usersFilePath);
+  }
+
   @Bean("jsonForklift")
-  public JsonForklift jsonForklift(@Value("${server.database.json-forklifts}") String forkliftFilePath) {
+  public JsonForklift jsonForklift(
+      @Value("${server.database.json-forklifts}") String forkliftFilePath) {
     return new JsonForklift(forkliftFilePath);
   }
 
   @Bean("jsonForkliftTest")
-  public JsonForklift jsonForkliftTest(@Value("${server.database.json-forklifts-test}") String forkliftFilePath) {
+  public JsonForklift jsonForkliftTest(
+      @Value("${server.database.json-forklifts-test}") String forkliftFilePath) {
     return new JsonForklift(forkliftFilePath);
   }
 
+  @Bean
+  public JsonForklift
+      jsonForklift() { // TODO: da fare 1 versione, qui solo per evitare passagio file
+    return new JsonForklift(forkliftsFilePath);
+  }
 
   @Bean
-  public PathFindingStrategy pathFindingStrategy(){
+  public PathFindingStrategy pathFindingStrategy() {
     return new StrategyBreadthFirst();
   }
+
+  /* @Bean
+  public ConnectionHandler connectionHandler(){
+    return new ConnectionHandler(usersList(), forkliftsList());
+  } */
 
   /* @Bean
   public ConnectionHandler connectionHandler(@Value("${server.database.json-user}") String userFilePath){
@@ -83,18 +94,17 @@ public class AppConfig {
   } */
 
   /* @Bean
-  public UsersList usersList(@Value("${server.database.json-user}") String userFilePath){
-    return new UsersList(new JsonUser(userFilePath), passwordEncoder());
+  public UsersList usersList(){
+    return new UsersList(jsonUser(), passwordEncoder());
   } */
 
   /* @Bean
   public ForkliftsList forkliftsList(){
-    return new ForkliftsList(new JsonForklift(FORKLIFT_FILE));
+    return new ForkliftsList(jsonForklift());
   } */
 
   @Bean
-  public PasswordEncoder passwordEncoder(){
+  public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
- 
 }
