@@ -1,6 +1,7 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
@@ -8,6 +9,7 @@ import com.google.gson.annotations.Expose;
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
 import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Position;
+import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequence;
 
 public class Forklift extends Client{
@@ -70,4 +72,7 @@ public class Forklift extends Client{
   public boolean authenticate(String s) {
     return s.equals(token);
   }
+
+
+
 }
