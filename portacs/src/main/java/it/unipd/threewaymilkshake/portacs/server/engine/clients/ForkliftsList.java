@@ -2,15 +2,21 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
+import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class ForkliftsList {
   private Map<String, Forklift> forkliftsMap;
   private ForkliftDao forkliftDao;
+
+  @Autowired
+  private WarehouseMap warehouseMap;
 
   private static final String UNRECOGNIZED_FORKLIFT = "FAILED; Unrecognized forklift";
   private static final String WRONG_TOKEN = "FAILED; Wrong token";
@@ -35,6 +41,8 @@ public class ForkliftsList {
       if (f.authenticate(token)) {
         success = true;
         f.bindConnection(c);
+        f.write(warehouseMap.toString());
+        f.writeAndSend(warehouseMap.poisToString());
       } else {
         c.send(WRONG_TOKEN);
         c.close();
@@ -63,6 +71,24 @@ public class ForkliftsList {
       b.append(f.getPositionString());
       b.append(',');
     });
+    b.deleteCharAt(b.length()-1);
+    b.append(';');
+
+    return b.toString();
+  }
+
+  public String getForkliftsAndTokensString(){
+    StringBuilder b=new StringBuilder();
+    b.append("LISTF,");
+    b.append(forkliftsMap.size());
+    b.append(',');
+    forkliftsMap.forEach((k,v)->{
+      b.append(k);
+      b.append(',');
+      b.append(v.getToken());
+      b.append(',');
+    });
+
     b.deleteCharAt(b.length()-1);
     b.append(';');
 

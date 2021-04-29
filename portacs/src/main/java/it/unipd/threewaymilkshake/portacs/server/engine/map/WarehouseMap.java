@@ -91,6 +91,9 @@ public class WarehouseMap {
     this.strategy = strategy;
   }
 
+  /**
+   * @return the map as Three Way protocol (MAP,R,C,SEQ...)
+   */
   public String toString() {
     StringBuilder b = new StringBuilder();
     b.append("MAP,");

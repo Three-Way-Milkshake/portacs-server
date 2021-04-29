@@ -2,12 +2,14 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
+import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.UserDao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UsersList {
@@ -15,6 +17,9 @@ public class UsersList {
   // encode(raw): String   |   matches(raw, encoded): boolean
   private PasswordEncoder pwdEncoder;
   private UserDao userDao;
+
+  @Autowired
+  private WarehouseMap warehouseMap;
 
   private static final String UNRECOGNIZED_USER = "FAILED; Unrecognized user";
   private static final String WRONG_PWD = "FAILED; Wrong password";
@@ -40,6 +45,8 @@ public class UsersList {
       if (u.authenticate(rawPwd)) {
         success = true;
         u.bindConnection(c);
+        u.write(warehouseMap.toString());
+        u.writeAndSend(warehouseMap.poisToString());
       } else {
         c.send(WRONG_PWD);
         c.close();

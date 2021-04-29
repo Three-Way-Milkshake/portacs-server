@@ -27,7 +27,7 @@ public class Forklift extends Client {
           .forEach(
               c -> {
                 String[] par = c.split(",");
-                
+
                 System.out.print(id+") Command: " + par[0] + ", params: ");
                 for (int i = 1; i < par.length; ++i) {
                   System.out.print(par[i] + " ");
@@ -73,5 +73,9 @@ public class Forklift extends Client {
 
   public String getPositionString(){
     return position.toString();
+  }
+
+  public String getToken(){
+    return token;
   }
 }
