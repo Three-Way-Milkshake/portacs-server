@@ -4,7 +4,10 @@ package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
 import it.unipd.threewaymilkshake.portacs.server.persistency.UserDao;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UsersList {
@@ -47,5 +50,11 @@ public class UsersList {
     }
 
     return success;
+  }
+
+  public List<User> getActiveUsers(){
+    return usersMap.values().stream()
+      .filter(u->u.isActive())
+      .collect(Collectors.toList());
   }
 }

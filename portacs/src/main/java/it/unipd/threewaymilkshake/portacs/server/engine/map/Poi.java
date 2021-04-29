@@ -8,11 +8,20 @@ public class Poi {
   long id;
   String name;
   SimplePoint location; // TODO: capire se è corretto, prima era AbstractLocation
+  PoiType type;
 
-  public Poi(long id, String name, SimplePoint location) {
+  public Poi(long id, String name, SimplePoint location, PoiType type) {
     this.id = id;
     this.name = name;
     this.location = location;
+    this.type=type;
+  }
+
+  public Poi(long id, String name, SimplePoint location) { //TODO: rimuovere
+    this.id = id;
+    this.name = name;
+    this.location = location;
+    this.type=PoiType.LOAD;
   }
 
   @Override
@@ -45,7 +54,7 @@ public class Poi {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(long id) { //TODO: serve?
     this.id = id;
   }
 
@@ -53,7 +62,7 @@ public class Poi {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(String name) { //TODO: serve?
     this.name = name;
   }
 
@@ -63,5 +72,9 @@ public class Poi {
 
   public void setLocation(SimplePoint location) {
     this.location = location;
+  }
+
+  public PoiType getType(){
+    return type;
   }
 }

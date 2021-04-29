@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Rappresenta la planimetria del magazzino ed espone un metodo per il calcolo automatico del
@@ -97,10 +99,35 @@ public class WarehouseMap {
     Arrays.stream(map)
         .forEach(
             r -> {
-              // Arrays.stream(r).forEach(c->{c.ordinal();});
-              b.append(String.valueOf(r));
+              Arrays.stream(r).forEach(c->{
+                b.append(c.ordinal());
+              });
             });
     b.append(";");
+    return b.toString();
+  }
+
+  public String poisToString(){
+    StringBuilder b=new StringBuilder();
+    
+    b.append("POI,");
+    b.append(pois.size());
+    b.append(',');
+    pois.forEach((k,v)->{
+      AbstractLocation l=v.getLocation();
+      b.append(l.getX());
+      b.append(',');
+      b.append(l.getY());
+      b.append(',');
+      b.append(v.getType().ordinal());
+      b.append(',');
+      b.append(k);
+      b.append(',');
+      b.append(v.getName()+',');
+    });
+    b.deleteCharAt(b.length()-1);
+    b.append(';');
+
     return b.toString();
   }
 

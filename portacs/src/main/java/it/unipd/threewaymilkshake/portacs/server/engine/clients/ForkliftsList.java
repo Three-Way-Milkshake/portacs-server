@@ -6,6 +6,7 @@ import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ForkliftsList {
   private Map<String, Forklift> forkliftsMap;
@@ -43,5 +44,11 @@ public class ForkliftsList {
       c.close();
     }
     return success;
+  }
+
+  public List<Forklift> getActiveForklifts(){
+    return forkliftsMap.values().stream()
+      .filter(f->f.isActive())
+      .collect(Collectors.toList());
   }
 }

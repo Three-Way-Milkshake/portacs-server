@@ -38,7 +38,7 @@ public class WarehouseMapTest {
           {CellType.NEUTRAL, CellType.NEUTRAL}
         };
     List<Poi> pois = new ArrayList<>();
-    pois.add(new Poi(1L, "test", new SimplePoint(0, 0)));
+    pois.add(new Poi(1L, "test", new SimplePoint(0, 0), PoiType.LOAD));
     WarehouseMap map = new WarehouseMap(arr, pois, null);
     assertEquals(arr, map.getMap());
     // User observer=new Manager("id", "firstName", "lastName", "pwdHash");
@@ -59,7 +59,7 @@ public class WarehouseMapTest {
       {CellType.LEFT,      CellType.LEFT,     CellType.LEFT,     CellType.LEFT}
     };
     List<Poi> pois = new ArrayList<>();
-    pois.add(new Poi(1L, "test", new SimplePoint(0, 0)));
+    pois.add(new Poi(1L, "test", new SimplePoint(0, 0), PoiType.LOAD));
     WarehouseMap map=new WarehouseMap(arr, pois, new StrategyBreadthFirst());
 
     int[][] expected={
@@ -70,5 +70,22 @@ public class WarehouseMapTest {
     };
     int[][] actual=map.getIntMatrix();
     assertArrayEquals(expected, actual);
+  }
+
+  @Test
+  public void testMapAndPoiToString(){
+    CellType[][] arr={
+      {CellType.POI,     CellType.RIGHT,    CellType.RIGHT,    CellType.NEUTRAL},
+      {CellType.NEUTRAL,   CellType.OBSTACLE, CellType.OBSTACLE, CellType.NEUTRAL},
+      {CellType.NEUTRAL,   CellType.POI, CellType.OBSTACLE, CellType.NEUTRAL},
+      {CellType.LEFT,      CellType.LEFT,     CellType.LEFT,     CellType.LEFT}
+    };
+    List<Poi> pois = new ArrayList<>();
+    pois.add(new Poi(1L, "test", new SimplePoint(0, 0), PoiType.LOAD));
+    pois.add(new Poi(2L, "the second", new SimplePoint(2, 1), PoiType.UNLOAD));
+    WarehouseMap map=new WarehouseMap(arr, pois, new StrategyBreadthFirst());
+
+    assertEquals("MAP,4,4,6331100116015555;", map.toString());
+    assertEquals("POI,2,0,0,0,1,test,2,1,1,2,the second;", map.poisToString());
   }
 }

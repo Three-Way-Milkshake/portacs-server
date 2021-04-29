@@ -1,8 +1,13 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server;
 
+import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
+import it.unipd.threewaymilkshake.portacs.server.connection.ConnectionHandler;
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
+import it.unipd.threewaymilkshake.portacs.server.persistency.JsonForklift;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonUser;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +22,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AppConfig {
   // private final static String MAP_FILE="Map.json";
   private static final String FORKLIFT_FILE = "Forklift.json";
+
+  @Value("${server.database.json-users}") 
+  private String usersFilePath;
+
+  @Value("${server.database.json-forklifts}") 
+  private String forkliftsFilePath;
 
   /*@Bean("warehouseMap")
   //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default
@@ -48,10 +59,27 @@ public class AppConfig {
     return new JsonUser(usersFilePath);
   }
 
+  // INIZIO aggiunti solo per non avere errori in quelli dopo, NON so se giusti
+  @Bean
+  public JsonUser jsonUser() {
+    return new JsonUser(usersFilePath);
+  }
+
+  @Bean
+  public JsonForklift jsonForklift() {
+    return new JsonForklift(forkliftsFilePath);
+  }
+  // FINE aggiunta non certa
+
   @Bean
   public PathFindingStrategy pathFindingStrategy() {
     return new StrategyBreadthFirst();
   }
+
+  /* @Bean
+  public ConnectionHandler connectionHandler(){
+    return new ConnectionHandler(usersList(), forkliftsList());
+  } */
 
   /* @Bean
   public ConnectionHandler connectionHandler(@Value("${server.database.json-user}") String userFilePath){
@@ -59,13 +87,13 @@ public class AppConfig {
   } */
 
   /* @Bean
-  public UsersList usersList(@Value("${server.database.json-user}") String userFilePath){
-    return new UsersList(new JsonUser(userFilePath), passwordEncoder());
+  public UsersList usersList(){
+    return new UsersList(jsonUser(), passwordEncoder());
   } */
 
   /* @Bean
   public ForkliftsList forkliftsList(){
-    return new ForkliftsList(new JsonForklift(FORKLIFT_FILE));
+    return new ForkliftsList(jsonForklift());
   } */
 
   @Bean
