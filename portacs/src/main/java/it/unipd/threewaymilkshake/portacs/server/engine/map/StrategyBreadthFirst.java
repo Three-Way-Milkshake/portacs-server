@@ -31,7 +31,7 @@ public class StrategyBreadthFirst implements PathFindingStrategy {
 
     Position iterator = new Position((Position) start);
     List<Move> moves = new LinkedList<>();
-    
+
     path.remove(0);
     path.stream()
         .forEach(

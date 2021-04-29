@@ -42,23 +42,25 @@ public abstract class Client implements PropertyChangeListener {
 
   /**
    * Adds a message to the buffer but does not send it
+   *
    * @param s: the message to write
    * @return true if writing to buffer went good
    */
-  public boolean write(String s){
+  public boolean write(String s) {
     return connection.writeToBuffer(s);
   }
 
   /**
    * Adds a message to the buffer and sends it
+   *
    * @param s: the message to send
    * @return true if writing to buffer went good
    */
-  public boolean writeAndSend(String s){
+  public boolean writeAndSend(String s) {
     return connection.send(s);
   }
 
-  public boolean send(){
+  public boolean send() {
     return connection.sendBuffer();
   }
 

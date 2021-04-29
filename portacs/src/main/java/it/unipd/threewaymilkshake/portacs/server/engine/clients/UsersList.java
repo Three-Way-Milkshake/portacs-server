@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,8 +17,7 @@ public class UsersList {
   private PasswordEncoder pwdEncoder;
   private UserDao userDao;
 
-  @Autowired
-  private WarehouseMap warehouseMap;
+  @Autowired private WarehouseMap warehouseMap;
 
   private static final String UNRECOGNIZED_USER = "FAILED; Unrecognized user";
   private static final String WRONG_PWD = "FAILED; Wrong password";
@@ -59,9 +57,7 @@ public class UsersList {
     return success;
   }
 
-  public List<User> getActiveUsers(){
-    return usersMap.values().stream()
-      .filter(u->u.isActive())
-      .collect(Collectors.toList());
+  public List<User> getActiveUsers() {
+    return usersMap.values().stream().filter(u -> u.isActive()).collect(Collectors.toList());
   }
 }

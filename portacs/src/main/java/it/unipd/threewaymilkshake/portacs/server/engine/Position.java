@@ -24,8 +24,8 @@ public class Position extends AbstractLocation {
     orientation = o;
   }
 
-  public String toString(){
-    StringBuilder b=new StringBuilder();
+  public String toString() {
+    StringBuilder b = new StringBuilder();
     b.append(x);
     b.append(',');
     b.append(y);

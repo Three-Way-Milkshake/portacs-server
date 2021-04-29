@@ -14,14 +14,14 @@ public class Poi {
     this.id = id;
     this.name = name;
     this.location = location;
-    this.type=type;
+    this.type = type;
   }
 
-  public Poi(long id, String name, SimplePoint location) { //TODO: rimuovere
+  public Poi(long id, String name, SimplePoint location) { // TODO: rimuovere
     this.id = id;
     this.name = name;
     this.location = location;
-    this.type=PoiType.LOAD;
+    this.type = PoiType.LOAD;
   }
 
   @Override
@@ -54,7 +54,7 @@ public class Poi {
     return id;
   }
 
-  public void setId(long id) { //TODO: serve?
+  public void setId(long id) { // TODO: serve?
     this.id = id;
   }
 
@@ -62,7 +62,7 @@ public class Poi {
     return name;
   }
 
-  public void setName(String name) { //TODO: serve?
+  public void setName(String name) { // TODO: serve?
     this.name = name;
   }
 
@@ -74,7 +74,7 @@ public class Poi {
     this.location = location;
   }
 
-  public PoiType getType(){
+  public PoiType getType() {
     return type;
   }
 }

@@ -1,10 +1,6 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server;
 
-import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
-import it.unipd.threewaymilkshake.portacs.server.connection.ConnectionHandler;
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonForklift;
@@ -23,10 +19,10 @@ public class AppConfig {
   // private final static String MAP_FILE="Map.json";
   private static final String FORKLIFT_FILE = "Forklift.json";
 
-  @Value("${server.database.json-users}") 
+  @Value("${server.database.json-users}")
   private String usersFilePath;
 
-  @Value("${server.database.json-forklifts}") 
+  @Value("${server.database.json-forklifts}")
   private String forkliftsFilePath;
 
   /*@Bean("warehouseMap")

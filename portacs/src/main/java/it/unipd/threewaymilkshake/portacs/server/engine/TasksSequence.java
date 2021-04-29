@@ -1,8 +1,6 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class TasksSequence {
@@ -16,11 +14,11 @@ public class TasksSequence {
     this.tasks = new LinkedBlockingDeque<>();
   }
 
-  public boolean isEmpty(){
-    return tasks.size()==0;
+  public boolean isEmpty() {
+    return tasks.size() == 0;
   }
 
-  public int size(){
+  public int size() {
     return tasks.size();
   }
 
@@ -36,7 +34,7 @@ public class TasksSequence {
     return tasks.getFirst();
   }
 
-  public String toString(){
+  public String toString() {
     return tasks.toString().replaceAll("( |\\[|\\])", "");
   }
 }

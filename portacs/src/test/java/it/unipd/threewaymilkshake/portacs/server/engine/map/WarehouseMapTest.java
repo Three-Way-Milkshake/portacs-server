@@ -51,39 +51,39 @@ public class WarehouseMapTest {
   }
 
   @Test
-  public void testMapCreationAndIntConversion(){
-    CellType[][] arr={
-      {CellType.RIGHT,     CellType.RIGHT,    CellType.RIGHT,    CellType.NEUTRAL},
-      {CellType.NEUTRAL,   CellType.OBSTACLE, CellType.OBSTACLE, CellType.NEUTRAL},
-      {CellType.NEUTRAL,   CellType.OBSTACLE, CellType.OBSTACLE, CellType.NEUTRAL},
-      {CellType.LEFT,      CellType.LEFT,     CellType.LEFT,     CellType.LEFT}
+  public void testMapCreationAndIntConversion() {
+    CellType[][] arr = {
+      {CellType.RIGHT, CellType.RIGHT, CellType.RIGHT, CellType.NEUTRAL},
+      {CellType.NEUTRAL, CellType.OBSTACLE, CellType.OBSTACLE, CellType.NEUTRAL},
+      {CellType.NEUTRAL, CellType.OBSTACLE, CellType.OBSTACLE, CellType.NEUTRAL},
+      {CellType.LEFT, CellType.LEFT, CellType.LEFT, CellType.LEFT}
     };
     List<Poi> pois = new ArrayList<>();
     pois.add(new Poi(1L, "test", new SimplePoint(0, 0), PoiType.LOAD));
-    WarehouseMap map=new WarehouseMap(arr, pois, new StrategyBreadthFirst());
+    WarehouseMap map = new WarehouseMap(arr, pois, new StrategyBreadthFirst());
 
-    int[][] expected={
-      {3,3,3,1},
-      {1,0,0,1},
-      {1,0,0,1},
-      {5,5,5,5}
+    int[][] expected = {
+      {3, 3, 3, 1},
+      {1, 0, 0, 1},
+      {1, 0, 0, 1},
+      {5, 5, 5, 5}
     };
-    int[][] actual=map.getIntMatrix();
+    int[][] actual = map.getIntMatrix();
     assertArrayEquals(expected, actual);
   }
 
   @Test
-  public void testMapAndPoiToString(){
-    CellType[][] arr={
-      {CellType.POI,     CellType.RIGHT,    CellType.RIGHT,    CellType.NEUTRAL},
-      {CellType.NEUTRAL,   CellType.OBSTACLE, CellType.OBSTACLE, CellType.NEUTRAL},
-      {CellType.NEUTRAL,   CellType.POI, CellType.OBSTACLE, CellType.NEUTRAL},
-      {CellType.LEFT,      CellType.LEFT,     CellType.LEFT,     CellType.LEFT}
+  public void testMapAndPoiToString() {
+    CellType[][] arr = {
+      {CellType.POI, CellType.RIGHT, CellType.RIGHT, CellType.NEUTRAL},
+      {CellType.NEUTRAL, CellType.OBSTACLE, CellType.OBSTACLE, CellType.NEUTRAL},
+      {CellType.NEUTRAL, CellType.POI, CellType.OBSTACLE, CellType.NEUTRAL},
+      {CellType.LEFT, CellType.LEFT, CellType.LEFT, CellType.LEFT}
     };
     List<Poi> pois = new ArrayList<>();
     pois.add(new Poi(1L, "test", new SimplePoint(0, 0), PoiType.LOAD));
     pois.add(new Poi(2L, "the second", new SimplePoint(2, 1), PoiType.UNLOAD));
-    WarehouseMap map=new WarehouseMap(arr, pois, new StrategyBreadthFirst());
+    WarehouseMap map = new WarehouseMap(arr, pois, new StrategyBreadthFirst());
 
     assertEquals("MAP,4,4,6331100116015555;", map.toString());
     assertEquals("POI,2,0,0,0,1,test,2,1,1,2,the second;", map.poisToString());

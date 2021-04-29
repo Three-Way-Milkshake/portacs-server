@@ -7,12 +7,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
-
-import it.unipd.threewaymilkshake.portacs.server.connection.ConnectionHandler;
-import it.unipd.threewaymilkshake.portacs.server.engine.Engine;
 
 @SpringBootApplication
 @EnableScheduling
@@ -31,8 +27,7 @@ class PortacsRunner implements ApplicationRunner {
   @Override
   public void run(ApplicationArguments args) throws Exception {
     logger.info("PORTACS UniPd Three Way Milkshake");
-    
-    //new Thread(new Engine()).start();
-  }
 
+    // new Thread(new Engine()).start();
+  }
 }
