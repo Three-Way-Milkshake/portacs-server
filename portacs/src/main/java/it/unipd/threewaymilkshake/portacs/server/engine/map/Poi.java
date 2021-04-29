@@ -1,14 +1,16 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.map;
 
+import com.google.gson.annotations.Expose;
+
 import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 
 public class Poi {
-  long id;
-  String name;
-  SimplePoint location; // TODO: capire se è corretto, prima era AbstractLocation
-  PoiType type;
+  @Expose long id;
+  @Expose String name;
+  @Expose SimplePoint location; // TODO: capire se è corretto, prima era AbstractLocation
+  @Expose PoiType type;
 
   public Poi(long id, String name, SimplePoint location, PoiType type) {
     this.id = id;

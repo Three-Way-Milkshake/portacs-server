@@ -55,17 +55,27 @@ public class AppConfig {
     return new JsonUser(usersFilePath);
   }
 
-  // INIZIO aggiunti solo per non avere errori in quelli dopo, NON so se giusti
   @Bean
-  public JsonUser jsonUser() {
+  public JsonUser jsonUser() { //TODO: da fare 1 versione, qui solo per evitare passagio file
     return new JsonUser(usersFilePath);
   }
 
+  
+  @Bean("jsonForklift")
+  public JsonForklift jsonForklift(@Value("${server.database.json-forklifts}") String forkliftFilePath) {
+    return new JsonForklift(forkliftFilePath);
+  }
+
+  @Bean("jsonForkliftTest")
+  public JsonForklift jsonForkliftTest(@Value("${server.database.json-forklifts-test}") String forkliftFilePath) {
+    return new JsonForklift(forkliftFilePath);
+  }
+
+
   @Bean
-  public JsonForklift jsonForklift() {
+  public JsonForklift jsonForklift() {//TODO: da fare 1 versione, qui solo per evitare passagio file
     return new JsonForklift(forkliftsFilePath);
   }
-  // FINE aggiunta non certa
 
   @Bean
   public PathFindingStrategy pathFindingStrategy() {

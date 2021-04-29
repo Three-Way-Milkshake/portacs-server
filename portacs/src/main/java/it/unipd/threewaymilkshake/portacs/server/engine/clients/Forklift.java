@@ -1,6 +1,11 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.google.gson.annotations.Expose;
+
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
 import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Position;
@@ -8,13 +13,13 @@ import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequence;
 import java.util.Arrays;
 import java.util.List;
 
-public class Forklift extends Client {
-  private String token;
+public class Forklift extends Client{
+  @Expose String token;
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
 
-  Forklift(String id, String token) {
+  public Forklift(String id, String token){
     super(id);
     this.token = token;
   }
