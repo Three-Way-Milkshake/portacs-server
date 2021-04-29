@@ -31,14 +31,13 @@ public class StrategyBreadthFirst implements PathFindingStrategy {
 
     Position iterator = new Position((Position) start);
     List<Move> moves = new LinkedList<>();
-    // TODO finish here
+    
     path.remove(0);
     path.stream()
         .forEach(
             p -> {
               Move tmp;
               do {
-                // System.out.print("("+p.x+", "+p.y+")");
                 tmp = iterator.transition(p.x, p.y);
                 moves.add(tmp);
               } while (tmp != Move.GOSTRAIGHT && tmp != Move.STOP);

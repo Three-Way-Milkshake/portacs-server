@@ -47,6 +47,18 @@ public class WarehouseMap {
     }
   }
 
+  int[][] getIntMatrix(){
+    int rows = map.length, cols = map[0].length;
+    int[][]r = new int[rows][cols];
+    for (int i = 0; i < rows; ++i) {
+      for (int j = 0; j < cols; ++j) {
+        r[i][j] = map[i][j].ordinal();
+      }
+    }
+
+    return r;
+  }
+
   /*public WarehouseMap(MapDao mapDao, PathFindingStrategy pathFindingStrategy) {
     this.mapDao=mapDao;
     this.map = mapDao.readMapStructure();
@@ -69,7 +81,8 @@ public class WarehouseMap {
 
   public List<Move> getPath(AbstractLocation start, long poi) {
     AbstractLocation end = pois.get(poi).getLocation();
-    return strategy.getPath(intMatrix, start, end);
+    //return strategy.getPath(intMatrix, start, end);
+    return strategy.getPath(getIntMatrix(), start, end);
   }
 
   public void setStrategy(PathFindingStrategy strategy) {
