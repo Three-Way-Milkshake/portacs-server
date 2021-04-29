@@ -25,14 +25,15 @@ public class JsonUser implements UserDao {
     this.filePath = filePath;
   }
 
-  @Override //TODO: there must be a problem here
+  @Override 
   public void updateUsers(List<User> u) {
-    
+    Type listType = new TypeToken<LinkedList<User>>(){}.getType(); 
     Gson gson = new GsonBuilder().setPrettyPrinting()
       .excludeFieldsWithoutExposeAnnotation()
+      .registerTypeAdapter(User.class, new JsonUserAdapter())
       .create();
 
-     String serialized = gson.toJson(u);
+     String serialized = gson.toJson(u, listType);
     try (Writer writer = new FileWriter(filePath)) {
       writer.write(serialized);
     } catch (IOException e) {
@@ -43,7 +44,9 @@ public class JsonUser implements UserDao {
 
   @Override
   public List<User> readUsers() {
-  Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+  Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+    .registerTypeAdapter(User.class, new JsonUserAdapter())
+    .setPrettyPrinting().create();
   Type listType = new TypeToken<LinkedList<User>>(){}.getType();    
   try {
       List<User> deserialized = gson.fromJson(new FileReader(this.filePath), listType);

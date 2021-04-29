@@ -81,7 +81,6 @@ public class JsonUserTest {
             String createdContent = created.useDelimiter("\\Z").next();
             compare = new Scanner(new File("src/test/java/it/unipd/threewaymilkshake/portacs/server/database/userComparisonTest.json"),"UTF-8");
             String comparedContent = compare.useDelimiter("\\Z").next();           
-            //assertEquals(createdContent,comparedContent);
             JSONAssert.assertEquals(createdContent, comparedContent, false);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -91,19 +90,12 @@ public class JsonUserTest {
     }
     
     @Test 
-    @DisplayName("Tests if updating the reading of users in the JSON persistency works")
+    @DisplayName("Tests if the reading of users in the JSON persistency works")
     public void readUserTest() {
-        List<User> readUsers = jsonUser.readUsers();
-        
-        /*System.out.println("*****************************************************************");
+        List<User> readUsers = jsonUser.readUsers();       
         IntStream.range(0, usersList.size()).forEach(i->{
-            System.out.println(readUsers.get(i).getId());
-        });
-        System.out.println("*****************************************************************");
-        /*IntStream.range(0, usersList.size()).forEach(i->{
-            assertTrue(new ReflectionEquals(usersList.get(i)).matches(readUsers.get(i)));
-            //assertEquals(usersList.get(i), readUsers.get(i));
-        }); */
+           assertTrue(new ReflectionEquals(usersList.get(i)).matches(readUsers.get(i)));
+        }); 
     }
 
 

@@ -94,18 +94,11 @@ public class JsonForkliftTest {
     }
     
     @Test 
-    @DisplayName("Tests if updating the reading of forklifts in the JSON persistency works")
+    @DisplayName("Tests if the reading of forklifts in the JSON persistency works")
     public void readForkliftTest() {
         List<Forklift> readForklifts = jsonForklift.readForklifts();
-        
-        /*System.out.println("*****************************************************************");
-        IntStream.range(0, forkliftsList.size()).forEach(i->{
-            System.out.println(readForklifts.get(i).getId());
-        });*/
-        System.out.println("*****************************************************************");
         IntStream.range(0, forkliftsList.size()).forEach(i->{
             assertTrue(new ReflectionEquals(forkliftsList.get(i)).matches(readForklifts.get(i)));
-            //assertEquals(forkliftsList.get(i), readForklifts.get(i));
         }); 
     }
 

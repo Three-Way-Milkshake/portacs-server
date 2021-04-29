@@ -76,7 +76,7 @@ public class JsonMapTest {
     }
 
     @Test
-    @DisplayName("Test of update")
+    @DisplayName("Tests if updating wharehouse map in the JSON persistency works")
     public void updateMapTest() throws JSONException {
         //assertEquals(jsonMap.getFilePath(),"src/main/java/it/unipd/threewaymilkshake/portacs/server/database/mapTest.json");
         jsonMap.updateMap(warehouseMap);
@@ -88,7 +88,6 @@ public class JsonMapTest {
             String createdContent = created.useDelimiter("\\Z").next();
             compare = new Scanner(new File("src/test/java/it/unipd/threewaymilkshake/portacs/server/database/mapComparisonTest.json"));
             String comparedContent = compare.useDelimiter("\\Z").next();           
-            //assertEquals(createdContent,comparedContent);
             JSONAssert.assertEquals(createdContent, comparedContent, true);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -98,15 +97,11 @@ public class JsonMapTest {
     }
 
     @Test
-    @DisplayName("Read of map")
+    @DisplayName("Tests if reading the warehouse map in the JSON persistency works")
     public void readMapTest() {
         WarehouseMap readMap = jsonMap.readMap();
-        //assertTrue(new ReflectionEquals(warehouseMap.getMap()).matches(readMap.getMap()));
-        System.out.println("***********************************************************************************************");
-        System.out.println(warehouseMap.getPois());
-        System.out.println("***********************************************************************************************");
-        System.out.println(readMap.getPois());
-        assertTrue(new ReflectionEquals(warehouseMap.getPois()).matches(readMap.getPois())); //TODO: to fix
+        assertTrue(new ReflectionEquals(warehouseMap.getMap()).matches(readMap.getMap()));
+        assertEquals(warehouseMap.getPois(),readMap.getPois());
     }
 
 
