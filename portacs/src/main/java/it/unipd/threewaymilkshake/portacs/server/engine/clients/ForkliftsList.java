@@ -53,15 +53,6 @@ public class ForkliftsList {
     return success;
   }
 
-  public Map<String,SimplePoint> getAllNextPositions(int i) {
-
-    Map<String,SimplePoint> toReturn = new HashMap<String,SimplePoint>();
-
-        for(String key : forkliftsMap.keySet()) {
-          //toReturn.put(key,forkliftsMap.get(key).getNextPosition(i));
-        }
-    return toReturn;
-  }
 
   public List<Forklift> getActiveForklifts() {
     return forkliftsMap.values().stream().filter(f -> f.isActive()).collect(Collectors.toList());
@@ -104,4 +95,13 @@ public class ForkliftsList {
 
     return b.toString();
   }
+
+  public Map<String,List<SimplePoint>> getAllNextPositions(int i) {
+    Map<String,List<SimplePoint>> toReturn = new HashMap<String,List<SimplePoint>>();
+        for(String key : forkliftsMap.keySet()) {
+          toReturn.put(key,forkliftsMap.get(key).getNextPositions(i));
+        }
+    return toReturn;
+  }
+
 }

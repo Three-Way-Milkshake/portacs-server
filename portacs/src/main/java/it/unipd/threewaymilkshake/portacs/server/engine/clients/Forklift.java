@@ -8,6 +8,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequence;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Forklift extends Client {
@@ -19,6 +20,15 @@ public class Forklift extends Client {
   public Forklift(String id, String token) {
     super(id);
     this.token = token;
+  }
+
+
+  public void setPathToNextTask(List<Move> pathToNextTask) { //TODO: visibility
+    this.pathToNextTask = pathToNextTask;
+  }
+
+  public void setPosition(Position position) { //TODO: visibility
+    this.position = position;
   }
 
   @Override
@@ -80,4 +90,29 @@ public class Forklift extends Client {
   public String getToken() {
     return token;
   }
+
+  public List<SimplePoint> getNextPositions(int numberOfNextMoves) {
+    LinkedList<SimplePoint> positionsToReturn = new LinkedList<SimplePoint>();
+    Position positionParameter = new Position(position.getX(),position.getY(),position.getOrientation());
+    return getNextPositionsRecursive(0,numberOfNextMoves,positionParameter,pathToNextTask,positionsToReturn);
+  }
+
+  private static List<SimplePoint> getNextPositionsRecursive(int i, int numberOfNextMoves,Position actualPosition, List<Move> pathToNextTask, LinkedList<SimplePoint> toReturn) {
+    System.out.println(" +++++++++++" + i + ":" + actualPosition.getX() + "," + actualPosition.getY() + "+++++++++++");
+    
+    if(i == numberOfNextMoves+1) {
+      toReturn.add(new SimplePoint(actualPosition.getX(),actualPosition.getY()));
+      return toReturn;
+    }
+    else if(i == 0) {
+      toReturn.add(new SimplePoint(actualPosition.getX(),actualPosition.getY()));
+      return getNextPositionsRecursive(i+1,numberOfNextMoves,actualPosition, pathToNextTask, toReturn);
+    }
+    else {
+      actualPosition.computeNextPosition(pathToNextTask.get(i-1));
+      toReturn.add(new SimplePoint(actualPosition.getX(),actualPosition.getY()));
+      return getNextPositionsRecursive(i+1,numberOfNextMoves,actualPosition, pathToNextTask, toReturn);
+    }
+  }
+
 }
