@@ -98,7 +98,6 @@ public class Forklift extends Client {
   }
 
   private static List<SimplePoint> getNextPositionsRecursive(int i, int numberOfNextMoves,Position actualPosition, List<Move> pathToNextTask, LinkedList<SimplePoint> toReturn) {
-    System.out.println(" +++++++++++" + i + ":" + actualPosition.getX() + "," + actualPosition.getY() + "+++++++++++");
     
     if(i == numberOfNextMoves+1) {
       toReturn.add(new SimplePoint(actualPosition.getX(),actualPosition.getY()));
@@ -109,10 +108,17 @@ public class Forklift extends Client {
       return getNextPositionsRecursive(i+1,numberOfNextMoves,actualPosition, pathToNextTask, toReturn);
     }
     else {
-      actualPosition.computeNextPosition(pathToNextTask.get(i-1));
+      if(pathToNextTask.size() > i-1) {
+        actualPosition.computeNextPosition(pathToNextTask.get(i-1));
+      }
       toReturn.add(new SimplePoint(actualPosition.getX(),actualPosition.getY()));
       return getNextPositionsRecursive(i+1,numberOfNextMoves,actualPosition, pathToNextTask, toReturn);
     }
+  }
+
+
+  public Position getPosition() {
+    return position;
   }
 
 }

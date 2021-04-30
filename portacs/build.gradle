@@ -38,7 +38,7 @@ spotless {
     // make sure every file has the following copyright header.
     // optionally, Spotless can set copyright years by digging
     // through git history (see "license" section below)
-    licenseHeader '/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/'
+    licenseHeader '/* (C) 2021 Three Way Milkshake - PORTACS - UniPD SWE */'
   }
 }
 

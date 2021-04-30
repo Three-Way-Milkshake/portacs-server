@@ -17,4 +17,13 @@ public class SimplePoint extends AbstractLocation {
   public SimplePoint(int x, int y) {
     super(x, y);
   }
+
+  public int calculateDistance(SimplePoint destination) {
+    if(this.x == destination.x)
+              return Math.abs(this.y-destination.y);
+          else if(this.y == destination.y)
+              return Math.abs(this.x-destination.x);
+          else 
+              return 0;
+  }
 }
