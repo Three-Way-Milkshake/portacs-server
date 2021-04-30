@@ -77,6 +77,22 @@ public class ForkliftsList {
     return b.toString();
   }
 
+  /**
+   * @return sequence representng all forklifts and their tasks
+   * (LIST,IDF,N,IDP1,IDP2;LIST...)
+   */
+  public String getForkliftsTasks(){
+    StringBuilder b=new StringBuilder();
+    forkliftsMap.forEach((k,v)->{
+      b.append("LIST,");
+      b.append(k);
+      b.append(',');
+      b.append(v.getTasksString());
+      b.append(';');
+    });
+    return b.toString();
+  }
+
   public String getForkliftsAndTokensString() {
     StringBuilder b = new StringBuilder();
     b.append("LISTF,");

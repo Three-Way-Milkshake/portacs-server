@@ -30,6 +30,11 @@ public class Forklift extends Client {
     this.token = token;
   }
 
+  public Forklift(String id, String token, TasksSequencesList tasksSequencesList) {
+    this(id, token);
+    this.tasksSequencesList=tasksSequencesList;
+  }
+
 
   public void setPathToNextTask(List<Move> pathToNextTask) { //TODO: visibility
     this.pathToNextTask = pathToNextTask;
@@ -41,8 +46,8 @@ public class Forklift extends Client {
 
   @Override
   public void processCommunication() {
-    connection.send("ALIVE");
-    if (connection.isAlive()) {
+    connection.send("ALIVE;");
+    if (active && connection.isAlive()) {
       String[] commands = connection.getLastMessage().split(";");
       Arrays.stream(commands)
           .forEach(
@@ -96,6 +101,15 @@ public class Forklift extends Client {
 
   public String getPositionString() {
     return position.toString();
+  }
+
+  /**
+   * @return next tasks number and ids only 
+   * e.g.: given 3 tasks 1,2,3 will return: 3,1,2,3
+   */
+  public String getTasksString(){
+    return String.valueOf(tasks.size())+','+
+      tasks.toString().replaceAll("(LIST,|;)", "");
   }
 
   public String getToken() {
