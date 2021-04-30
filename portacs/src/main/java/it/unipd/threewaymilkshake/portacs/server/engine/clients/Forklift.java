@@ -18,6 +18,12 @@ public class Forklift extends Client {
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
+  private int numberOfStalls; 
+        // ad ogni ricezione della posizione bisogna controllare
+        // se il la posizione vecchia è uguale alla posizione
+        // nuova: se sì -> incrementare numberOfStalls
+        // se no -> azzerarla
+  
 
   @Autowired private TasksSequencesList tasksSequencesList;
 
@@ -137,6 +143,10 @@ public class Forklift extends Client {
 
   public Position getPosition() {
     return position;
+  }
+
+  public boolean isInDeadlock(int threshold) {
+    return numberOfStalls >= threshold;
   }
 
 }

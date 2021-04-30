@@ -46,5 +46,11 @@ public class Engine /* implements Runnable */ {
             u -> {
               u.writeAndSend(forkliftsList.getForkliftsPositions());
             });
+
+      // costruzione pipeline: dove va fatta?
+      // CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline = new CollisionPipeline<>(new CollisionDetector())
+      // .addHandler(new CollisionSolver());
+      // avvio ->
+      // collisionPipeline.execute(forkliftsList)
   }
 }

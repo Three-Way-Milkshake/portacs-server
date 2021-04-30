@@ -157,4 +157,22 @@ public class ForkliftsList {
     return forkliftsMap.get(a).getPosition();
   }
 
+  public void runtimeDeadlockChecker() {
+    int ALERT_DEADLOCK = 7;
+    int CRITICAL_DEADLOCK = 15;
+
+    for(String key : forkliftsMap.keySet()) 
+    {
+      Forklift f = forkliftsMap.get(key);
+      if(f.isInDeadlock(ALERT_DEADLOCK)) {
+        // SEGNALARE RICALCOLO -> PROBLEMA: NON DEVE ESSERE SOVRASCRITTO DA UN EVENTUALE 
+        // ALTRO MESSAGGIO DERIVANTE DALLA GESTIONE DELLE COLLISIONI (STOP/RICALCOLO) 
+        // OPPURE SMINCHIARE IL BUFFER
+      }
+      else if(f.isInDeadlock(CRITICAL_DEADLOCK)) {
+        // SEGNALARE EVENTO ECCEZIONALE
+      }
+    }
+  }
+
 }
