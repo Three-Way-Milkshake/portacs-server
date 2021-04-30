@@ -2,6 +2,8 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
+import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
+import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
@@ -117,4 +119,42 @@ public class ForkliftsList {
     }
     return toReturn;
   }
+
+  /**
+   * 
+   * @param first id of first muletto
+   * @param second id of second muletto
+   * @return true iif there is a head-on risk (rischio di frontale) based on if the two units are horizontally or verically aligned
+   */
+  public boolean headOnRisk(String first, String second) {
+    Position positionFirst = getPositionFromString(first);
+    Position positionSecond = getPositionFromString(second);
+        if(positionFirst.getX() == positionSecond.getX()) {
+            if(positionFirst.getY() < positionSecond.getY()) {
+                return positionFirst.getOrientation() == Orientation.RIGHT && positionSecond.getOrientation() == Orientation.LEFT;
+            }
+            else if(positionFirst.getY() > positionSecond.getY()) {
+                return positionFirst.getOrientation() == Orientation.LEFT && positionSecond.getOrientation() == Orientation.RIGHT;
+            }
+        }
+        else if(positionFirst.getY() == positionSecond.getY()) {
+            if(positionFirst.getX() < positionSecond.getX()) {
+                return positionFirst.getOrientation() == Orientation.DOWN && positionSecond.getOrientation() == Orientation.UP;
+            }
+            else if(positionFirst.getX() > positionSecond.getX()) {
+                return positionFirst.getOrientation() == Orientation.UP && positionSecond.getOrientation() == Orientation.DOWN;
+            }
+        }
+        return false;
+    }
+  
+
+  public SimplePoint getSimplePointFromString(String a) {
+    return new SimplePoint(forkliftsMap.get(a).getPosition().getX(),forkliftsMap.get(a).getPosition().getY());
+  }
+
+  public Position getPositionFromString(String a) {
+    return forkliftsMap.get(a).getPosition();
+  }
+
 }

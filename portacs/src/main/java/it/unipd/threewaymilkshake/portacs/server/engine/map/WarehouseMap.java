@@ -163,4 +163,12 @@ public class WarehouseMap {
   public void removePropertyChangeListener(PropertyChangeListener pcl) {
     support.removePropertyChangeListener(pcl);
   }
+
+  public int getRows() {
+    return map.length;
+  }
+
+  public int getColumns() {
+    return map[0].length;
+  }  
 }
