@@ -41,6 +41,7 @@ public class Forklift extends Client {
 
   @Override
   public void processCommunication() {
+    connection.send("ALIVE");
     if (connection.isAlive()) {
       String[] commands = connection.getLastMessage().split(";");
       Arrays.stream(commands)
