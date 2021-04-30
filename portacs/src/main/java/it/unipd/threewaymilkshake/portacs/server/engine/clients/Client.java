@@ -12,7 +12,7 @@ public abstract class Client implements PropertyChangeListener {
   @Expose protected String id;
   protected boolean active = false;
   protected Connection connection = null;
-  @Autowired WarehouseMap map;
+  @Autowired protected WarehouseMap warehouseMap;
 
   protected Client(String id) {
     this.id = id;
@@ -29,12 +29,14 @@ public abstract class Client implements PropertyChangeListener {
   void bindConnection(Connection c) {
     connection = c;
     active = true;
+    warehouseMap.addPropertyChangeListener(this);
   }
 
   void clearConnection() {
     connection.close();
     connection = null;
     active = false;
+    warehouseMap.removePropertyChangeListener(this);
   }
 
   public void propertyChange(PropertyChangeEvent e) {
@@ -46,11 +48,11 @@ public abstract class Client implements PropertyChangeListener {
   }
 
   void writeMap() {
-    connection.writeToBuffer(map.toString());
+    connection.writeToBuffer(warehouseMap.toString());
   }
 
   void writePois() {
-    connection.writeToBuffer(map.poisToString());
+    connection.writeToBuffer(warehouseMap.poisToString());
   }
 
   /**
