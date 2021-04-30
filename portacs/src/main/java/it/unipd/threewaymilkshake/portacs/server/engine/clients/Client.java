@@ -8,7 +8,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
-abstract class Client implements PropertyChangeListener {
+public abstract class Client implements PropertyChangeListener {
   @Expose protected String id;
   protected boolean active = false;
   protected Connection connection = null;
