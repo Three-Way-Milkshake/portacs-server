@@ -45,7 +45,7 @@ public class Manager extends User {
 
   @Override
   public void processCommunication() {
-    super.processCommunication(); // handles common operations
+    super.processCommunication();
     if (active) {
       String[] commands = connection.getLastMessage().split(";");
       Arrays.stream(commands)
@@ -61,10 +61,16 @@ public class Manager extends User {
 
                 switch (par[0]) {
                   case "ADL":
-                    addTasksSequence(
+                    /* addTasksSequence(
                         Arrays.stream(Arrays.copyOfRange(par, 1, par.length))
                             .map(Long::parseLong)
-                            .collect(Collectors.toList()));
+                            .collect(Collectors.toList())); */
+                    addTasksSequence(
+                      Arrays.stream(par)
+                        .skip(1)
+                        .map(Long::parseLong)
+                        .collect(Collectors.toList())
+                    );
                     break;
 
                   case "RML":

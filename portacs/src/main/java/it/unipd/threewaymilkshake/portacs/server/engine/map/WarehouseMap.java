@@ -142,11 +142,17 @@ public class WarehouseMap {
     this.map = map;
   }
 
+  public void setCell(int x, int y, CellType type){
+    //TODO fire propertu change
+    map[x][y]=type;
+  }
+
   public Map<Long, Poi> getPois() {
     return pois;
   }
 
   public void setPois(Map<Long, Poi> pois) {
+    support.firePropertyChange("map", this.map, map); //TODO is it right?
     this.pois = pois;
   }
 
