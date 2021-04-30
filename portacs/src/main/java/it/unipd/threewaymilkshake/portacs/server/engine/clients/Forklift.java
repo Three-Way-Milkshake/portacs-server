@@ -78,7 +78,7 @@ public class Forklift extends Client {
   }
 
   private String getPathToNextTask() {
-    pathToNextTask = map.getPath(position, tasks.getNext());
+    pathToNextTask = warehouseMap.getPath(position, tasks.getNext());
     return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
