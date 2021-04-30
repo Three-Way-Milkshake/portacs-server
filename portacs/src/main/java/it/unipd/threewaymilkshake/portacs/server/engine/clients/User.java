@@ -101,4 +101,6 @@ public abstract class User extends Client implements Serializable {
       clearConnection();
     }
   }
+
+  abstract String getRole();
 }

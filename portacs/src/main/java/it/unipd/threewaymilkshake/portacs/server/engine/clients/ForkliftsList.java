@@ -17,8 +17,8 @@ public class ForkliftsList {
 
   @Autowired private WarehouseMap warehouseMap;
 
-  private static final String UNRECOGNIZED_FORKLIFT = "FAILED; Unrecognized forklift";
-  private static final String WRONG_TOKEN = "FAILED; Wrong token";
+  private static final String UNRECOGNIZED_FORKLIFT = "FAIL;Unrecognized forklift";
+  private static final String WRONG_TOKEN = "FAIL;Wrong token";
 
   public ForkliftsList(ForkliftDao forkliftDao) {
     this.forkliftDao = forkliftDao;
@@ -40,6 +40,7 @@ public class ForkliftsList {
       if (f.authenticate(token)) {
         success = true;
         f.bindConnection(c);
+        f.write("OK;");
         f.write(warehouseMap.toString());
         f.writeAndSend(warehouseMap.poisToString());
       } else {

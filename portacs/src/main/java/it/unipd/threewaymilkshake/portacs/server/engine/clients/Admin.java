@@ -23,4 +23,9 @@ public class Admin extends User {
     // TODO Auto-generated method stub
 
   }
+
+  @Override
+  String getRole() {
+    return "ADMIN";
+  }
 }

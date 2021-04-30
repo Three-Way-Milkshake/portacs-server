@@ -19,8 +19,8 @@ public class UsersList {
 
   @Autowired private WarehouseMap warehouseMap;
 
-  private static final String UNRECOGNIZED_USER = "FAILED; Unrecognized user";
-  private static final String WRONG_PWD = "FAILED; Wrong password";
+  private static final String UNRECOGNIZED_USER = "FAIL;Unrecognized user";
+  private static final String WRONG_PWD = "FAIL;Wrong password";
 
   public UsersList(UserDao userDao, PasswordEncoder passwordEncoder) {
     this.userDao = userDao;
@@ -43,6 +43,7 @@ public class UsersList {
       if (u.authenticate(rawPwd)) {
         success = true;
         u.bindConnection(c);
+        u.write("OK,"+u.getRole()+";");
         u.write(warehouseMap.toString());
         u.writeAndSend(warehouseMap.poisToString());
       } else {

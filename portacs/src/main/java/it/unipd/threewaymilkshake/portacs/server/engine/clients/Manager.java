@@ -77,4 +77,9 @@ public class Manager extends User {
               });
     }
   }
+
+  @Override
+  String getRole() {
+    return "MANAGER";
+  }
 }
