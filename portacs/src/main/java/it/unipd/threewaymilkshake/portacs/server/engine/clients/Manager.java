@@ -1,20 +1,17 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
+import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
-
 public class Manager extends User {
 
-  @Autowired
-  private TasksSequencesList tasksSequencesList;
+  @Autowired private TasksSequencesList tasksSequencesList;
 
   public Manager(String id, String firstName, String lastName, String pwdHash) {
     super(id, firstName, lastName, pwdHash);
@@ -29,28 +26,27 @@ public class Manager extends User {
     super(id, firstName, lastName, pwdHash, passwordEncoder);
   }
 
-  private void addTasksSequence(List<Long> tasks){
-    long newListId=tasksSequencesList.addTasksSequence(new LinkedBlockingDeque<>(tasks));
-    StringBuilder b=new StringBuilder();
+  private void addTasksSequence(List<Long> tasks) {
+    long newListId = tasksSequencesList.addTasksSequence(new LinkedBlockingDeque<>(tasks));
+    StringBuilder b = new StringBuilder();
     b.append("ADL,OK,");
     b.append(newListId);
     b.append(';');
     connection.writeToBuffer(b.toString());
   }
 
-  private void removeTasksSequence(long listId){
-    if(tasksSequencesList.removeTasksSequence(listId)){
+  private void removeTasksSequence(long listId) {
+    if (tasksSequencesList.removeTasksSequence(listId)) {
       connection.writeToBuffer("RML,OK");
-    }
-    else{
+    } else {
       connection.writeToBuffer("RML,FAIL,Lista già assegnata");
     }
   }
 
   @Override
   public void processCommunication() {
-    super.processCommunication(); //handles common operations
-    if(active){
+    super.processCommunication(); // handles common operations
+    if (active) {
       String[] commands = connection.getLastMessage().split(";");
       Arrays.stream(commands)
           .forEach(
@@ -66,10 +62,9 @@ public class Manager extends User {
                 switch (par[0]) {
                   case "ADL":
                     addTasksSequence(
-                      Arrays.stream(Arrays.copyOfRange(par, 1, par.length))
-                      .map(Long::parseLong)
-                      .collect(Collectors.toList())
-                    );
+                        Arrays.stream(Arrays.copyOfRange(par, 1, par.length))
+                            .map(Long::parseLong)
+                            .collect(Collectors.toList()));
                     break;
 
                   case "RML":
@@ -77,7 +72,7 @@ public class Manager extends User {
                     break;
 
                   default:
-                    //already handled by super
+                    // already handled by super
                 }
               });
     }

@@ -2,28 +2,24 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import com.google.gson.annotations.Expose;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
 import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequence;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Forklift extends Client {
   @Expose String token;
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
-  
-  @Autowired
-  private TasksSequencesList tasksSequencesList;
+
+  @Autowired private TasksSequencesList tasksSequencesList;
 
   public Forklift(String id, String token) {
     super(id);
@@ -32,15 +28,14 @@ public class Forklift extends Client {
 
   public Forklift(String id, String token, TasksSequencesList tasksSequencesList) {
     this(id, token);
-    this.tasksSequencesList=tasksSequencesList;
+    this.tasksSequencesList = tasksSequencesList;
   }
 
-
-  public void setPathToNextTask(List<Move> pathToNextTask) { //TODO: visibility
+  public void setPathToNextTask(List<Move> pathToNextTask) { // TODO: visibility
     this.pathToNextTask = pathToNextTask;
   }
 
-  public void setPosition(Position position) { //TODO: visibility
+  public void setPosition(Position position) { // TODO: visibility
     this.position = position;
   }
 
@@ -70,7 +65,7 @@ public class Forklift extends Client {
                     connection.writeToBuffer("PATH," + getPathToNextTask() + ";");
                     break;
                   case "LIST":
-                    tasks=tasksSequencesList.getTasksSequence();
+                    tasks = tasksSequencesList.getTasksSequence();
                     connection.writeToBuffer(tasks.toString());
                     break;
                   default:
@@ -103,13 +98,9 @@ public class Forklift extends Client {
     return position.toString();
   }
 
-  /**
-   * @return next tasks number and ids only 
-   * e.g.: given 3 tasks 1,2,3 will return: 3,1,2,3
-   */
-  public String getTasksString(){
-    return String.valueOf(tasks.size())+','+
-      tasks.toString().replaceAll("(LIST,|;)", "");
+  /** @return next tasks number and ids only e.g.: given 3 tasks 1,2,3 will return: 3,1,2,3 */
+  public String getTasksString() {
+    return String.valueOf(tasks.size()) + ',' + tasks.toString().replaceAll("(LIST,|;)", "");
   }
 
   public String getToken() {
@@ -118,26 +109,39 @@ public class Forklift extends Client {
 
   public List<SimplePoint> getNextPositions(int numberOfNextMoves) {
     LinkedList<SimplePoint> positionsToReturn = new LinkedList<SimplePoint>();
-    Position positionParameter = new Position(position.getX(),position.getY(),position.getOrientation());
-    return getNextPositionsRecursive(0,numberOfNextMoves,positionParameter,pathToNextTask,positionsToReturn);
+    Position positionParameter =
+        new Position(position.getX(), position.getY(), position.getOrientation());
+    return getNextPositionsRecursive(
+        0, numberOfNextMoves, positionParameter, pathToNextTask, positionsToReturn);
   }
 
-  private static List<SimplePoint> getNextPositionsRecursive(int i, int numberOfNextMoves,Position actualPosition, List<Move> pathToNextTask, LinkedList<SimplePoint> toReturn) {
-    System.out.println(" +++++++++++" + i + ":" + actualPosition.getX() + "," + actualPosition.getY() + "+++++++++++");
-    
-    if(i == numberOfNextMoves+1) {
-      toReturn.add(new SimplePoint(actualPosition.getX(),actualPosition.getY()));
+  private static List<SimplePoint> getNextPositionsRecursive(
+      int i,
+      int numberOfNextMoves,
+      Position actualPosition,
+      List<Move> pathToNextTask,
+      LinkedList<SimplePoint> toReturn) {
+    System.out.println(
+        " +++++++++++"
+            + i
+            + ":"
+            + actualPosition.getX()
+            + ","
+            + actualPosition.getY()
+            + "+++++++++++");
+
+    if (i == numberOfNextMoves + 1) {
+      toReturn.add(new SimplePoint(actualPosition.getX(), actualPosition.getY()));
       return toReturn;
-    }
-    else if(i == 0) {
-      toReturn.add(new SimplePoint(actualPosition.getX(),actualPosition.getY()));
-      return getNextPositionsRecursive(i+1,numberOfNextMoves,actualPosition, pathToNextTask, toReturn);
-    }
-    else {
-      actualPosition.computeNextPosition(pathToNextTask.get(i-1));
-      toReturn.add(new SimplePoint(actualPosition.getX(),actualPosition.getY()));
-      return getNextPositionsRecursive(i+1,numberOfNextMoves,actualPosition, pathToNextTask, toReturn);
+    } else if (i == 0) {
+      toReturn.add(new SimplePoint(actualPosition.getX(), actualPosition.getY()));
+      return getNextPositionsRecursive(
+          i + 1, numberOfNextMoves, actualPosition, pathToNextTask, toReturn);
+    } else {
+      actualPosition.computeNextPosition(pathToNextTask.get(i - 1));
+      toReturn.add(new SimplePoint(actualPosition.getX(), actualPosition.getY()));
+      return getNextPositionsRecursive(
+          i + 1, numberOfNextMoves, actualPosition, pathToNextTask, toReturn);
     }
   }
-
 }

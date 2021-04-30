@@ -95,47 +95,53 @@ public class Position extends AbstractLocation {
     return r;
   }
 
-
   public Position computeNextPosition(Move move) {
-    //System.out.println("( Position:" + this.getX() + " " + this.getY() + " " + this.getOrientation());
-    //System.out.println("Move:" + move + ")");
-      switch(move){
-        case GOSTRAIGHT -> {
-          switch(orientation){
-            case UP -> this.x--;
-            case RIGHT -> this.y++; 
-            case DOWN -> this.x++; 
-            case LEFT -> this.y--;
-          };
+    // System.out.println("( Position:" + this.getX() + " " + this.getY() + " " +
+    // this.getOrientation());
+    // System.out.println("Move:" + move + ")");
+    switch (move) {
+      case GOSTRAIGHT -> {
+        switch (orientation) {
+          case UP -> this.x--;
+          case RIGHT -> this.y++;
+          case DOWN -> this.x++;
+          case LEFT -> this.y--;
         }
+        ;
+      }
 
-        case TURNLEFT -> {
-          switch(orientation){
-            case UP -> this.orientation = Orientation.LEFT;
-            case RIGHT -> this.orientation = Orientation.UP;
-            case DOWN -> this.orientation = Orientation.RIGHT;
-            case LEFT -> this.orientation = Orientation.DOWN;
-          };
+      case TURNLEFT -> {
+        switch (orientation) {
+          case UP -> this.orientation = Orientation.LEFT;
+          case RIGHT -> this.orientation = Orientation.UP;
+          case DOWN -> this.orientation = Orientation.RIGHT;
+          case LEFT -> this.orientation = Orientation.DOWN;
         }
-        case TURNRIGHT -> {
-          switch(orientation){
-            case UP -> this.orientation = Orientation.RIGHT;
-            case RIGHT -> this.orientation = Orientation.DOWN;
-            case DOWN -> this.orientation = Orientation.LEFT;
-            case LEFT -> this.orientation = Orientation.UP;
-          };
+        ;
+      }
+      case TURNRIGHT -> {
+        switch (orientation) {
+          case UP -> this.orientation = Orientation.RIGHT;
+          case RIGHT -> this.orientation = Orientation.DOWN;
+          case DOWN -> this.orientation = Orientation.LEFT;
+          case LEFT -> this.orientation = Orientation.UP;
         }
-        case TURNAROUND -> {
-          switch(orientation){
-            case UP -> this.orientation = Orientation.DOWN;
-            case RIGHT -> this.orientation = Orientation.LEFT;
-            case DOWN -> this.orientation = Orientation.UP;
-            case LEFT -> this.orientation = Orientation.RIGHT;
-          };
+        ;
+      }
+      case TURNAROUND -> {
+        switch (orientation) {
+          case UP -> this.orientation = Orientation.DOWN;
+          case RIGHT -> this.orientation = Orientation.LEFT;
+          case DOWN -> this.orientation = Orientation.UP;
+          case LEFT -> this.orientation = Orientation.RIGHT;
         }
-        case STOP -> {}
-        default -> throw new IllegalArgumentException("Unexpected value: " + move);
-      };
-      return this;
+        ;
+      }
+      case STOP -> {
+      }
+      default -> throw new IllegalArgumentException("Unexpected value: " + move);
+    }
+    ;
+    return this;
   }
 }

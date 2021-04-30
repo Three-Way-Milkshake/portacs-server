@@ -45,9 +45,9 @@ public class Connection {
   }
 
   /**
-   * Tries to read a message to check wether connection is still alive
-   * If so, returns true and the read message is saved in lastMessage
-   * 
+   * Tries to read a message to check wether connection is still alive If so, returns true and the
+   * read message is saved in lastMessage
+   *
    * @return true if alive
    */
   public boolean isAlive() {

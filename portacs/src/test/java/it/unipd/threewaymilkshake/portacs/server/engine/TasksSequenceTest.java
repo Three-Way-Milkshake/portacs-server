@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import it.unipd.threewaymilkshake.portacs.server.AppConfig;
-
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,7 @@ public class TasksSequenceTest {
     assertEquals("LIST,1,5,7,9;", t.toString());
     assertEquals(1L, t.extractNext());
     assertEquals("LIST,5,7,9;", t.toString());
-    List.of(5L,7L,9L).stream()
+    List.of(5L, 7L, 9L).stream()
         .forEach(
             i -> {
               System.out.println(i);

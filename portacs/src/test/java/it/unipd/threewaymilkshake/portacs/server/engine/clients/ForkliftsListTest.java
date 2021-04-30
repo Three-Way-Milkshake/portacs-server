@@ -69,7 +69,7 @@ public class ForkliftsListTest {
   }
 
   @Test
-  public void testGetForkliftsTasks(){
+  public void testGetForkliftsTasks() {
     assertEquals("LIST,f1,3,1,2,3;LIST,f2,5,4,7,12,9;", fList.getForkliftsTasks());
   }
 }

@@ -4,7 +4,6 @@ package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -60,15 +59,15 @@ public abstract class User extends Client implements Serializable {
     this.lastName = lastName;
   }
 
-  private void editProfile(String what, String value){
-    switch(what){
+  private void editProfile(String what, String value) {
+    switch (what) {
       case "NAME":
-        this.firstName=value;
+        this.firstName = value;
         break;
       case "LAST":
-        this.lastName=value;
+        this.lastName = value;
       case "PWD":
-        this.pwdHash=passwordEncoder.encode(value);
+        this.pwdHash = passwordEncoder.encode(value);
     }
   }
 
@@ -94,12 +93,12 @@ public abstract class User extends Client implements Serializable {
                   case "EDIT":
                     editProfile(par[1], par[2]);
                   default:
-                    //System.out.println("Unrecognized message: " + par[0]);
-                    //not a common operation
+                    // System.out.println("Unrecognized message: " + par[0]);
+                    // not a common operation
                 }
               });
     } else {
       clearConnection();
-    }    
+    }
   }
 }
