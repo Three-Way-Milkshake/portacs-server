@@ -2,11 +2,16 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import com.google.gson.annotations.Expose;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
 import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequence;
+import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +21,9 @@ public class Forklift extends Client {
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
+  
+  @Autowired
+  private TasksSequencesList tasksSequencesList;
 
   public Forklift(String id, String token) {
     super(id);
@@ -55,7 +63,9 @@ public class Forklift extends Client {
                     if (par[1].equals("1")) tasks.extractNext();
                     connection.writeToBuffer("PATH," + getPathToNextTask() + ";");
                     break;
-                  case "MAP":
+                  case "LIST":
+                    tasks=tasksSequencesList.getTasksSequence();
+                    connection.writeToBuffer(tasks.toString());
                     break;
                   default:
                     System.out.println("Unrecognized message: " + par[0]);

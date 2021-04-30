@@ -21,6 +21,6 @@ public class Manager extends User {
   @Override
   public void processCommunication() {
     // TODO Auto-generated method stub
-
+    
   }
 }
