@@ -1,15 +1,19 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server;
 
+import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonForklift;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonUser;
+import java.util.List;
+import java.util.concurrent.LinkedBlockingDeque;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -81,6 +85,19 @@ public class AppConfig {
   @Bean
   public PathFindingStrategy pathFindingStrategy() {
     return new StrategyBreadthFirst();
+  }
+
+  @Bean("tasksSequencesListTest") // TODO: for testing only
+  @Scope("prototype")
+  public TasksSequencesList tasksSequencesListTest() {
+    TasksSequencesList t = new TasksSequencesList();
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 2L, 3L)));
+    return t;
+  }
+
+  @Bean("tasksSequencesList")
+  public TasksSequencesList tasksSequencesList() {
+    return new TasksSequencesList();
   }
 
   /* @Bean

@@ -7,9 +7,11 @@ import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequence;
+import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Forklift extends Client {
   @Expose String token;
@@ -17,23 +19,30 @@ public class Forklift extends Client {
   private List<Move> pathToNextTask;
   private Position position;
 
+  @Autowired private TasksSequencesList tasksSequencesList;
+
   public Forklift(String id, String token) {
     super(id);
     this.token = token;
   }
 
+  public Forklift(String id, String token, TasksSequencesList tasksSequencesList) {
+    this(id, token);
+    this.tasksSequencesList = tasksSequencesList;
+  }
 
-  public void setPathToNextTask(List<Move> pathToNextTask) { //TODO: visibility
+  public void setPathToNextTask(List<Move> pathToNextTask) { // TODO: visibility
     this.pathToNextTask = pathToNextTask;
   }
 
-  public void setPosition(Position position) { //TODO: visibility
+  public void setPosition(Position position) { // TODO: visibility
     this.position = position;
   }
 
   @Override
   public void processCommunication() {
-    if (connection.isAlive()) {
+    connection.send("ALIVE;");
+    if (active && connection.isAlive()) {
       String[] commands = connection.getLastMessage().split(";");
       Arrays.stream(commands)
           .forEach(
@@ -55,7 +64,9 @@ public class Forklift extends Client {
                     if (par[1].equals("1")) tasks.extractNext();
                     connection.writeToBuffer("PATH," + getPathToNextTask() + ";");
                     break;
-                  case "MAP":
+                  case "LIST":
+                    tasks = tasksSequencesList.getTasksSequence();
+                    connection.writeToBuffer(tasks.toString());
                     break;
                   default:
                     System.out.println("Unrecognized message: " + par[0]);
@@ -87,14 +98,21 @@ public class Forklift extends Client {
     return position.toString();
   }
 
+  /** @return next tasks number and ids only e.g.: given 3 tasks 1,2,3 will return: 3,1,2,3 */
+  public String getTasksString() {
+    return String.valueOf(tasks.size()) + ',' + tasks.toString().replaceAll("(LIST,|;)", "");
+  }
+
   public String getToken() {
     return token;
   }
 
   public List<SimplePoint> getNextPositions(int numberOfNextMoves) {
     LinkedList<SimplePoint> positionsToReturn = new LinkedList<SimplePoint>();
-    Position positionParameter = new Position(position.getX(),position.getY(),position.getOrientation());
-    return getNextPositionsRecursive(0,numberOfNextMoves,positionParameter,pathToNextTask,positionsToReturn);
+    Position positionParameter =
+        new Position(position.getX(), position.getY(), position.getOrientation());
+    return getNextPositionsRecursive(
+        0, numberOfNextMoves, positionParameter, pathToNextTask, positionsToReturn);
   }
 
   private static List<SimplePoint> getNextPositionsRecursive(int i, int numberOfNextMoves,Position actualPosition, List<Move> pathToNextTask, LinkedList<SimplePoint> toReturn) {

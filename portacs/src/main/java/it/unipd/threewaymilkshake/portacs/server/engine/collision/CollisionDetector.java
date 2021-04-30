@@ -1,6 +1,8 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.collision;
 
+import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -27,10 +29,11 @@ class CollisionCell {
         return collisionsForCell;
     }
 
-    void addForklift(String id) {
-        collisionsForCell.add(id);
-    }
+  
 
+  void addForklift(String id) {
+    collisionsForCell.add(id);
+  }
 }
 
 class CollisionMap {
@@ -75,9 +78,10 @@ class CollisionMap {
         }
         return toReturn;
         
-    }
-    
-} 
+  }
+
+
+}
 
 
 public class CollisionDetector implements Handler<ForkliftsList,Map<SimplePoint,List<String>>> {

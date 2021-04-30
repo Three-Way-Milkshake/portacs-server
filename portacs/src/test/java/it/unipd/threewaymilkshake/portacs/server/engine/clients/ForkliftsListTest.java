@@ -32,6 +32,8 @@ public class ForkliftsListTest {
     when(f2.getToken()).thenReturn("def");
     when(f1.getPositionString()).thenReturn("0,0,0");
     when(f2.getPositionString()).thenReturn("2,3,2");
+    when(f1.getTasksString()).thenReturn("3,1,2,3");
+    when(f2.getTasksString()).thenReturn("5,4,7,12,9");
 
     list.add(f1);
     list.add(f2);
@@ -64,5 +66,10 @@ public class ForkliftsListTest {
   @Test
   public void testForkliftsAndTokensToString() {
     assertEquals("LISTF,2,f1,abc,f2,def;", fList.getForkliftsAndTokensString());
+  }
+
+  @Test
+  public void testGetForkliftsTasks() {
+    assertEquals("LIST,f1,3,1,2,3;LIST,f2,5,4,7,12,9;", fList.getForkliftsTasks());
   }
 }

@@ -26,15 +26,33 @@ public class TasksSequence {
     tasks.addLast(t);
   }
 
+  /**
+   * Retrieves AND remove the next tasks
+   *
+   * @return the task that has been removed
+   */
   public long extractNext() {
     return tasks.removeFirst();
   }
 
+  /**
+   * Retrieves but does not remove the next task
+   *
+   * @return the next task
+   */
   public long getNext() {
     return tasks.getFirst();
   }
 
+  /**
+   * @return A string represented the tasks contained in this sequence as Three Way Protocol
+   *     (LIST,1,2,3;)
+   */
   public String toString() {
-    return tasks.toString().replaceAll("( |\\[|\\])", "");
+    StringBuilder b = new StringBuilder();
+    b.append("LIST,");
+    b.append(tasks.toString().replaceAll("( |\\[|\\])", ""));
+    b.append(';');
+    return b.toString();
   }
 }

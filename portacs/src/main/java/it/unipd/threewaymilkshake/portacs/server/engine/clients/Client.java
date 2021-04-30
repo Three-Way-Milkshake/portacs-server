@@ -38,7 +38,19 @@ public abstract class Client implements PropertyChangeListener {
   }
 
   public void propertyChange(PropertyChangeEvent e) {
-    connection.writeToBuffer(e.getNewValue().toString());
+    // connection.writeToBuffer(e.getNewValue().toString());
+    if (active) {
+      writeMap();
+      writePois();
+    }
+  }
+
+  void writeMap() {
+    connection.writeToBuffer(map.toString());
+  }
+
+  void writePois() {
+    connection.writeToBuffer(map.poisToString());
   }
 
   /**

@@ -19,8 +19,8 @@ public class ForkliftsList {
 
   @Autowired private WarehouseMap warehouseMap;
 
-  private static final String UNRECOGNIZED_FORKLIFT = "FAILED; Unrecognized forklift";
-  private static final String WRONG_TOKEN = "FAILED; Wrong token";
+  private static final String UNRECOGNIZED_FORKLIFT = "FAIL;Unrecognized forklift";
+  private static final String WRONG_TOKEN = "FAIL;Wrong token";
 
   public ForkliftsList(ForkliftDao forkliftDao) {
     this.forkliftDao = forkliftDao;
@@ -42,6 +42,7 @@ public class ForkliftsList {
       if (f.authenticate(token)) {
         success = true;
         f.bindConnection(c);
+        f.write("OK;");
         f.write(warehouseMap.toString());
         f.writeAndSend(warehouseMap.poisToString());
       } else {
@@ -54,7 +55,6 @@ public class ForkliftsList {
     }
     return success;
   }
-
 
   public List<Forklift> getActiveForklifts() {
     return forkliftsMap.values().stream().filter(f -> f.isActive()).collect(Collectors.toList());
@@ -79,6 +79,20 @@ public class ForkliftsList {
     return b.toString();
   }
 
+  /** @return sequence representng all forklifts and their tasks (LIST,IDF,N,IDP1,IDP2;LIST...) */
+  public String getForkliftsTasks() {
+    StringBuilder b = new StringBuilder();
+    forkliftsMap.forEach(
+        (k, v) -> {
+          b.append("LIST,");
+          b.append(k);
+          b.append(',');
+          b.append(v.getTasksString());
+          b.append(';');
+        });
+    return b.toString();
+  }
+
   public String getForkliftsAndTokensString() {
     StringBuilder b = new StringBuilder();
     b.append("LISTF,");
@@ -98,11 +112,11 @@ public class ForkliftsList {
     return b.toString();
   }
 
-  public Map<String,List<SimplePoint>> getAllNextPositions(int i) {
-    Map<String,List<SimplePoint>> toReturn = new HashMap<String,List<SimplePoint>>();
-        for(String key : forkliftsMap.keySet()) {
-          toReturn.put(key,forkliftsMap.get(key).getNextPositions(i));
-        }
+  public Map<String, List<SimplePoint>> getAllNextPositions(int i) {
+    Map<String, List<SimplePoint>> toReturn = new HashMap<String, List<SimplePoint>>();
+    for (String key : forkliftsMap.keySet()) {
+      toReturn.put(key, forkliftsMap.get(key).getNextPositions(i));
+    }
     return toReturn;
   }
 
