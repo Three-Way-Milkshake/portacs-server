@@ -49,13 +49,24 @@ public class Admin extends User {
   }
 
   private void addUser(String type, String firstName, String lastName){
-    AbstractMap.SimpleEntry<String,String> data=usersList.addUser(type, firstName, lastName);
-    String res="ADU,"+data.getKey()+","+data.getValue()+";";
-    connection.writeToBuffer(res);
+    String msg=usersList.addUser(type, firstName, lastName);
+    connection.writeToBuffer(msg);
   }
 
   private void removeUser(String userToRemoveId){
     String msg=usersList.removeUser(userToRemoveId);
+    connection.writeToBuffer(msg);
+  }
+
+  private void editUser(String userToEditId, String...  actions){
+    //EDU,ID,A,PAR
+    //actions=[A,PAR] (PAR assente in caso di reset password)
+    String msg=switch(actions[0]){
+      case "NAME" -> usersList.editUserFirstName(userToEditId, actions[1]);
+      case "LAST" -> usersList.editUserLastName(userToEditId, actions[1]);
+      case "RESET" -> usersList.resetUserPassword(userToEditId);
+      default -> null;
+    };
     connection.writeToBuffer(msg);
   }
 
@@ -122,6 +133,16 @@ public class Admin extends User {
 
                   case "RMU":
                     removeUser(par[1]);
+                    break;
+
+                  case "EDU":
+                    editUser(
+                      par[1], 
+                      (String[])Arrays.stream(par)
+                        .skip(2)
+                        .collect(Collectors.toList())
+                        .toArray()
+                    );
                     break;
 
                   case "ADF":

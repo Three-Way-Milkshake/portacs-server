@@ -70,7 +70,7 @@ public class UsersList {
     return usersMap.values().stream().filter(u -> u.isActive()).collect(Collectors.toList());
   }
 
-  AbstractMap.SimpleEntry<String,String> addUser(String type, String firstName, String lastName){
+  String addUser(String type, String firstName, String lastName){
     String newUserId=firstName+"."+lastName;
     if(usersMap.containsKey(newUserId)){
       newUserId=getAvailableId(newUserId);
@@ -84,23 +84,64 @@ public class UsersList {
     };
     usersMap.put(newUserId, newUser);
 
-    return new AbstractMap.SimpleEntry<>(newUserId, pwd);
+    return "ADU,"+newUserId+','+pwd+';';
   }
 
   String removeUser(String userId){
-    String r=null;
+    String res=null;
     if(!usersMap.containsKey(userId)){
-      r="RMU,"+UNRECOGNIZED_USER;
+      res="RMU,"+UNRECOGNIZED_USER;
     }
     else if(usersMap.get(userId).isActive()){
-      r="RMU,"+ACTIVE_USER;
+      res="RMU,"+ACTIVE_USER;
     }
     else{
       usersMap.remove(userId);
-      r="RMU,OK";
+      res="RMU,OK";
     }
 
-    return r;
+    return res+';';
+  }
+
+  String editUserFirstName(String userId, String newFirstName){
+    String res="EDU,";
+    if(!usersMap.containsKey(userId)){
+      res+=UNRECOGNIZED_USER;
+    }
+    else{
+      usersMap.get(userId).setFirstName(newFirstName);
+      res+="OK";
+    }
+
+    return res+';';
+  }
+
+  String editUserLastName(String userId, String newLastName){
+    String res="EDU,";
+    if(!usersMap.containsKey(userId)){
+      res+=UNRECOGNIZED_USER;
+    }
+    else{
+      usersMap.get(userId).setLastName(newLastName);
+      res+="OK";
+    }
+
+    return res+';';
+  }
+
+  String resetUserPassword(String userId){
+    String res="EDU,";
+    if(!usersMap.containsKey(userId)){
+      res+=UNRECOGNIZED_USER;
+    }
+    else{
+      String newPwd=generateRandomPwd();
+      String pwdHash=passwordEncoder.encode(newPwd);
+      usersMap.get(userId).setPwdHash(pwdHash);
+      res+="OK,"+newPwd;
+    }
+
+    return res+';';
   }
 
   /**

@@ -59,6 +59,10 @@ public abstract class User extends Client implements Serializable {
     this.lastName = lastName;
   }
 
+  public void setPwdHash(String pwdHash){
+    this.pwdHash=pwdHash;
+  }
+
   private void editProfile(String what, String value) {
     switch (what) {
       case "NAME":
