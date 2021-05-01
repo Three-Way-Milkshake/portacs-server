@@ -28,15 +28,48 @@ public class ConnectionHandler implements Runnable {
     this.testCounter=2;
   }
 
-  @Scheduled(fixedDelay = 100000, initialDelay = 500)
+  @Scheduled(fixedDelay = 1000, initialDelay = 1000)
   public void execute() throws InterruptedException{
-    while(true){
+    /* while(true){
       System.out.println("Hello from handler with: "+(testCounter++));
       Thread.sleep(1000);
+    } */
+    System.out.println("Handler started");
+    while (!buffer.isEmpty()) {
+      // s=buffer.poll();
+      /**
+       * might stream pending connections and submit using task callable, getting results as
+       * type and assing, it is a possible evolution --> buffer.stream()...
+       */
+      buffer.stream()
+          .parallel()
+          .forEach(
+              s -> {
+                try {
+                  BufferedReader in =
+                      new BufferedReader(new InputStreamReader(s.getInputStream()));
+                  PrintWriter out = new PrintWriter(s.getOutputStream());
+                  Connection c = new Connection(s, in, out);
+                  switch (in.readLine()) {
+                    case "FORKLIFT":
+                      forklifts.auth(c);
+                      break;
+                    case "USER":
+                      users.auth(c);
+                      break;
+                    default:
+                      out.println("FAILED;unrecognized connection type");
+                      c.close();
+                  }
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
+              });
     }
   }
 
   @Override
+  // @Scheduled(fixedDelay = 100000, initialDelay = 500)
   public void run() {
     /* Socket s;
     BufferedReader in;
@@ -48,6 +81,7 @@ public class ConnectionHandler implements Runnable {
 
     while (true) {
       try {
+        System.out.println("Handler started");
         while (!buffer.isEmpty()) {
           // s=buffer.poll();
           /**

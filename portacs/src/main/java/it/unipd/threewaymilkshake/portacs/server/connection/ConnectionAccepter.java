@@ -6,6 +6,10 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+@Component
 class ConnectionAccepter implements Runnable {
   private ConnectionHandler handler;
   private ServerSocket ssocket;
@@ -22,14 +26,16 @@ class ConnectionAccepter implements Runnable {
     }
   }
 
-  @Override
+  // @Override
+  @Scheduled(fixedDelay = 1000, initialDelay = 500)
   public void run() {
+    System.out.println("ACCEPTER started");
     Socket s;
     while (true) {
       try {
         s = ssocket.accept();
         handler.addToBuffer(s);
-        handler.notify();
+        // handler.notify();
       } catch (IOException e) {
         e.printStackTrace();
       }
