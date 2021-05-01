@@ -2,13 +2,24 @@
 package it.unipd.threewaymilkshake.portacs.server;
 
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
+import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
+import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonForklift;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonUser;
+import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
+import it.unipd.threewaymilkshake.portacs.server.persistency.UserDao;
+
+import static org.mockito.Mockito.mock;
+
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
+
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,15 +43,10 @@ public class AppConfig {
   @Value("${server.database.json-map}") 
   private String mapFilePath;
 
-  /*@Bean("warehouseMap")
-  //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default
-                        //l'ho letto da varie parti, vedi https://www.javadevjournal.com/spring/spring-singleton-vs-singleton-pattern/
-  public WarehouseMap warehouseMap(PathFindingStrategy pathFindingStrategy){
-    //Resource resource=new ClassPathResource(MAP_FILE);
-
-
-    return new WarehouseMap(jsonMap, pathFindingStrategy());
-  }*/
+  @Bean("warehouseMap")
+  public WarehouseMap warehouseMap(){
+    return new WarehouseMap(jsonMap(), pathFindingStrategy());
+  }
 
   /* @Bean("jsonMap")
   public JsonMap jsonMap(@Value("${server.database.json-map}") String mapFilePath) {
@@ -48,7 +54,7 @@ public class AppConfig {
   } */
 
   @Bean("jsonMap")
-  public JsonMap jsonMap() {
+  public MapDao jsonMap() {
     return new JsonMap(mapFilePath);
   }
 
@@ -63,7 +69,7 @@ public class AppConfig {
   } */
 
   @Bean("jsonUser")
-  public JsonUser jsonUser() {
+  public UserDao jsonUser() {
     return new JsonUser(usersFilePath);
   }
 
@@ -79,7 +85,7 @@ public class AppConfig {
   } */
 
   @Bean("jsonForklift")
-  public JsonForklift jsonForklift() {
+  public ForkliftDao jsonForklift() {
     return new JsonForklift(forkliftsFilePath);
   }
 
@@ -117,15 +123,31 @@ public class AppConfig {
     return new ConnectionHandler(usersList(userFilePath), forkliftsList());
   } */
 
-  /* @Bean
+  @Bean
   public UsersList usersList(){
-    return new UsersList(jsonUser(), passwordEncoder());
-  } */
+    // return new UsersList(jsonUser(), passwordEncoder());
+    return new UsersList(userDaoMock(), passwordEncoder());
+  }
 
-  /* @Bean
+  //TODO: remove -> BIG code smell (imported mockito here and changed gradle)
+  @Bean
+  public UserDao userDaoMock(){
+    UserDao u=mock(UserDao.class);
+    return u;
+  }
+
+  @Bean
   public ForkliftsList forkliftsList(){
-    return new ForkliftsList(jsonForklift());
-  } */
+    // return new ForkliftsList(jsonForklift());
+    return new ForkliftsList(forkliftDaoMock());
+  }
+
+  //TODO: remove -> BIG code smell (imported mockito here and changed gradle)
+  @Bean
+  public ForkliftDao forkliftDaoMock(){
+    ForkliftDao f=mock(ForkliftDao.class);
+    return f;
+  }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
