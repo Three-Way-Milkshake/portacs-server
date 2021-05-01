@@ -11,15 +11,27 @@ import java.net.Socket;
 import java.util.AbstractQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.springframework.scheduling.annotation.Scheduled;
+
 public class ConnectionHandler implements Runnable {
 
   private AbstractQueue<Socket> buffer = new ConcurrentLinkedQueue<>();
   private UsersList users;
   private ForkliftsList forklifts;
+  private int testCounter;
 
   public ConnectionHandler(UsersList usersList, ForkliftsList forkliftsList) {
     this.users = usersList;
     this.forklifts = forkliftsList;
+    this.testCounter=2;
+  }
+
+  @Scheduled(fixedDelay = 100000, initialDelay = 500)
+  public void execute() throws InterruptedException{
+    while(true){
+      System.out.println("Hello from handler with: "+(testCounter++));
+      Thread.sleep(1000);
+    }
   }
 
   @Override
