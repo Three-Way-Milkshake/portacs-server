@@ -18,7 +18,7 @@ public class Forklift extends Client {
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
-  private int numberOfStalls; 
+  private int numberOfStalls; //TODO: Nicolò
         // ad ogni ricezione della posizione bisogna controllare
         // se il la posizione vecchia è uguale alla posizione
         // nuova: se sì -> incrementare numberOfStalls

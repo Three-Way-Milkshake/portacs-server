@@ -40,7 +40,7 @@ public class AppConfig {
   }*/
 
   @Bean("jsonMap")
-  public JsonMap jsonMap(@Value("${server.database.json-map}") String mapFilePath) {
+  public JsonMap jsonMap(@Value("${server.database.json-map}") String mapFilePath) { //TODO: sistemare 
     return new JsonMap(mapFilePath);
   }
 

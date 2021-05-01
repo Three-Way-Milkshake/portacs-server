@@ -158,18 +158,18 @@ public class ForkliftsList {
   }
 
   public void runtimeDeadlockChecker() {
-    int ALERT_DEADLOCK = 7;
-    int CRITICAL_DEADLOCK = 15;
+    int ALERT_DEADLOCK = 7; // causa un ricalcolo del muletto
+    int CRITICAL_DEADLOCK = 15; // invio evento eccezionale
 
     for(String key : forkliftsMap.keySet()) 
     {
       Forklift f = forkliftsMap.get(key);
-      if(f.isInDeadlock(ALERT_DEADLOCK)) {
+      if(f.isInDeadlock(ALERT_DEADLOCK)) { //TODO: Nicolò
         // SEGNALARE RICALCOLO -> PROBLEMA: NON DEVE ESSERE SOVRASCRITTO DA UN EVENTUALE 
         // ALTRO MESSAGGIO DERIVANTE DALLA GESTIONE DELLE COLLISIONI (STOP/RICALCOLO) 
         // OPPURE SMINCHIARE IL BUFFER
       }
-      else if(f.isInDeadlock(CRITICAL_DEADLOCK)) {
+      else if(f.isInDeadlock(CRITICAL_DEADLOCK)) { //TODO: Nicolò
         // SEGNALARE EVENTO ECCEZIONALE
       }
     }
