@@ -10,6 +10,7 @@ import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,8 +20,12 @@ public class ForkliftsList {
 
   @Autowired private WarehouseMap warehouseMap;
 
-  private static final String UNRECOGNIZED_FORKLIFT = "FAIL;Unrecognized forklift";
-  private static final String WRONG_TOKEN = "FAIL;Wrong token";
+  private static final String UNRECOGNIZED_FORKLIFT = "FAIL,Unrecognized forklift";
+  private static final String WRONG_TOKEN = "FAIL,Wrong token";
+  private static final String ACTIVE_FORKLIFT="FAIL,Forklift is active";
+  private static final String ALREADY_EXISTING_FORKLIFT="FAIL,Forklift is active";
+
+  private static final int TOKEN_LENGTH=16;
 
   public ForkliftsList(ForkliftDao forkliftDao) {
     this.forkliftDao = forkliftDao;
@@ -60,6 +65,44 @@ public class ForkliftsList {
     return forkliftsMap.values().stream().filter(f -> f.isActive()).collect(Collectors.toList());
   }
 
+  String addForklift(String newId){
+    String res="ADF,";
+    if(forkliftsMap.containsKey(newId)){
+      res+=ALREADY_EXISTING_FORKLIFT;
+    }
+    else{
+      String token=generateRandomToken();
+      Forklift f=new Forklift(newId, token);
+      res+="OK,"+token;
+    }
+
+    return res;
+  }
+
+  String removeForklift(String toRemoveId){
+    String res="RMF,";
+    if(!forkliftsMap.containsKey(toRemoveId)){
+      res+=UNRECOGNIZED_FORKLIFT;
+    }
+    else if(forkliftsMap.get(toRemoveId).isActive()){
+      res+=ACTIVE_FORKLIFT;
+    }
+    else{
+      forkliftsMap.remove(toRemoveId);
+      res+="OK";
+    }
+
+    return res;
+  }
+
+  private String generateRandomToken() {
+    return new Random(System.currentTimeMillis())
+      .ints()
+      .limit(TOKEN_LENGTH)
+      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+      .toString();
+  }
+
   public String getForkliftsPositions() {
     StringBuilder b = new StringBuilder();
     b.append("UNI,");
@@ -93,6 +136,10 @@ public class ForkliftsList {
     return b.toString();
   }
 
+  /**
+   * @return forklifts list as Three Way protocolo
+   * (LISTF,N,ID1,T1,ID2,T2...)
+   */
   public String getForkliftsAndTokensString() {
     StringBuilder b = new StringBuilder();
     b.append("LISTF,");

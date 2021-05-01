@@ -1,17 +1,22 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import it.unipd.threewaymilkshake.portacs.server.engine.map.CellType;
 
 public class Admin extends User {
+
+  @Autowired private UsersList usersList;
+  @Autowired private ForkliftsList forkliftsList;
 
   public Admin(String id, String firstName, String lastName, String pwdHash) {
     super(id, firstName, lastName, pwdHash);
@@ -39,12 +44,37 @@ public class Admin extends User {
   }
 
   private void editCell(int x, int y, String... actions){
-    CellType type=CellType.values()[Integer.valueOf(actions[0])];
-    warehouseMap.setCell(x, y, type);
-    if(type==CellType.POI){
-      //TODO poi stuff
-    }
-    //TODO finish
+    warehouseMap.setCell(x, y, actions);
+    connection.writeToBuffer("CELL,OK");
+  }
+
+  private void addUser(String type, String firstName, String lastName){
+    AbstractMap.SimpleEntry<String,String> data=usersList.addUser(type, firstName, lastName);
+    String res="ADU,"+data.getKey()+","+data.getValue()+";";
+    connection.writeToBuffer(res);
+  }
+
+  private void removeUser(String userToRemoveId){
+    String msg=usersList.removeUser(userToRemoveId);
+    connection.writeToBuffer(msg);
+  }
+
+  private void addForklift(String newForkliftId){
+    String msg=forkliftsList.addForklift(newForkliftId);
+    connection.writeToBuffer(msg);
+  }
+
+  private void removeForklift(String forkliftToRemoveId){
+    String msg=forkliftsList.removeForklift(forkliftToRemoveId);
+    connection.writeToBuffer(msg);
+  }
+
+  private void sendForkliftsList(){
+    connection.writeToBuffer(forkliftsList.getForkliftsAndTokensString());
+  }
+
+  private void sendUsersList(){
+    connection.writeToBuffer(usersList.getUsersDetailsList());
   }
 
   @Override
@@ -76,7 +106,39 @@ public class Admin extends User {
                     break;
                   
                   case "CELL":
-                    //editCell(); //TODO finish
+                    editCell(
+                      Integer.valueOf(par[1]),
+                      Integer.valueOf(par[2]),
+                      (String[])Arrays.stream(par)
+                        .skip(3)
+                        .collect(Collectors.toList())
+                        .toArray()
+                    );
+                    break;
+
+                  case "ADU":
+                    addUser(par[1], par[2], par[3]);
+                    break;
+
+                  case "RMU":
+                    removeUser(par[1]);
+                    break;
+
+                  case "ADF":
+                    addForklift(par[1]);
+                    break;
+
+                  case "RMF":
+                    removeForklift(par[1]);
+                    break;
+
+                  case "LISTF":
+                    sendForkliftsList();
+                    break;
+
+                  case "LISTU":
+                    sendUsersList();
+                    break;
 
                   default:
                     // already handled by super

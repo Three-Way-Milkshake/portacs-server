@@ -4,6 +4,7 @@ package it.unipd.threewaymilkshake.portacs.server.engine.map;
 import com.google.gson.annotations.Expose;
 import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
+import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -142,9 +143,31 @@ public class WarehouseMap {
     this.map = map;
   }
 
-  public void setCell(int x, int y, CellType type){
-    //TODO fire propertu change
+  public void setCell(int x, int y, String... actions){
+    //CELL,X,Y,A[,ID,T,NAME]
+    support.firePropertyChange("map", this.map, map);
+
+    CellType type=CellType.values()[Integer.valueOf(actions[0])];
+    if(map[x][y]==CellType.POI || type==CellType.POI){
+      long poiId=Long.parseLong(actions[1]);
+      if(type!=CellType.POI){
+        pois.remove(poiId);
+      }
+      else if(map[x][y]==CellType.POI){
+        Poi p=pois.get(poiId);
+        p.setType(PoiType.values()[Integer.parseInt(actions[2])]);
+        p.setName(actions[3]);
+      }
+      else{
+        Poi p=new Poi(getNextPoiId(), actions[3], new SimplePoint(x, y), PoiType.values()[Integer.parseInt(actions[2])]);
+      }
+    }
+
     map[x][y]=type;
+  }
+
+  private long getNextPoiId(){
+    return pois.keySet().stream().max(Long::compareTo).orElse(1L);
   }
 
   public Map<Long, Poi> getPois() {

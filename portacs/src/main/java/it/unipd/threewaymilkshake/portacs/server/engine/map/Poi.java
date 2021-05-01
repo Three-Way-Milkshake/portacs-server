@@ -78,4 +78,8 @@ public class Poi {
   public PoiType getType() {
     return type;
   }
+
+  public void setType(PoiType type){
+    this.type=type;
+  }
 }
