@@ -21,13 +21,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @PropertySource("classpath:application.properties")
 public class AppConfig {
   // private final static String MAP_FILE="Map.json";
-  private static final String FORKLIFT_FILE = "Forklift.json";
+  //private static final String FORKLIFT_FILE = "Forklift.json";
 
   @Value("${server.database.json-users}")
   private String usersFilePath;
 
   @Value("${server.database.json-forklifts}")
   private String forkliftsFilePath;
+
+  @Value("${server.database.json-map}") 
+  private String mapFilePath;
 
   /*@Bean("warehouseMap")
   //@Scope("singleton") //forse non serve perché Cardin dice che sono singleton di default
@@ -39,8 +42,13 @@ public class AppConfig {
     return new WarehouseMap(jsonMap, pathFindingStrategy());
   }*/
 
+  /* @Bean("jsonMap")
+  public JsonMap jsonMap(@Value("${server.database.json-map}") String mapFilePath) {
+    return new JsonMap(mapFilePath);
+  } */
+
   @Bean("jsonMap")
-  public JsonMap jsonMap(@Value("${server.database.json-map}") String mapFilePath) { //TODO: sistemare 
+  public JsonMap jsonMap() {
     return new JsonMap(mapFilePath);
   }
 
@@ -49,8 +57,13 @@ public class AppConfig {
     return new JsonMap(mapFilePath);
   }
 
-  @Bean("jsonUser")
+  /* @Bean("jsonUser")
   public JsonUser jsonUser(@Value("${server.database.json-users}") String usersFilePath) {
+    return new JsonUser(usersFilePath);
+  } */
+
+  @Bean("jsonUser")
+  public JsonUser jsonUser() {
     return new JsonUser(usersFilePath);
   }
 
@@ -59,27 +72,21 @@ public class AppConfig {
     return new JsonUser(usersFilePath);
   }
 
-  @Bean
-  public JsonUser jsonUser() { // TODO: da fare 1 versione, qui solo per evitare passagio file
-    return new JsonUser(usersFilePath);
-  }
-
-  @Bean("jsonForklift")
+  /* @Bean("jsonForklift")
   public JsonForklift jsonForklift(
       @Value("${server.database.json-forklifts}") String forkliftFilePath) {
     return new JsonForklift(forkliftFilePath);
+  } */
+
+  @Bean("jsonForklift")
+  public JsonForklift jsonForklift() {
+    return new JsonForklift(forkliftsFilePath);
   }
 
   @Bean("jsonForkliftTest")
   public JsonForklift jsonForkliftTest(
       @Value("${server.database.json-forklifts-test}") String forkliftFilePath) {
     return new JsonForklift(forkliftFilePath);
-  }
-
-  @Bean
-  public JsonForklift
-      jsonForklift() { // TODO: da fare 1 versione, qui solo per evitare passagio file
-    return new JsonForklift(forkliftsFilePath);
   }
 
   @Bean
