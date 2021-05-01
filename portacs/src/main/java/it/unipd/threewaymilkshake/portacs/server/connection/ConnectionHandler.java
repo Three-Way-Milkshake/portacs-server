@@ -12,7 +12,9 @@ import java.util.AbstractQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConnectionHandler implements Runnable {
 
   private AbstractQueue<Socket> buffer = new ConcurrentLinkedQueue<>();
