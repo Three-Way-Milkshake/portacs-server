@@ -138,8 +138,8 @@ public class AppConfig {
 
   @Bean
   public ForkliftsList forkliftsList(){
-    // return new ForkliftsList(jsonForklift());
-    return new ForkliftsList(forkliftDaoMock());
+    return new ForkliftsList(jsonForklift(), warehouseMap());
+    // return new ForkliftsList(forkliftDaoMock());
   }
 
   //TODO: remove -> BIG code smell (imported mockito here and changed gradle)
