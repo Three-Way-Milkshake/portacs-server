@@ -61,7 +61,7 @@ public class ConnectionHandler implements Runnable {
                     default:
                       System.out.println("UNRECOGNIZED CLIENT");
                       out.println("FAILED;unrecognized connection type");
-                      // c.close();
+                      c.close();
                   }
                 } catch (IOException e) {
                   e.printStackTrace();

@@ -7,12 +7,16 @@ import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public abstract class Client implements PropertyChangeListener {
   @Expose protected String id;
   protected boolean active = false;
   protected Connection connection = null;
-  @Autowired protected WarehouseMap warehouseMap;
+  
+  // @Autowired 
+  protected WarehouseMap warehouseMap;
 
   protected Client(String id) {
     this.id = id;
@@ -24,6 +28,10 @@ public abstract class Client implements PropertyChangeListener {
 
   public String getId() {
     return id;
+  }
+
+  void setWarehouseMap(WarehouseMap warehouseMap) {
+    this.warehouseMap = warehouseMap;
   }
 
   void bindConnection(Connection c) {

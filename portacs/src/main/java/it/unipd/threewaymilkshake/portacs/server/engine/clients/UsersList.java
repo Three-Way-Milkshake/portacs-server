@@ -14,6 +14,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +27,9 @@ public class UsersList {
   private PasswordEncoder passwordEncoder;
   private UserDao userDao;
 
-  @Autowired private WarehouseMap warehouseMap;
+  // @Autowired 
+  // @Qualifier("warehouseMap")
+  private WarehouseMap warehouseMap;
   // @Autowired private PasswordEncoder passwordEncoder;
 
   private static final String UNRECOGNIZED_USER = "FAIL,Unrecognized user";
@@ -34,14 +38,33 @@ public class UsersList {
 
   private static final int BASE_PWD_LENGTH=8;
 
+  //not used ?
   public UsersList(@Qualifier("jsonUser") UserDao userDao, PasswordEncoder passwordEncoder) {
     this.userDao = userDao;
     this.passwordEncoder = passwordEncoder;
+    System.out.println("map is"+warehouseMap);
     usersMap = new HashMap<>();
     userDao.readUsers().stream()
         .forEach(
             u -> {
               u.setPasswordEncoder(passwordEncoder);
+              u.setWarehouseMap(warehouseMap);
+              usersMap.put(u.getId(), u);
+            });
+  }
+
+  @Autowired //the one that spring uses
+  public UsersList(@Qualifier("jsonUser") UserDao userDao, PasswordEncoder passwordEncoder, WarehouseMap warehouseMap) {
+    this.userDao = userDao;
+    this.passwordEncoder = passwordEncoder;
+    this.warehouseMap=warehouseMap;
+    System.out.println("map is"+warehouseMap);
+    usersMap = new HashMap<>();
+    userDao.readUsers().stream()
+        .forEach(
+            u -> {
+              u.setPasswordEncoder(passwordEncoder);
+              u.setWarehouseMap(warehouseMap);
               usersMap.put(u.getId(), u);
             });
   }
