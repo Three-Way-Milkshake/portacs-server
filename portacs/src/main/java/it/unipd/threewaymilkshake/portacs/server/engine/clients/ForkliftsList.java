@@ -27,14 +27,16 @@ public class ForkliftsList {
 
   private static final int TOKEN_LENGTH=16;
 
-  public ForkliftsList(ForkliftDao forkliftDao) {
+  public ForkliftsList(ForkliftDao forkliftDao, WarehouseMap warehouseMap) {
     this.forkliftDao = forkliftDao;
     List<Forklift> forklifts = forkliftDao.readForklifts();
+    System.out.println("******************* REACHED ************* map is: "+warehouseMap);
     forkliftsMap = new HashMap<>();
     forklifts.stream()
         .forEach(
             f -> {
               forkliftsMap.put(f.getId(), f);
+              f.setWarehouseMap(warehouseMap);
             });
   }
 
@@ -42,6 +44,8 @@ public class ForkliftsList {
     boolean success = false;
     String id = c.read();
     String token = c.read();
+    System.out.println("authenticating: "+id+" with token: "+token);
+    System.out.println(getForkliftsAndTokensString());
     Forklift f = forkliftsMap.get(id);
     if (f != null) { // muletto esiste
       if (f.authenticate(token)) {
