@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 /** Rappresenta un utente generico di portacs */
 public abstract class User extends Client implements Serializable {
@@ -13,7 +14,7 @@ public abstract class User extends Client implements Serializable {
   @Expose private String lastName;
   @Expose private String pwdHash;
   // @Expose(serialize = false, deserialize = false)
-  @Autowired PasswordEncoder passwordEncoder;
+  PasswordEncoder passwordEncoder;
 
   /**
    * @param id: identificativo dell'utente
@@ -35,6 +36,10 @@ public abstract class User extends Client implements Serializable {
       String pwdHash,
       PasswordEncoder passwordEncoder) {
     this(id, firstName, lastName, pwdHash);
+    this.passwordEncoder = passwordEncoder;
+  }
+
+  void setPasswordEncoder(PasswordEncoder passwordEncoder) {
     this.passwordEncoder = passwordEncoder;
   }
 

@@ -13,16 +13,20 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UsersList {
   private Map<String, User> usersMap;
   // encode(raw): String   |   matches(raw, encoded): boolean
-  private PasswordEncoder pwdEncoder;
+  // @Autowired
+  private PasswordEncoder passwordEncoder;
   private UserDao userDao;
 
   @Autowired private WarehouseMap warehouseMap;
-  @Autowired private PasswordEncoder passwordEncoder;
+  // @Autowired private PasswordEncoder passwordEncoder;
 
   private static final String UNRECOGNIZED_USER = "FAIL,Unrecognized user";
   private static final String WRONG_PWD = "FAIL,Wrong password";
@@ -30,13 +34,14 @@ public class UsersList {
 
   private static final int BASE_PWD_LENGTH=8;
 
-  public UsersList(UserDao userDao, PasswordEncoder passwordEncoder) {
+  public UsersList(@Qualifier("jsonUser") UserDao userDao, PasswordEncoder passwordEncoder) {
     this.userDao = userDao;
-    this.pwdEncoder = passwordEncoder;
+    this.passwordEncoder = passwordEncoder;
     usersMap = new HashMap<>();
     userDao.readUsers().stream()
         .forEach(
             u -> {
+              u.setPasswordEncoder(passwordEncoder);
               usersMap.put(u.getId(), u);
             });
   }

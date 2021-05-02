@@ -123,11 +123,11 @@ public class AppConfig {
     return new ConnectionHandler(usersList(userFilePath), forkliftsList());
   } */
 
-  @Bean
+  /* @Bean
   public UsersList usersList(){
-    // return new UsersList(jsonUser(), passwordEncoder());
-    return new UsersList(userDaoMock(), passwordEncoder());
-  }
+    return new UsersList(jsonUser(), passwordEncoder());
+    // return new UsersList(userDaoMock(), passwordEncoder());
+  } */
 
   //TODO: remove -> BIG code smell (imported mockito here and changed gradle)
   @Bean
