@@ -13,7 +13,7 @@
     "properties": {
       "firstName": "Davide",
       "lastName": "Cesare",
-      "pwdHash": "efgh",
+      "pwdHash": "$2a$10$GhuNBtuYJw.Ja7aUt1JrEOv6GeFPJgXKvTv/29.lDpcidDO7dGULS",
       "id": "davide.cesare"
     }
   }
