@@ -78,6 +78,7 @@ public class WarehouseMap {
   public WarehouseMap(MapDao mapDao, PathFindingStrategy pathFindingStrategy) {
     this(mapDao.readMap());
     this.mapDao = mapDao;
+    this.strategy=pathFindingStrategy;
   }
 
   public List<Move> getPath(AbstractLocation start, long poi) {

@@ -11,6 +11,8 @@ import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Forklift extends Client {
@@ -43,6 +45,10 @@ public class Forklift extends Client {
 
   public void setPosition(Position position) { // TODO: visibility
     this.position = position;
+  }
+
+  void setTasksSequencesList(TasksSequencesList tasksSequencesList) {
+    this.tasksSequencesList = tasksSequencesList;
   }
 
   @Override
@@ -83,9 +89,14 @@ public class Forklift extends Client {
     }
   }
 
-  private String getPathToNextTask() {
+  String getPathToNextTask() {
     pathToNextTask = warehouseMap.getPath(position, tasks.getNext());
-    return pathToNextTask.toString().replaceAll("\\[|\\]", "");
+    return pathToNextTask.stream()
+      .map(m->m.ordinal())
+      .collect(Collectors.toList())
+      .toString()
+      .replaceAll("\\[|\\]| ", "");
+    // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
   private void updatePosition(String... pos) {
@@ -93,6 +104,10 @@ public class Forklift extends Client {
         Integer.parseInt(pos[1]),
         Integer.parseInt(pos[2]),
         Orientation.values()[Integer.parseInt(pos[3])]);
+  }
+
+  void resetPosition(){
+    position=new Position(0,0,Orientation.UP);
   }
 
   @Override

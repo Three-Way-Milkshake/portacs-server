@@ -138,7 +138,7 @@ public class AppConfig {
 
   @Bean
   public ForkliftsList forkliftsList(){
-    return new ForkliftsList(jsonForklift(), warehouseMap());
+    return new ForkliftsList(jsonForklift(), warehouseMap(), tasksSequencesListTest()); //TODO set real one
     // return new ForkliftsList(forkliftDaoMock());
   }
 

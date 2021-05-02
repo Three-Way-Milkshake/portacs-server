@@ -5,6 +5,7 @@ import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
 import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
+import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class ForkliftsList {
   private ForkliftDao forkliftDao;
 
   @Autowired private WarehouseMap warehouseMap;
+  @Autowired private TasksSequencesList tasksSequencesList;
 
   private static final String UNRECOGNIZED_FORKLIFT = "FAIL,Unrecognized forklift";
   private static final String WRONG_TOKEN = "FAIL,Wrong token";
@@ -27,17 +29,26 @@ public class ForkliftsList {
 
   private static final int TOKEN_LENGTH=16;
 
-  public ForkliftsList(ForkliftDao forkliftDao, WarehouseMap warehouseMap) {
+  public ForkliftsList(ForkliftDao forkliftDao, WarehouseMap warehouseMap, TasksSequencesList tasksSequencesList) {
     this.forkliftDao = forkliftDao;
     List<Forklift> forklifts = forkliftDao.readForklifts();
     System.out.println("******************* REACHED ************* map is: "+warehouseMap);
+    
+    //TODO necessary? 
+    this.warehouseMap=warehouseMap;
+    this.tasksSequencesList=tasksSequencesList;
+
     forkliftsMap = new HashMap<>();
     forklifts.stream()
         .forEach(
             f -> {
               forkliftsMap.put(f.getId(), f);
               f.setWarehouseMap(warehouseMap);
+              f.setTasksSequencesList(tasksSequencesList);
+              f.resetPosition();
             });
+
+    System.out.println("Loaded forklifts are: "+getForkliftsAndTokensString());
   }
 
   public boolean auth(Connection c) {
@@ -45,7 +56,6 @@ public class ForkliftsList {
     String id = c.read();
     String token = c.read();
     System.out.println("authenticating: "+id+" with token: "+token);
-    System.out.println(getForkliftsAndTokensString());
     Forklift f = forkliftsMap.get(id);
     if (f != null) { // muletto esiste
       if (f.authenticate(token)) {

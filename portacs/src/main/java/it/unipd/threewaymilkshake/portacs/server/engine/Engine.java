@@ -33,23 +33,23 @@ public class Engine /* implements Runnable */ {
 
   @Scheduled(fixedDelay = 1000, initialDelay = 3000)
   public void execute() {
-    System.out.println("Hello "+(counter++));
+    System.out.println("Hello from engine "+(counter++));
     
     // FORKLIFT JOBS
-    //forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
+    forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
 
     // TODO: execute Collision Pipeline
 
     //USERS JOBS
-    //usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
+    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
 
     //USERS UPDATE ON FORKS POSITIONS
-    /* usersList.getActiveUsers().stream()
+    usersList.getActiveUsers().stream()
         .parallel()
         .forEach(
             u -> {
               u.writeAndSend(forkliftsList.getForkliftsPositions());
-            }); */
+            });
 
       // costruzione pipeline: dove va fatta? //TODO
       // CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline = new CollisionPipeline<>(new CollisionDetector())
