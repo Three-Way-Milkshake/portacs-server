@@ -34,6 +34,8 @@ public class Engine /* implements Runnable */ {
   @Scheduled(fixedDelay = 1000, initialDelay = 3000)
   public void execute() {
     System.out.println("Hello from engine "+(counter++));
+    System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
+      " forklifts and "+usersList.getActiveUsers().size()+" users active");
     
     // FORKLIFT JOBS
     forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
