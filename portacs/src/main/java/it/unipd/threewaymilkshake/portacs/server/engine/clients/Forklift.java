@@ -47,10 +47,6 @@ public class Forklift extends Client {
     this.position = position;
   }
 
-  void setTasksSequencesList(TasksSequencesList tasksSequencesList) {
-    this.tasksSequencesList = tasksSequencesList;
-  }
-
   @Override
   public void processCommunication() {
     connection.send("ALIVE;");

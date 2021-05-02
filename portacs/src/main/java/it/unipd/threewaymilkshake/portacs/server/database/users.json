@@ -4,7 +4,7 @@
     "properties": {
       "firstName": "Giovanni",
       "lastName": "Muletto",
-      "pwdHash": "abcd",
+      "pwdHash": "$2a$10$GhuNBtuYJw.Ja7aUt1JrEOv6GeFPJgXKvTv/29.lDpcidDO7dGULS",
       "id": "giovanni.muletto"
     }
   },

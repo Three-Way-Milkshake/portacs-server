@@ -2,6 +2,7 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
+import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.Pair;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.UserDao;
@@ -39,7 +40,7 @@ public class UsersList {
   private static final int BASE_PWD_LENGTH=8;
 
   //not used ?
-  public UsersList(@Qualifier("jsonUser") UserDao userDao, PasswordEncoder passwordEncoder) {
+  public UsersList(@Qualifier("jsonUser") UserDao userDao, PasswordEncoder passwordEncoder, @Qualifier("tasksSequencesListTest") TasksSequencesList tasksSequencesList) {
     this.userDao = userDao;
     this.passwordEncoder = passwordEncoder;
     System.out.println("map is"+warehouseMap);
@@ -49,6 +50,7 @@ public class UsersList {
             u -> {
               u.setPasswordEncoder(passwordEncoder);
               u.setWarehouseMap(warehouseMap);
+              u.setTasksSequencesList(tasksSequencesList);
               usersMap.put(u.getId(), u);
             });
   }
