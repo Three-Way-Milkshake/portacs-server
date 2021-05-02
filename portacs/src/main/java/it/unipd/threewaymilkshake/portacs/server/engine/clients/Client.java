@@ -3,6 +3,7 @@ package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import com.google.gson.annotations.Expose;
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
+import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,6 +18,7 @@ public abstract class Client implements PropertyChangeListener {
   
   // @Autowired 
   protected WarehouseMap warehouseMap;
+  private TasksSequencesList tasksSequencesList;
 
   protected Client(String id) {
     this.id = id;
@@ -32,6 +34,10 @@ public abstract class Client implements PropertyChangeListener {
 
   void setWarehouseMap(WarehouseMap warehouseMap) {
     this.warehouseMap = warehouseMap;
+  }
+
+  void setTasksSequencesList(TasksSequencesList tasksSequencesList) {
+    this.tasksSequencesList = tasksSequencesList;
   }
 
   void bindConnection(Connection c) {
