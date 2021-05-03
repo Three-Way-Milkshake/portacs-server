@@ -118,7 +118,7 @@ public class Admin extends User {
                       Integer.valueOf(par[1]), 
                       Integer.valueOf(par[2]), 
                       Arrays.stream(par)
-                        .skip(3)
+                        .skip(4)
                         .map(Integer::parseInt)
                         .collect(Collectors.toList())
                     );
@@ -129,7 +129,7 @@ public class Admin extends User {
                       Integer.valueOf(par[1]),
                       Integer.valueOf(par[2]),
                       (String[])Arrays.stream(par)
-                        .skip(3)
+                        .skip(4)
                         .collect(Collectors.toList())
                         .toArray()
                     );

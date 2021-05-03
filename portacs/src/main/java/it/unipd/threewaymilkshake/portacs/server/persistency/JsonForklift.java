@@ -43,6 +43,7 @@ public class JsonForklift implements ForkliftDao {
     Type listType = new TypeToken<LinkedList<Forklift>>() {}.getType();
     try {
       List<Forklift> deserialized = gson.fromJson(new FileReader(this.filePath), listType);
+      deserialized.forEach(Forklift::initializeFields);
       return deserialized;
     } catch (FileNotFoundException e) {
       System.out.println("The file does not exist!");

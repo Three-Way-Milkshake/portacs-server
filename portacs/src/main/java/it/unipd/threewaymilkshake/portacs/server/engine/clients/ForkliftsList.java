@@ -92,6 +92,7 @@ public class ForkliftsList {
     else{
       String token=generateRandomToken();
       Forklift f=new Forklift(newId, token);
+      forkliftsMap.put(newId, f);
       res+="OK,"+token;
     }
 
