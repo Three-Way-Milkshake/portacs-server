@@ -75,8 +75,17 @@ public class Forklift extends Client {
                     if(!pathToNextTask.isEmpty())pathToNextTask.remove(0);
                     break;
                   case "PATH":
-                    if (par[1].equals("1")) tasks.extractNext();
-                    connection.writeToBuffer("PATH," + getPathToNextTask() + ";");
+                    if (par[1].equals("1")){
+                      if(!tasks.isEmpty()){
+                        tasks.extractNext();
+                      } 
+                    }
+                    if(tasks.isEmpty()){
+                      connection.writeToBuffer("PATH,EMPTY;");
+                    }
+                    else{
+                      connection.writeToBuffer("PATH," + getPathToNextTask() + ";");
+                    }
                     break;
                   case "LIST":
                     if(tasks==null || tasks.isEmpty()){

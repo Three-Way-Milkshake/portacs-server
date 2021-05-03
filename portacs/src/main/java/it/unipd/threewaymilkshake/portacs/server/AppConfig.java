@@ -106,7 +106,7 @@ public class AppConfig {
   }
 
   @Bean("tasksSequencesListTest") // TODO: for testing only
-  @Scope("prototype")
+  // @Scope("prototype")
   public TasksSequencesList tasksSequencesListTest() {
     TasksSequencesList t = new TasksSequencesList();
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 2L)));
