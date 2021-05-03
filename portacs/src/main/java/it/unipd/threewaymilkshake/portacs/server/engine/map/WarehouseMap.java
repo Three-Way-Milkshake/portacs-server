@@ -148,13 +148,14 @@ public class WarehouseMap {
   }
 
   public void setMap(CellType[][] map) {
-    support.firePropertyChange("map", this.map, map);
     this.map = map;
+    System.out.println("*** MAP IS (from map): "+toString());
+    support.firePropertyChange("map", null, map);
   }
 
   public void setCell(int x, int y, String... actions){
     //CELL,X,Y,A[,ID,T,NAME]
-    support.firePropertyChange("map", this.map, map);
+    
 
     CellType type=CellType.values()[Integer.valueOf(actions[0])];
     if(map[x][y]==CellType.POI || type==CellType.POI){
@@ -173,6 +174,8 @@ public class WarehouseMap {
     }
 
     map[x][y]=type;
+
+    support.firePropertyChange("map", this.map, map);
   }
 
   private long getNextPoiId(){
@@ -184,8 +187,8 @@ public class WarehouseMap {
   }
 
   public void setPois(Map<Long, Poi> pois) {
-    support.firePropertyChange("map", this.map, map); //TODO is it right?
     this.pois = pois;
+    support.firePropertyChange("map", this.map, map); //TODO is it right?
   }
 
   public void addPropertyChangeListener(PropertyChangeListener pcl) {

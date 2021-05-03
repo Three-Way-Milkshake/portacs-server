@@ -6,6 +6,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.Pair;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.UserDao;
+import net.bytebuddy.utility.RandomString;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -86,9 +87,10 @@ public class UsersList {
       if (u.authenticate(rawPwd)) {
         success = true;
         u.bindConnection(c);
-        u.write("OK,"+u.getRole()+',');
-        u.write(u.getFirstName()+',');
-        u.write(u.getLastName()+';');
+        // u.writeAndSend("OK,MANAGER,a.b,AAAA,BBBBB;");
+        u.write("OK,"+u.getRole()+','+u.getFirstName()+','+u.getLastName()+';');
+        // u.write(u.getFirstName()+',');
+        // u.write(u.getLastName()+';');
         u.write(warehouseMap.toString());
         u.writeAndSend(warehouseMap.poisToString());
       } else {
@@ -108,7 +110,7 @@ public class UsersList {
   }
 
   String addUser(String type, String firstName, String lastName){
-    String newUserId=firstName+"."+lastName;
+    String newUserId=firstName.toLowerCase()+"."+lastName.toLowerCase();
     if(usersMap.containsKey(newUserId)){
       newUserId=getAvailableId(newUserId);
     }
@@ -196,7 +198,7 @@ public class UsersList {
           b.append(',');
           b.append(v.getFirstName());
           b.append(',');
-          b.append(v.getFirstName());
+          b.append(v.getLastName());
           b.append(',');
           b.append(v.getRole());
           b.append(',');
@@ -214,7 +216,8 @@ public class UsersList {
       .limit(BASE_PWD_LENGTH)
       .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
       .toString(); */
-      return "PASSWORDFAKE";
+      // return "PASSWORDFAKE";
+      return new RandomString(BASE_PWD_LENGTH).nextString();
   }
 
   /**

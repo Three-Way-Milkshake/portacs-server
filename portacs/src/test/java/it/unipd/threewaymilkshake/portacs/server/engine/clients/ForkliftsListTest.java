@@ -2,6 +2,7 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -40,7 +42,7 @@ public class ForkliftsListTest {
     fDao = mock(ForkliftDao.class);
     when(fDao.readForklifts()).thenReturn(list);
 
-    fList = new ForkliftsList(fDao);
+    // fList = new ForkliftsList(fDao);
   }
 
   @Test
@@ -71,6 +73,12 @@ public class ForkliftsListTest {
   @Test
   public void testGetForkliftsTasks() {
     assertEquals("LIST,f1,3,1,2,3;LIST,f2,5,4,7,12,9;", fList.getForkliftsTasks());
+  }
+
+  @Test
+  public void testTokenGeneration(){
+    ForkliftsList l=mock(ForkliftsList.class, Mockito.CALLS_REAL_METHODS);
+    assertNotNull(l.generateRandomToken());
   }
 
 }

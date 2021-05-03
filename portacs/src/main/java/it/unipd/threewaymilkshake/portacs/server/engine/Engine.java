@@ -77,8 +77,7 @@ public class Engine /* implements Runnable */ {
       }
     });
 
-    //USERS JOBS
-    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
+    
 
     //USERS UPDATE ON FORKS POSITIONS
     usersList.getActiveUsers().stream()
@@ -88,6 +87,7 @@ public class Engine /* implements Runnable */ {
               u.writeAndSend(forkliftsList.getForkliftsPositions());
             });
 
-
+    //USERS JOBS
+    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
   }
 }
