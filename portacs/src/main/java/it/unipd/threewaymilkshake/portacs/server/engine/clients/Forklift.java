@@ -175,4 +175,8 @@ public class Forklift extends Client {
     return numberOfStalls >= threshold;
   }
 
+  public void addMove(Move move) {
+    pathToNextTask.add(move);
+  }
+
 }

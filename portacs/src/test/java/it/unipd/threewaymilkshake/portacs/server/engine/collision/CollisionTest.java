@@ -114,6 +114,61 @@ public class CollisionTest {
         
         
     }
+    @Test
+    @DisplayName("Tests all the pipeline")
+    public void pipeline2Test() {
+        CollisionDetector collisionDetector = new CollisionDetector();
+        CollisionSolver collisionSolver = new CollisionSolver();
+
+     
+        
+        
+
+    
+        Map<String,List<SimplePoint>> input = new HashMap<String,List<SimplePoint>>();
+        input.put("1", Arrays.asList(new SimplePoint(0,0),new SimplePoint(0,0),new SimplePoint(1,0)));
+        input.put("2", Arrays.asList(new SimplePoint(2,0),new SimplePoint(2,0),new SimplePoint(1,0)));
+
+        forkliftsList = mock(ForkliftsList.class);
+        warehouseMap = mock(WarehouseMap.class);
+        ReflectionTestUtils.setField(collisionDetector, "warehouseMap", warehouseMap);
+        when(forkliftsList.getAllNextPositions(2)).thenReturn(input);
+
+        when(forkliftsList.getSimplePointFromString("1")).thenReturn(new SimplePoint(0,0));
+        when(forkliftsList.getSimplePointFromString("2")).thenReturn(new SimplePoint(2,0));
+        
+        when(forkliftsList.headOnRisk("1","2")).thenReturn(true);
+        when(forkliftsList.headOnRisk("2","1")).thenReturn(true);
+
+        ReflectionTestUtils.setField(collisionSolver, "forkliftsList", forkliftsList);
+
+
+        when(warehouseMap.getRows()).thenReturn(4);
+        when(warehouseMap.getColumns()).thenReturn(4);
+
+
+        
+
+        CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline 
+        = new CollisionPipeline<>(collisionDetector)
+                .addHandler(collisionSolver);
+
+        
+
+        Map<String, Action> response = collisionPipeline.execute(forkliftsList);
+        System.out.print("--------------");
+        System.out.print(response);
+        System.out.print("--------------");
+
+        /*Map<SimplePoint,List<String>> response = collisionDetector.process(forkliftsList);
+        System.out.printf("--------------");
+        System.out.print(response);
+        System.out.printf("--------------");*/
+
+
+        
+        
+    }
 
 
 }

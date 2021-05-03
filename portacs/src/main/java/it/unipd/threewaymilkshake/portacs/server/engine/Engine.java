@@ -63,19 +63,23 @@ public class Engine /* implements Runnable */ {
     // FORKLIFT JOBS
     forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
 
-    // TODO: execute Collision Pipeline
     collisionPipeline.execute(forkliftsList).forEach((fork,actions)->{
       if(!actions.isEmpty()){
         Forklift forklift=forkliftsList.getForklift(fork);
         if(actions.needRecalculation()){
           forklift.write("PATH," + forklift.getPathToNextTask(actions.getObstacle())+ ";");
+          // bisogna aggiornare il pathToNextTask?
         }
         else{
           int stops=actions.stopCount();
           forklift.write("STOP,"+stops+";");
+          for(int i=0; i<stops; ++i) {
+            forklift.addMove(Move.STOP);
+          }
         }
       }
     });
+    // ad ogni mossa eseguita, bisogna scalare le mosse 
 
     //USERS JOBS
     usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
