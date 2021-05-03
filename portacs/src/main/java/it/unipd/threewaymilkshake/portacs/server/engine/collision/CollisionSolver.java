@@ -47,14 +47,14 @@ class Action {
         return found;
     }
 
-    /*public void printList() {
+    public void printList() {
         for(String action : actions) 
         {
-            System.out.printf(action + " ");
+            System.out.printf("---" + action + " ");
 
         }
-        System.out.printf(((obstacle == null) ? " / " : obstacle.printPosition()));
-    }*/
+        System.out.printf("---" + ((obstacle == null) ? " / " : obstacle.getX() + " " + obstacle.getY()));
+    }
 
     
 }
@@ -132,14 +132,14 @@ public class CollisionSolver implements Handler<Map<SimplePoint,List<String>>,Ma
                     response.get(a).add("STOP");
                     response.get(a).add("STOP");
                     response.get(b).add("RICALCOLO");
-                    response.get(b).obstacle = forkliftsList.getSimplePointFromString(a);;
+                    response.get(b).obstacle = forkliftsList.getSimplePointFromString(a);
                 }
                 else {
                     response.get(b).add("STOP");
                     response.get(b).add("STOP");
                     response.get(b).add("STOP");
                     response.get(a).add("RICALCOLO");
-                    response.get(a).obstacle = forkliftsList.getSimplePointFromString(a);;
+                    response.get(a).obstacle = forkliftsList.getSimplePointFromString(a);
                 }
             }
         }
@@ -190,9 +190,25 @@ public class CollisionSolver implements Handler<Map<SimplePoint,List<String>>,Ma
         collisions = input;
         response = new HashMap<String,Action>();
 
+        
+
+        /*for(SimplePoint key : input.keySet()) {
+            System.out.println("---" + key.getX() +" "+ key.getY() + "incidente");
+            System.out.println("---" + input.get(key));
+        }*/
+
         checkNumberOfCollisions();
+        
         checkHeadOnCollision();
+        
         setNearest();
+        
+        /*for(String key : response.keySet()) {
+            System.out.print("---" + key);
+            response.get(key).printList();
+            System.out.print("\n");
+        }*/
+
 
         return response;
     }
