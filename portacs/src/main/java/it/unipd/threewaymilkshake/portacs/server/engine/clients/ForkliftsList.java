@@ -182,7 +182,9 @@ public class ForkliftsList {
     Map<String, List<SimplePoint>> toReturn = new HashMap<String, List<SimplePoint>>();
 
     for (String key : forkliftsMap.keySet()) {
-      toReturn.put(key, forkliftsMap.get(key).getNextPositions(i));
+      if(getForklift(key).isActive()) {
+        toReturn.put(key, forkliftsMap.get(key).getNextPositions(i));
+      }
     }
     return toReturn;
   }
