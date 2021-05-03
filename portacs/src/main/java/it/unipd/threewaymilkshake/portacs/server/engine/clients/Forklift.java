@@ -45,6 +45,7 @@ public class Forklift extends Client {
 
   public void initializeFields(){
     this.pathToNextTask=new LinkedList<>();
+    this.position=new Position(0,1,Orientation.RIGHT);
   }
 
   public void setPosition(Position position) { // TODO: visibility

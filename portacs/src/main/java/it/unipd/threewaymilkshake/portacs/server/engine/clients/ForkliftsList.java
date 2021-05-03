@@ -8,11 +8,15 @@ import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
+import net.bytebuddy.utility.RandomString;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ForkliftsList {
@@ -92,6 +96,7 @@ public class ForkliftsList {
     else{
       String token=generateRandomToken();
       Forklift f=new Forklift(newId, token);
+      f.initializeFields();
       forkliftsMap.put(newId, f);
       res+="OK,"+token;
     }
@@ -115,12 +120,16 @@ public class ForkliftsList {
     return res;
   }
 
-  private String generateRandomToken() {
-    return new Random(System.currentTimeMillis())
+  String generateRandomToken() {
+    /* return new Random(System.currentTimeMillis())
       .ints()
       .limit(TOKEN_LENGTH)
-      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-      .toString();
+      .map(String::valueOf)
+      .collect(Collectors.toList()); */
+      return new RandomString(TOKEN_LENGTH).nextString();
+      // return r.nextString();
+      // .toString();
+    // return "FAKETOKEN";
   }
 
   public String getForkliftsPositions() {
@@ -131,10 +140,12 @@ public class ForkliftsList {
     forkliftsMap.values().stream()
         .forEach(
             f -> {
-              b.append(f.getId());
-              b.append(',');
-              b.append(f.getPositionString());
-              b.append(',');
+              // if(f.isActive()){
+                b.append(f.getId());
+                b.append(',');
+                b.append(f.getPositionString());
+                b.append(',');
+              // }
             });
     b.deleteCharAt(b.length() - 1);
     b.append(';');

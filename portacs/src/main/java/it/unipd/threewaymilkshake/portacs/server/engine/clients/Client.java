@@ -57,6 +57,8 @@ public abstract class Client implements PropertyChangeListener {
     // connection.writeToBuffer(e.getNewValue().toString());
     if (active) {
       writeMap();
+      System.out.println("*** MAP IS (from client): "+warehouseMap.toString());
+      // connection.writeToBuffer(e.getNewValue().toString());
       writePois();
     }
   }

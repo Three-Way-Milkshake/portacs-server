@@ -110,7 +110,9 @@ public class AppConfig {
   public TasksSequencesList tasksSequencesListTest() {
     TasksSequencesList t = new TasksSequencesList();
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 2L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 2L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(3L, 4L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(5L, 6L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L)));
     return t;
   }
 

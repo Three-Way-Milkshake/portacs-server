@@ -81,8 +81,7 @@ public class Engine /* implements Runnable */ {
     });
     // ad ogni mossa eseguita, bisogna scalare le mosse 
 
-    //USERS JOBS
-    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
+    
 
     //USERS UPDATE ON FORKS POSITIONS
     usersList.getActiveUsers().stream()
@@ -92,6 +91,7 @@ public class Engine /* implements Runnable */ {
               u.writeAndSend(forkliftsList.getForkliftsPositions());
             });
 
-
+    //USERS JOBS
+    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
   }
 }

@@ -39,12 +39,12 @@ public class Admin extends User {
     this.forkliftsList=forkliftsList;
   }
 
-  private void editMap(int rows, int cols, List<Integer> seq){
+  private void editMap(int rows, int cols, /* List<Integer> */String seq){
     int counter=0;
     CellType[][] mapStructure=new CellType[rows][cols];
     for(int i=0; i<rows; ++i){
       for(int j=0; j<cols; ++j){
-        mapStructure[i][j]=CellType.values()[seq.get(counter++)];
+        mapStructure[i][j]=CellType.values()[seq.charAt(counter++)-'0'];
       }
     }
     warehouseMap.setMap(mapStructure);
@@ -106,7 +106,7 @@ public class Admin extends User {
               c -> {
                 String[] par = c.split(",");
 
-                System.out.print(id + ") Command: " + par[0] + ", params: ");
+                System.out.print("(admin) "+id + ") Command: " + par[0] + ", params: ");
                 for (int i = 1; i < par.length; ++i) {
                   System.out.print(par[i] + " ");
                 }
@@ -116,11 +116,12 @@ public class Admin extends User {
                   case "MAP":
                     editMap(
                       Integer.valueOf(par[1]), 
-                      Integer.valueOf(par[2]), 
-                      Arrays.stream(par)
-                        .skip(4)
+                      Integer.valueOf(par[2]),
+                      par[3]
+                      /* Arrays.stream(par)
+                        .skip(3) //TODO check, should be 3
                         .map(Integer::parseInt)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()) */
                     );
                     break;
                   
@@ -129,7 +130,7 @@ public class Admin extends User {
                       Integer.valueOf(par[1]),
                       Integer.valueOf(par[2]),
                       (String[])Arrays.stream(par)
-                        .skip(4)
+                        .skip(3) //TODO check, should be 3
                         .collect(Collectors.toList())
                         .toArray()
                     );
