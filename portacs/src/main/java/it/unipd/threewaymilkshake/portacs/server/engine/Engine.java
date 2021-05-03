@@ -41,7 +41,7 @@ public class Engine /* implements Runnable */ {
   @Autowired private WarehouseMap warehouseMap;
 
   @Autowired 
-    CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline;
+  CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline;
 
   // private CollisionDetector collisionDetector=new CollisionDetector();
   // private CollisionSolver collisionSolver=new CollisionSolver();

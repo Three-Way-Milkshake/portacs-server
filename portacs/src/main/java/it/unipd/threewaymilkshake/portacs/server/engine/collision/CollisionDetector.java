@@ -94,7 +94,7 @@ public class CollisionDetector implements Handler<ForkliftsList,Map<SimplePoint,
 
         int rows = warehouseMap.getRows();
         int columns = warehouseMap.getColumns();
-        System.out.println("+++++++++++" + rows + " " + columns);
+        // System.out.println("+++++++++++" + rows + " " + columns);
         Map<String,List<SimplePoint>> nextPositions = forklifts.getAllNextPositions(NUMBER_OF_FUTURE_MOVES);        
         CollisionMap collisionSum = new CollisionMap(rows,columns);
         collisionSum.sum(nextPositions);

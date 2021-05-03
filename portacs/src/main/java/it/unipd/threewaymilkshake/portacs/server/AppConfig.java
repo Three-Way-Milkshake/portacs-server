@@ -109,7 +109,8 @@ public class AppConfig {
   @Scope("prototype")
   public TasksSequencesList tasksSequencesListTest() {
     TasksSequencesList t = new TasksSequencesList();
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 2L, 3L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 2L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 2L)));
     return t;
   }
 

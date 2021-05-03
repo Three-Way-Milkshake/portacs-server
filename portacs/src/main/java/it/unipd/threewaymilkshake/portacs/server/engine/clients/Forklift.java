@@ -43,6 +43,10 @@ public class Forklift extends Client {
     this.pathToNextTask = pathToNextTask;
   }
 
+  public void initializeFields(){
+    this.pathToNextTask=new LinkedList<>();
+  }
+
   public void setPosition(Position position) { // TODO: visibility
     this.position = position;
   }
