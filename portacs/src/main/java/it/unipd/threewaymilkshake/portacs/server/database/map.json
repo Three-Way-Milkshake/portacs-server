@@ -17,6 +17,12 @@
       "OBSTACLE",
       "LEFT",
       "LEFT"
+    ],
+    [
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL"
     ]
   ],
   "intMatrix": [

@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class Manager extends User {
 
-  @Autowired private TasksSequencesList tasksSequencesList;
+  // @Autowired private TasksSequencesList tasksSequenczesList;
 
   public Manager(String id, String firstName, String lastName, String pwdHash) {
     super(id, firstName, lastName, pwdHash);

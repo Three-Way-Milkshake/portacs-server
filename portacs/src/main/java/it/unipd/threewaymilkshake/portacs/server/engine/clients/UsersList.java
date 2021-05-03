@@ -40,7 +40,7 @@ public class UsersList {
   private static final int BASE_PWD_LENGTH=8;
 
   //not used ?
-  public UsersList(@Qualifier("jsonUser") UserDao userDao, PasswordEncoder passwordEncoder, @Qualifier("tasksSequencesListTest") TasksSequencesList tasksSequencesList) {
+  public UsersList(@Qualifier("jsonUser") UserDao userDao, PasswordEncoder passwordEncoder) {
     this.userDao = userDao;
     this.passwordEncoder = passwordEncoder;
     System.out.println("map is"+warehouseMap);
@@ -50,13 +50,13 @@ public class UsersList {
             u -> {
               u.setPasswordEncoder(passwordEncoder);
               u.setWarehouseMap(warehouseMap);
-              u.setTasksSequencesList(tasksSequencesList);
+              // u.setTasksSequencesList(tasksSequencesList);
               usersMap.put(u.getId(), u);
             });
   }
 
   @Autowired //the one that spring uses
-  public UsersList(@Qualifier("jsonUser") UserDao userDao, PasswordEncoder passwordEncoder, WarehouseMap warehouseMap) {
+  public UsersList(@Qualifier("jsonUser") UserDao userDao, PasswordEncoder passwordEncoder, WarehouseMap warehouseMap, @Qualifier("tasksSequencesListTest") TasksSequencesList tasksSequencesList, ForkliftsList forkliftsList) {
     this.userDao = userDao;
     this.passwordEncoder = passwordEncoder;
     this.warehouseMap=warehouseMap;
@@ -67,6 +67,11 @@ public class UsersList {
             u -> {
               u.setPasswordEncoder(passwordEncoder);
               u.setWarehouseMap(warehouseMap);
+              u.setTasksSequencesList(tasksSequencesList);
+              if(u.getRole().equals("ADMIN")){
+                ((Admin)u).setUsersList(this);
+                ((Admin)u).setForkliftsList(forkliftsList);
+              }
               usersMap.put(u.getId(), u);
             });
   }
@@ -204,11 +209,12 @@ public class UsersList {
   }
 
   private String generateRandomPwd() {
-    return new Random(System.currentTimeMillis())
+    /* return new Random(System.currentTimeMillis())
       .ints()
       .limit(BASE_PWD_LENGTH)
       .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-      .toString();
+      .toString(); */
+      return "PASSWORDFAKE";
   }
 
   /**

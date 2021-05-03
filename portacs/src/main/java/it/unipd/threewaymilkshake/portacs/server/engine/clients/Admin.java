@@ -15,8 +15,8 @@ import it.unipd.threewaymilkshake.portacs.server.engine.map.CellType;
 
 public class Admin extends User {
 
-  @Autowired private UsersList usersList;
-  @Autowired private ForkliftsList forkliftsList;
+  private UsersList usersList;
+  private ForkliftsList forkliftsList;
 
   public Admin(String id, String firstName, String lastName, String pwdHash) {
     super(id, firstName, lastName, pwdHash);
@@ -29,6 +29,14 @@ public class Admin extends User {
       String pwdHash,
       PasswordEncoder passwordEncoder) {
     super(id, firstName, lastName, pwdHash, passwordEncoder);
+  }
+  
+  void setUsersList(UsersList usersList){
+    this.usersList=usersList;
+  }
+
+  void setForkliftsList(ForkliftsList forkliftsList){
+    this.forkliftsList=forkliftsList;
   }
 
   private void editMap(int rows, int cols, List<Integer> seq){
