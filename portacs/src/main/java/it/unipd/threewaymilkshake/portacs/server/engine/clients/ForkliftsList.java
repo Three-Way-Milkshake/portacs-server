@@ -97,6 +97,7 @@ public class ForkliftsList {
       String token=generateRandomToken();
       Forklift f=new Forklift(newId, token);
       f.initializeFields();
+      f.setWarehouseMap(warehouseMap);
       forkliftsMap.put(newId, f);
       res+="OK,"+token;
     }
