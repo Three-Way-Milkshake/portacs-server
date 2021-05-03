@@ -41,17 +41,16 @@ public class ForkliftTest {
 
   @Captor private ArgumentCaptor<String> outCaptor;
 
-  @BeforeEach
-  public void setUp() {
-    forklift = new Forklift("forklift", "abcdefghi1234");
-    forklift.setPosition(new Position(3, 4, Orientation.RIGHT));
-    List<Move> pathToNextTask = Arrays.asList(Move.GOSTRAIGHT, Move.TURNLEFT, Move.GOSTRAIGHT);
-    forklift.setPathToNextTask(pathToNextTask);
-  }
+
 
   @Test
   @DisplayName("Tests if getNextPositions work as expected")
   public void getNextPositionsTest() {
+    forklift = new Forklift("forklift", "abcdefghi1234");
+    forklift.setPosition(new Position(3, 4, Orientation.RIGHT));
+    List<Move> pathToNextTask = Arrays.asList(Move.GOSTRAIGHT, Move.TURNLEFT, Move.GOSTRAIGHT);
+    forklift.setPathToNextTask(pathToNextTask);
+
     List<SimplePoint> returned = forklift.getNextPositions(2);
     List<SimplePoint> toCompare =
         Arrays.asList(
@@ -65,6 +64,34 @@ public class ForkliftTest {
             i -> {
               assertEquals(returned.get(i), toCompare.get(i));
             });
+    // System.out.println("*****************************************************");
+  }
+
+  @Test
+  @DisplayName("Tests if getNextPositions work as expected")
+  public void getNextPositions2Test() {
+    forklift = new Forklift("forklift", "abcdefghi1234");
+    forklift.setPosition(new Position(0, 0, Orientation.UP));
+    List<Move> pathToNextTask = Arrays.asList(Move.TURNAROUND, Move.GOSTRAIGHT,Move.GOSTRAIGHT);
+    forklift.setPathToNextTask(pathToNextTask);
+
+    List<SimplePoint> returned = forklift.getNextPositions(2);
+    /*List<SimplePoint> toCompare =
+        Arrays.asList(
+            new SimplePoint(0, 0),
+            new SimplePoint(0, 0),
+            new SimplePoint(1, 0));*/
+
+    
+    for(SimplePoint s : returned) {
+      System.out.println("-+-" + s.getX() + " " + s.getY());
+    }
+    // System.out.println("*****************************************************");
+    /*IntStream.range(0, returned.size())
+        .forEach(
+            i -> {
+              assertEquals(returned.get(i), toCompare.get(i));
+            });*/
     // System.out.println("*****************************************************");
   }
 

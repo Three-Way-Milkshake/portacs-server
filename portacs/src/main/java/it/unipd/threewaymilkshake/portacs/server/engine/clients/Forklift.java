@@ -147,7 +147,6 @@ public class Forklift extends Client {
   private static List<SimplePoint> getNextPositionsRecursive(int i, int numberOfNextMoves,Position actualPosition, List<Move> pathToNextTask, LinkedList<SimplePoint> toReturn) {
     
     if(i == numberOfNextMoves+1) {
-      toReturn.add(new SimplePoint(actualPosition.getX(),actualPosition.getY()));
       return toReturn;
     }
     else if(i == 0) {

@@ -164,11 +164,11 @@ public class CollisionSolver implements Handler<Map<SimplePoint,List<String>>,Ma
         
         setNearest();
         
-        /*for(String key : response.keySet()) {
+        for(String key : response.keySet()) {
             System.out.print("---" + key);
             response.get(key).printList();
             System.out.print("\n");
-        }*/
+        }
 
 
         return response;

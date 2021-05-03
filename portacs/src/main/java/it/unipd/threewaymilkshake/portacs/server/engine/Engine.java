@@ -88,10 +88,6 @@ public class Engine /* implements Runnable */ {
               u.writeAndSend(forkliftsList.getForkliftsPositions());
             });
 
-      // costruzione pipeline: dove va fatta? //TODO
-      // CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline = new CollisionPipeline<>(new CollisionDetector())
-      // .addHandler(new CollisionSolver());
-      // avvio -> //TODO
-      // collisionPipeline.execute(forkliftsList)
+
   }
 }
