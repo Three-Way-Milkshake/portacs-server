@@ -87,6 +87,14 @@ public class WarehouseMap {
     return strategy.getPath(getIntMatrix(), start, end);
   }
 
+  public List<Move> getPath(AbstractLocation start, long poi, SimplePoint extra) {
+    AbstractLocation end = pois.get(poi).getLocation();
+    // return strategy.getPath(intMatrix, start, end);
+    int[][] mat=getIntMatrix();
+    mat[extra.getX()][extra.getY()]=CellType.OBSTACLE.ordinal();
+    return strategy.getPath(mat, start, end);
+  }
+
   public void setStrategy(PathFindingStrategy strategy) {
     this.strategy = strategy;
   }

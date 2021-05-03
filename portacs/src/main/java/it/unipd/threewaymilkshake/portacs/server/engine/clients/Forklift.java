@@ -97,6 +97,16 @@ public class Forklift extends Client {
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
+  public String getPathToNextTask(SimplePoint point) {
+    pathToNextTask = warehouseMap.getPath(position, tasks.getNext(), point);
+    return pathToNextTask.stream()
+      .map(m->m.ordinal())
+      .collect(Collectors.toList())
+      .toString()
+      .replaceAll("\\[|\\]| ", "");
+    // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
+  }
+
   private void updatePosition(String... pos) {
     position.setPosition(
         Integer.parseInt(pos[1]),

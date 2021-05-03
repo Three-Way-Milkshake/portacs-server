@@ -76,6 +76,10 @@ public class ForkliftsList {
     return success;
   }
 
+  public Forklift getForklift(String forkliftId){
+    return forkliftsMap.get(forkliftId);
+  }
+
   public List<Forklift> getActiveForklifts() {
     return forkliftsMap.values().stream().filter(f -> f.isActive()).collect(Collectors.toList());
   }
@@ -176,7 +180,6 @@ public class ForkliftsList {
 
   public Map<String, List<SimplePoint>> getAllNextPositions(int i) {
     Map<String, List<SimplePoint>> toReturn = new HashMap<String, List<SimplePoint>>();
-    System.out.println("STOCAZZO");
 
     for (String key : forkliftsMap.keySet()) {
       toReturn.put(key, forkliftsMap.get(key).getNextPositions(i));
