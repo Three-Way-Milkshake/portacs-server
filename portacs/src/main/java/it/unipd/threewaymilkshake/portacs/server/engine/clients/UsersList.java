@@ -121,6 +121,8 @@ public class UsersList {
       case "ADMIN" -> new Admin(newUserId, firstName, lastName, pwdHash);
       default -> null;
     };
+    newUser.setPasswordEncoder(passwordEncoder);
+    newUser.setWarehouseMap(warehouseMap);
     usersMap.put(newUserId, newUser);
 
     return "ADU,"+newUserId+','+pwd+';';

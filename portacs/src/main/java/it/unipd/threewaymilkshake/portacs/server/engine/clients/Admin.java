@@ -147,10 +147,10 @@ public class Admin extends User {
                   case "EDU":
                     editUser(
                       par[1], 
-                      (String[])Arrays.stream(par)
-                        .skip(2)
-                        .collect(Collectors.toList())
-                        .toArray()
+                      Arrays.stream(par)
+                        .skip(2).toArray(String[]::new)
+                        // .collect(Collectors.toList())
+                        // .toArray()
                     );
                     break;
 
