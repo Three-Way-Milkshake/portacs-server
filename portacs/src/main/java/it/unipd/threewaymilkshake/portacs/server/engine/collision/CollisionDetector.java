@@ -87,7 +87,7 @@ class CollisionMap {
 public class CollisionDetector implements Handler<ForkliftsList,Map<SimplePoint,List<String>>> {
 
     static int NUMBER_OF_FUTURE_MOVES = 2;
-    @Autowired 
+    // @Autowired 
     private WarehouseMap warehouseMap;
     
     public Map<SimplePoint,List<String>> process(ForkliftsList forklifts) {
@@ -100,6 +100,11 @@ public class CollisionDetector implements Handler<ForkliftsList,Map<SimplePoint,
         collisionSum.sum(nextPositions);
         return collisionSum.getCollisions();
 
+    }
+
+    public CollisionDetector setWarehouseMap(WarehouseMap warehouseMap){
+        this.warehouseMap=warehouseMap;
+        return this;
     }
     
 }

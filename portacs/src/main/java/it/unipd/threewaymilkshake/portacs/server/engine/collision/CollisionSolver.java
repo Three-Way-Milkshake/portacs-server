@@ -13,58 +13,19 @@ import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
 
 
-class Action {
-    public List<String> actions; //STOP o RICALCOLO
-    public SimplePoint obstacle;
 
-    public void add(String toAdd) {
-        actions.add(toAdd);
-    }
-
-    public Action(List<String> actions) {
-        this.actions = actions;
-        this.obstacle = null;
-    }
-
-
-    public boolean isInStop() {
-        boolean found = false;
-        for(String action : actions) 
-        {
-            if(action == "STOP")
-                found = true;
-        }
-        return found;
-    }
-
-    public boolean isCalculatingAgaing() {
-        boolean found = false;
-        for(String action : actions) 
-        {
-            if(action == "RICALCOLO")
-                found = true;
-        }
-        return found;
-    }
-
-    public void printList() {
-        for(String action : actions) 
-        {
-            System.out.printf("---" + action + " ");
-
-        }
-        System.out.printf("---" + ((obstacle == null) ? " / " : obstacle.getX() + " " + obstacle.getY()));
-    }
-
-    
-}
 
 public class CollisionSolver implements Handler<Map<SimplePoint,List<String>>,Map<String, Action>> {
-    
+
     private Map<String,Action> response; //responso
     private Map<SimplePoint,List<String>> collisions; //input: signalled collisions
-    @Autowired
+    // @Autowired
     private ForkliftsList forkliftsList;
+
+    public CollisionSolver setForkliftsList(ForkliftsList forkliftsList){
+        this.forkliftsList=forkliftsList;
+        return this;
+    }
 
     public void checkNumberOfCollisions() {
         HashMap<String,Integer> numberOfCollision = new HashMap<String,Integer>();
