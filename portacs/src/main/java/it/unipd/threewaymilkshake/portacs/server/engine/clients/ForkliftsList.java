@@ -33,6 +33,7 @@ public class ForkliftsList {
     this.forkliftDao = forkliftDao;
     List<Forklift> forklifts = forkliftDao.readForklifts();
     System.out.println("******************* REACHED ************* map is: "+warehouseMap);
+    System.out.println("\n tasks are: "+tasksSequencesList);
     
     //TODO necessary? 
     this.warehouseMap=warehouseMap;

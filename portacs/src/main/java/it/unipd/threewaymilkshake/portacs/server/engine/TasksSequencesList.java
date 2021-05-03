@@ -27,9 +27,14 @@ public class TasksSequencesList {
   }
 
   public synchronized TasksSequence getTasksSequence() {
-    while (!tasksMap.containsKey(NEXT_SEQUENCE_ID)) {
-      ++NEXT_SEQUENCE_ID;
+    TasksSequence r=null;
+    if(!tasksMap.isEmpty()){
+      while (!tasksMap.containsKey(NEXT_SEQUENCE_ID)) {
+        ++NEXT_SEQUENCE_ID;
+      }
+      r=tasksMap.remove(NEXT_SEQUENCE_ID++);
     }
-    return tasksMap.remove(NEXT_SEQUENCE_ID++);
+
+    return r;
   }
 }

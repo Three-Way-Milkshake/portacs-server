@@ -27,7 +27,7 @@ public class Forklift extends Client {
         // se no -> azzerarla
   
 
-  @Autowired private TasksSequencesList tasksSequencesList;
+  // private TasksSequencesList tasksSequencesList;
 
   public Forklift(String id, String token) {
     super(id);
@@ -73,7 +73,9 @@ public class Forklift extends Client {
                     connection.writeToBuffer("PATH," + getPathToNextTask() + ";");
                     break;
                   case "LIST":
-                    tasks = tasksSequencesList.getTasksSequence();
+                    if(tasks==null || tasks.isEmpty()){
+                      tasks = tasksSequencesList.getTasksSequence();
+                    }
                     connection.writeToBuffer(tasks.toString());
                     break;
                   default:

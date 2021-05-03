@@ -81,7 +81,9 @@ public class UsersList {
       if (u.authenticate(rawPwd)) {
         success = true;
         u.bindConnection(c);
-        u.write("OK,"+u.getRole()+";");
+        u.write("OK,"+u.getRole()+',');
+        u.write(u.getFirstName()+',');
+        u.write(u.getLastName()+';');
         u.write(warehouseMap.toString());
         u.writeAndSend(warehouseMap.poisToString());
       } else {

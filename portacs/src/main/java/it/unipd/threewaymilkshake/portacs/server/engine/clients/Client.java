@@ -18,7 +18,7 @@ public abstract class Client implements PropertyChangeListener {
   
   // @Autowired 
   protected WarehouseMap warehouseMap;
-  private TasksSequencesList tasksSequencesList;
+  protected TasksSequencesList tasksSequencesList;
 
   protected Client(String id) {
     this.id = id;

@@ -1,14 +1,14 @@
 {
   "map": [
     [
-      "OBSTACLE",
+      "NEUTRAL",
       "NEUTRAL",
       "UP",
       "RIGHT"
     ],
     [
-      "DOWN",
-      "LEFT",
+      "NEUTRAL",
+      "NEUTRAL",
       "POI",
       "POI"
     ],
@@ -54,16 +54,16 @@
       "name": "secondPoi",
       "location": {
         "x": 1,
-        "y": 2
+        "y": 3
       },
       "type": "LOAD"
     },
-    "3": {
-      "id": 3,
+    "5": {
+      "id": 5,
       "name": "thirdPoi",
       "location": {
         "x": 2,
-        "y": 1
+        "y": 0
       },
       "type": "LOAD"
     }
