@@ -40,12 +40,15 @@ public class Engine /* implements Runnable */ {
 
   @Autowired private WarehouseMap warehouseMap;
 
+  @Autowired 
+    CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline;
+
   // private CollisionDetector collisionDetector=new CollisionDetector();
   // private CollisionSolver collisionSolver=new CollisionSolver();
 
-  CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline 
+  /* CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline 
         = new CollisionPipeline<>(new CollisionDetector().setWarehouseMap(warehouseMap))
-        .addHandler(new CollisionSolver().setForkliftsList(forkliftsList));
+        .addHandler(new CollisionSolver().setForkliftsList(forkliftsList)); */
 
   /*CollisionPipeline<ForkliftsList, Map<String, Action>> collisionPipeline = 
     new CollisionPipeline<>(new CollisionDetector()
@@ -53,7 +56,7 @@ public class Engine /* implements Runnable */ {
 
   @Scheduled(fixedDelay = 1000, initialDelay = 3000)
   public void execute() {
-    System.out.println("Hello from engine "+(counter++));
+    System.out.println("Hello from engine "+(counter++)+" with map"+warehouseMap);
     System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
       " forklifts and "+usersList.getActiveUsers().size()+" users active");
     

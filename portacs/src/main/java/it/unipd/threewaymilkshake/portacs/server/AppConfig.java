@@ -4,6 +4,10 @@ package it.unipd.threewaymilkshake.portacs.server;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.Action;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetector;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionPipeline;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionSolver;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
@@ -17,6 +21,7 @@ import it.unipd.threewaymilkshake.portacs.server.persistency.UserDao;
 import static org.mockito.Mockito.mock;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import org.mockito.Mockito;
@@ -152,5 +157,21 @@ public class AppConfig {
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline(){
+    return new CollisionPipeline<>(collisionDetector())
+      .addHandler(collisionSolver());
+  }
+
+  @Bean
+  public CollisionDetector collisionDetector(){
+    return new CollisionDetector().setWarehouseMap(warehouseMap());
+  }
+
+  @Bean
+  public CollisionSolver collisionSolver(){
+    return new CollisionSolver().setForkliftsList(forkliftsList());
   }
 }
