@@ -54,7 +54,7 @@ public class Engine /* implements Runnable */ {
     new CollisionPipeline<>(new CollisionDetector()
     .addHandler(new CollisionSolver()));*/
 
-  @Scheduled(fixedDelay = 1000, initialDelay = 3000)
+  @Scheduled(fixedDelay = 500, initialDelay = 3000)
   public void execute() {
     System.out.println("Hello from engine "+(counter++)+" with map"+warehouseMap);
     System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
@@ -64,7 +64,7 @@ public class Engine /* implements Runnable */ {
     forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
 
     // TODO: execute Collision Pipeline
-    collisionPipeline.execute(forkliftsList).forEach((fork,actions)->{
+    /* collisionPipeline.execute(forkliftsList).forEach((fork,actions)->{
       if(!actions.isEmpty()){
         Forklift forklift=forkliftsList.getForklift(fork);
         if(actions.needRecalculation()){
@@ -75,7 +75,7 @@ public class Engine /* implements Runnable */ {
           forklift.write("STOP,"+stops+";");
         }
       }
-    });
+    }); */
 
     
 
