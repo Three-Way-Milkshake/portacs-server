@@ -59,7 +59,7 @@ public class Engine /* implements Runnable */ {
 
   @Scheduled(fixedDelay = 500, initialDelay = 3000)
   public void execute() {
-    System.out.println("Hello from engine "+(counter++)+" with map"+warehouseMap);
+    System.out.println("Hello from engine "+(counter++)/* +" with map"+warehouseMap */);
     System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
       " forklifts and "+usersList.getActiveUsers().size()+" users active");
     
