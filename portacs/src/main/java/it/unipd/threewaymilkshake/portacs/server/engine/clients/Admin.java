@@ -129,10 +129,11 @@ public class Admin extends User {
                     editCell(
                       Integer.valueOf(par[1]),
                       Integer.valueOf(par[2]),
-                      (String[])Arrays.stream(par)
+                      Arrays.stream(par)
                         .skip(3) //TODO check, should be 3
-                        .collect(Collectors.toList())
-                        .toArray()
+                        .toArray(String[]::new)
+                        // .collect(Collectors.toList())
+                        // .toArray()
                     );
                     break;
 
