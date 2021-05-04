@@ -163,23 +163,27 @@ public class WarehouseMap {
       if(type!=CellType.POI){
         pois.remove(poiId);
       }
-      else if(map[x][y]==CellType.POI){
-        Poi p=pois.get(poiId);
-        p.setType(PoiType.values()[Integer.parseInt(actions[2])]);
-        p.setName(actions[3]);
-      }
       else{
-        Poi p=new Poi(getNextPoiId(), actions[3], new SimplePoint(x, y), PoiType.values()[Integer.parseInt(actions[2])]);
+        Poi p=pois.get(poiId);
+        if(p==null){
+          poiId=getNextPoiId();
+          p=new Poi(poiId, actions[3], new SimplePoint(x, y), PoiType.values()[Integer.parseInt(actions[2])]);
+        }
+        else{
+          p.setType(PoiType.values()[Integer.parseInt(actions[2])]);
+          p.setName(actions[3]);
+        }
+        pois.put(poiId, p);
       }
     }
 
     map[x][y]=type;
 
-    support.firePropertyChange("map", this.map, map);
+    support.firePropertyChange("map", null, map);
   }
 
   private long getNextPoiId(){
-    return pois.keySet().stream().max(Long::compareTo).orElse(1L);
+    return pois.keySet().stream().max(Long::compareTo).orElse(0L)+1;
   }
 
   public Map<Long, Poi> getPois() {
@@ -188,7 +192,7 @@ public class WarehouseMap {
 
   public void setPois(Map<Long, Poi> pois) {
     this.pois = pois;
-    support.firePropertyChange("map", this.map, map); //TODO is it right?
+    support.firePropertyChange("map", null, map); //TODO is it right?
   }
 
   public void addPropertyChangeListener(PropertyChangeListener pcl) {
