@@ -39,4 +39,8 @@ public class TasksSequencesList {
 
     return r;
   }
+
+  public int size(){
+    return tasksMap.size();
+  }
 }
