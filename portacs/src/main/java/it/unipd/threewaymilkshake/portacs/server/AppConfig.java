@@ -20,6 +20,8 @@ import it.unipd.threewaymilkshake.portacs.server.persistency.UserDao;
 
 import static org.mockito.Mockito.mock;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -146,7 +148,7 @@ public class AppConfig {
 
   @Bean
   public ForkliftsList forkliftsList(){
-    return new ForkliftsList(jsonForklift(), warehouseMap(), tasksSequencesListTest()); //TODO set real one
+    return new ForkliftsList(jsonForklift(), warehouseMap(), tasksSequencesListTest(), exceptionalEvents()); //TODO set real one
     // return new ForkliftsList(forkliftDaoMock());
   }
 
@@ -176,5 +178,10 @@ public class AppConfig {
   @Bean
   public CollisionSolver collisionSolver(){
     return new CollisionSolver().setForkliftsList(forkliftsList());
+  }
+
+  @Bean
+  public Deque<String> exceptionalEvents(){
+    return new LinkedBlockingDeque<>();
   }
 }

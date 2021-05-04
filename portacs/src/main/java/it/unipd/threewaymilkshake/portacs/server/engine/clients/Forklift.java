@@ -9,6 +9,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequence;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class Forklift extends Client {
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
+  private Deque<String> exceptionalEvents;
   private int numberOfStalls; //TODO: Nicolò
         // ad ogni ricezione della posizione bisogna controllare
         // se il la posizione vecchia è uguale alla posizione
@@ -50,6 +52,10 @@ public class Forklift extends Client {
 
   public void setPosition(Position position) { // TODO: visibility
     this.position = position;
+  }
+
+  public void setExceptionalEvents(Deque<String> exceptionalEvents) {
+    this.exceptionalEvents=exceptionalEvents;
   }
 
   @Override
@@ -94,6 +100,10 @@ public class Forklift extends Client {
                     }
                     connection.writeToBuffer(tasks.toString());
                     break;
+
+                  case "ECC":
+                    exceptionalEvents.add("ECC,"+"problem from unit "+id+";");
+
                   default:
                     System.out.println("Unrecognized message: " + par[0]);
                 }
