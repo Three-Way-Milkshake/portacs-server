@@ -81,13 +81,13 @@ public class WarehouseMap {
     this.strategy=pathFindingStrategy;
   }
 
-  public List<Move> getPath(AbstractLocation start, long poi) {
+  public synchronized List<Move> getPath(AbstractLocation start, long poi) {
     AbstractLocation end = pois.get(poi).getLocation();
     // return strategy.getPath(intMatrix, start, end);
     return strategy.getPath(getIntMatrix(), start, end);
   }
 
-  public List<Move> getPath(AbstractLocation start, long poi, SimplePoint extra) {
+  public synchronized List<Move> getPath(AbstractLocation start, long poi, SimplePoint extra) {
     AbstractLocation end = pois.get(poi).getLocation();
     // return strategy.getPath(intMatrix, start, end);
     int[][] mat=getIntMatrix();

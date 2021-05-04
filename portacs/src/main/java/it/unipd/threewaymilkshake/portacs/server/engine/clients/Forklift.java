@@ -90,6 +90,7 @@ public class Forklift extends Client {
                   case "LIST":
                     if(tasks==null || tasks.isEmpty()){
                       tasks = tasksSequencesList.getTasksSequence();
+                      //write to users?
                     }
                     connection.writeToBuffer(tasks.toString());
                     break;
