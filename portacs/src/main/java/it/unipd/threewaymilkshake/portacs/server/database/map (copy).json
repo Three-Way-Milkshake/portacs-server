@@ -13,6 +13,20 @@
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
+      "NEUTRAL"
+    ],
+    [
+      "NEUTRAL",
+      "NEUTRAL",
+      "OBSTACLE",
+      "POI",
+      "NEUTRAL",
+      "OBSTACLE",
+      "OBSTACLE",
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL"
     ],
@@ -29,23 +43,6 @@
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL"
-    ],
-    [
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
-      "POI",
-      "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
-      "POI",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
       "NEUTRAL"
     ],
     [
@@ -61,8 +58,7 @@
       "NEUTRAL",
       "OBSTACLE",
       "OBSTACLE",
-      "POI",
-      "NEUTRAL"
+      "POI"
     ],
     [
       "NEUTRAL",
@@ -77,23 +73,6 @@
       "NEUTRAL",
       "OBSTACLE",
       "OBSTACLE",
-      "NEUTRAL",
-      "NEUTRAL"
-    ],
-    [
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
-      "POI",
-      "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
-      "POI",
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
-      "NEUTRAL",
       "NEUTRAL"
     ],
     [
@@ -109,7 +88,6 @@
       "NEUTRAL",
       "OBSTACLE",
       "OBSTACLE",
-      "NEUTRAL",
       "NEUTRAL"
     ],
     [
@@ -122,6 +100,20 @@
       "OBSTACLE",
       "POI",
       "NEUTRAL",
+      "NEUTRAL",
+      "OBSTACLE",
+      "OBSTACLE",
+      "NEUTRAL"
+    ],
+    [
+      "NEUTRAL",
+      "NEUTRAL",
+      "OBSTACLE",
+      "POI",
+      "NEUTRAL",
+      "OBSTACLE",
+      "OBSTACLE",
+      "POI",
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
@@ -140,39 +132,6 @@
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
-      "OBSTACLE",
-      "NEUTRAL",
-      "NEUTRAL"
-    ],
-    [
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "RIGHT",
-      "RIGHT",
-      "RIGHT",
-      "NEUTRAL",
-      "NEUTRAL"
-    ],
-    [
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "POI",
-      "NEUTRAL",
-      "POI",
-      "NEUTRAL",
-      "POI",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL"
     ],
@@ -187,7 +146,21 @@
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL"
+    ],
+    [
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
       "POI",
+      "NEUTRAL",
+      "POI",
+      "NEUTRAL",
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL"
@@ -335,15 +308,6 @@
       "location": {
         "x": 10,
         "y": 7
-      },
-      "type": "LOAD"
-    },
-    "17": {
-      "id": 17,
-      "name": "abc",
-      "location": {
-        "x": 11,
-        "y": 10
       },
       "type": "LOAD"
     }
