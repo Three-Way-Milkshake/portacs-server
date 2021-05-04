@@ -151,6 +151,7 @@ public class WarehouseMap {
     this.map = map;
     System.out.println("*** MAP IS (from map): "+toString());
     support.firePropertyChange("map", null, map);
+    mapDao.updateMap(this);
   }
 
   public void setCell(int x, int y, String... actions){
@@ -180,6 +181,7 @@ public class WarehouseMap {
     map[x][y]=type;
 
     support.firePropertyChange("map", null, map);
+    mapDao.updateMap(this);
   }
 
   private long getNextPoiId(){
