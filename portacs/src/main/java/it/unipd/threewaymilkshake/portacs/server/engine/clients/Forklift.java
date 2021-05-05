@@ -78,7 +78,7 @@ public class Forklift extends Client {
                   case "POS":
                     updatePosition(par);
                     System.out.println("I am at: " + position.toString());
-                    if(!pathToNextTask.isEmpty())pathToNextTask.remove(0);
+                    //if(!pathToNextTask.isEmpty())pathToNextTask.remove(0);
                     break;
                   case "PATH":
                     if (par[1].equals("1")){
@@ -204,7 +204,11 @@ public class Forklift extends Client {
   }
 
   public void addMove(Move move) {
-    pathToNextTask.add(move);
+    pathToNextTask.add(0,move);
+  }
+
+  public void removeFirstMove() {
+    if(!pathToNextTask.isEmpty())pathToNextTask.remove(0);
   }
 
 }

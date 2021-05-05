@@ -57,7 +57,7 @@ public class Engine /* implements Runnable */ {
     new CollisionPipeline<>(new CollisionDetector()
     .addHandler(new CollisionSolver()));*/
 
-  @Scheduled(fixedDelay = 500, initialDelay = 3000)
+  @Scheduled(fixedDelay = 3000, initialDelay = 3000)
   public void execute() {
     System.out.println("Hello from engine "+(counter++)/* +" with map"+warehouseMap */);
     System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
@@ -75,13 +75,17 @@ public class Engine /* implements Runnable */ {
         }
         else{
           int stops=actions.stopCount();
+          System.out.println("SENDING STOP..." + stops);
           forklift.write("STOP,"+stops+";");
-          for(int i=0; i<stops; ++i) {
+          for(int i=0; i<stops+1; ++i) {
             forklift.addMove(Move.STOP);
           }
         }
       }
     });
+
+    forkliftsList.goWithNextMove();
+    
     // ad ogni mossa eseguita, bisogna scalare le mosse 
 
     

@@ -259,4 +259,11 @@ public class ForkliftsList {
     }
   }
 
+  public void goWithNextMove() {
+    for(String key : forkliftsMap.keySet()) {
+      Forklift f = forkliftsMap.get(key);
+      if(f.isActive()) {f.removeFirstMove();}
+    }
+  }
+
 }

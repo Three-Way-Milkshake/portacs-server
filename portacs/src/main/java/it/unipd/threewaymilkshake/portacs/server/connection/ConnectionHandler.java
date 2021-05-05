@@ -28,7 +28,7 @@ public class ConnectionHandler implements Runnable {
     this.testCounter=1;
   }
 
-  @Scheduled(fixedDelay = 1000, initialDelay = 1000)
+  @Scheduled(fixedDelay = 3000, initialDelay = 1000)
   public void execute() throws InterruptedException, IOException{
     // while(true){
     System.out.println("Hello from handler with: "+(testCounter++));
