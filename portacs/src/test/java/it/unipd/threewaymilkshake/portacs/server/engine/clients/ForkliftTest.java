@@ -72,7 +72,7 @@ public class ForkliftTest {
   public void getNextPositions2Test() {
     forklift = new Forklift("forklift", "abcdefghi1234");
     forklift.setPosition(new Position(0, 0, Orientation.UP));
-    List<Move> pathToNextTask = Arrays.asList(Move.TURNAROUND, Move.GOSTRAIGHT,Move.GOSTRAIGHT);
+    List<Move> pathToNextTask = Arrays.asList(Move.GOSTRAIGHT);
     forklift.setPathToNextTask(pathToNextTask);
 
     List<SimplePoint> returned = forklift.getNextPositions(2);

@@ -93,6 +93,12 @@ public class Forklift extends Client {
     }
   }
 
+  public void printNextMoves() {
+    for(Move m : pathToNextTask) {
+      System.out.print(" " + m + " ");
+    }
+  }
+
   String getPathToNextTask() {
     pathToNextTask = warehouseMap.getPath(position, tasks.getNext());
     return pathToNextTask.stream()

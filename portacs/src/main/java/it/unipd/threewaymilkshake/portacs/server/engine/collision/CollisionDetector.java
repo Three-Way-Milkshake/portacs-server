@@ -48,6 +48,7 @@ class CollisionMap {
         {   
             List<SimplePoint> positions = nextMoves.get(key);
             for(SimplePoint point : positions) {
+                //System.out.println("POSIZIONEEEE " +point.getX() + ";" + point.getY());
 
                 if(map[point.getX()][point.getY()] == null) {
                     map[point.getX()][point.getY()] = new CollisionCell();
@@ -95,7 +96,15 @@ public class CollisionDetector implements Handler<ForkliftsList,Map<SimplePoint,
         int rows = warehouseMap.getRows();
         int columns = warehouseMap.getColumns();
         // System.out.println("+++++++++++" + rows + " " + columns);
-        Map<String,List<SimplePoint>> nextPositions = forklifts.getAllNextPositions(NUMBER_OF_FUTURE_MOVES);        
+        Map<String,List<SimplePoint>> nextPositions = forklifts.getAllNextPositions(NUMBER_OF_FUTURE_MOVES); 
+        for(String key : nextPositions.keySet()) {
+            System.out.println("Muletto " + key);
+            forklifts.getForklift(key).printNextMoves();
+            for(SimplePoint s : nextPositions.get(key)) {
+                System.out.print(" " + s.getX() + " " + s.getY() + " -- ");
+            }
+            System.out.print("\n");
+        }
         CollisionMap collisionSum = new CollisionMap(rows,columns);
         collisionSum.sum(nextPositions);
         return collisionSum.getCollisions();
