@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +77,7 @@ public class Forklift extends Client {
 
                 switch (par[0]) {
                   case "POS":
-                    updatePosition(par);
+                    updatePositionAndDeadlock(par);
                     System.out.println("I am at: " + position.toString());
                     //if(!pathToNextTask.isEmpty())pathToNextTask.remove(0);
                     break;
@@ -129,8 +130,8 @@ public class Forklift extends Client {
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
-  public String getPathToNextTask(SimplePoint point) {
-    pathToNextTask = warehouseMap.getPath(position, tasks.getNext(), point);
+  public String getPathToNextTaskWithObstacle(SimplePoint point) {
+    pathToNextTask = warehouseMap.getPath(position, tasks.getNext(), Arrays.asList(point));
     pathToNextTask.add(0,Move.STOP);
     return pathToNextTask.stream()
       .map(m->m.ordinal())
@@ -140,14 +141,32 @@ public class Forklift extends Client {
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
-  private void updatePosition(String... pos) {
-    //Integer newX = Integer.parseInt(pos[1]);
-    //Integer newY = Integer.parseInt(pos[2]);
+  public String getPathToNextTaskWithObstacleRandom(SimplePoint obstacle,Position forkliftPosition) {
+    SimplePoint point = forkliftPosition.generateNearRandomPoint(obstacle);
+    pathToNextTask = warehouseMap.getPath(position, tasks.getNext(), Arrays.asList(obstacle,point));
+    //pathToNextTask.add(0,Move.STOP);
+    return pathToNextTask.stream()
+      .map(m->m.ordinal())
+      .collect(Collectors.toList())
+      .toString()
+      .replaceAll("\\[|\\]| ", "");
+    // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
+  }
 
-    position.setPosition(
-        Integer.parseInt(pos[1]),
-        Integer.parseInt(pos[2]),
-        Orientation.values()[Integer.parseInt(pos[3])]);
+  private void updatePositionAndDeadlock(String... pos) {
+    Integer newX = Integer.parseInt(pos[1]);
+    Integer newY = Integer.parseInt(pos[2]);
+    Orientation newOrientation = Orientation.values()[Integer.parseInt(pos[3])];
+    if(newX == position.getX() && newY == position.getY() && newOrientation == position.getOrientation() && hasPath()){
+      numberOfStalls++;
+    }
+    else {
+      position.setPosition(newX,newY,newOrientation);
+      numberOfStalls = 0;
+    }
+
+
+    
   }
 
   void resetPosition(){
@@ -222,5 +241,14 @@ public class Forklift extends Client {
   public boolean hasPath() {
     return !pathToNextTask.isEmpty();
   }
+
+  public Move getNextMove() {
+    return pathToNextTask.get(0);
+  }
+
+  public void setDeadlock(boolean b) {
+    numberOfStalls = 0;
+  }
+
 
 }

@@ -66,12 +66,14 @@ public class Engine /* implements Runnable */ {
     // FORKLIFT JOBS
     forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
 
+    forkliftsList.runtimeDeadlockChecker();
+
     collisionPipeline.execute(forkliftsList).forEach((fork,actions)->{
       if(!actions.isEmpty()){
         Forklift forklift=forkliftsList.getForklift(fork);
         if(actions.needRecalculation()){
           //forklift.clearPath();
-          String nextPath = forklift.getPathToNextTask(actions.getObstacle());
+          String nextPath = forklift.getPathToNextTaskWithObstacle(actions.getObstacle());
           System.out.println(nextPath);
           forklift.write("PATH," + nextPath + ";");
         }
