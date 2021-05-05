@@ -27,7 +27,7 @@ class ConnectionAccepter implements Runnable {
   }
 
   // @Override
-  @Scheduled(fixedDelay = 3000, initialDelay = 500)
+  @Scheduled(fixedDelay = 1000, initialDelay = 500)
   public void run() {
     System.out.println("ACCEPTER started");
     Socket s;
