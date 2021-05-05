@@ -260,7 +260,7 @@ public class ForkliftsList {
   }
 
   public void goWithNextMove() {
-    getActiveForklifts().forEach(Forklift::removeFirstMove);
+    getActiveForklifts().parallelStream().forEach(Forklift::removeFirstMove);
     /* for(String key : forkliftsMap.keySet()) {
       Forklift f = forkliftsMap.get(key);
       if(f.isActive()) {f.removeFirstMove();}
