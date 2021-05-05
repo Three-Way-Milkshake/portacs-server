@@ -242,13 +242,14 @@ public class ForkliftsList {
   }
 
   public void runtimeDeadlockChecker() {
-    int ALERT_DEADLOCK = 7; // causa un ricalcolo del muletto
-    int CRITICAL_DEADLOCK = 15; // invio evento eccezionale
+    int ALERT_DEADLOCK = 4; // causa un ricalcolo del muletto
+    int CRITICAL_DEADLOCK = 10; // invio evento eccezionale
 
     for(String key : forkliftsMap.keySet()) 
     {
       Forklift f = forkliftsMap.get(key);
-      if(f.isInDeadlock(ALERT_DEADLOCK)) { //TODO: Nicolò
+      if(f.hasPath() && f.isInDeadlock(ALERT_DEADLOCK)) { //TODO: Nicolò
+      System.out.println("DEADLOCK ALERT!!!!!!!!!!!");
         // SEGNALARE RICALCOLO -> PROBLEMA: NON DEVE ESSERE SOVRASCRITTO DA UN EVENTUALE 
         // ALTRO MESSAGGIO DERIVANTE DALLA GESTIONE DELLE COLLISIONI (STOP/RICALCOLO) 
         // OPPURE SMINCHIARE IL BUFFER

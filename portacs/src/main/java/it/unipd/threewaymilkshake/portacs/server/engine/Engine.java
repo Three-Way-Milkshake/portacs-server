@@ -70,8 +70,10 @@ public class Engine /* implements Runnable */ {
       if(!actions.isEmpty()){
         Forklift forklift=forkliftsList.getForklift(fork);
         if(actions.needRecalculation()){
-          forklift.write("PATH," + forklift.getPathToNextTask(actions.getObstacle())+ ";");
-          // bisogna aggiornare il pathToNextTask?
+          //forklift.clearPath();
+          String nextPath = forklift.getPathToNextTask(actions.getObstacle());
+          System.out.println(nextPath);
+          forklift.write("PATH," + nextPath + ";");
         }
         else{
           int stops=actions.stopCount();

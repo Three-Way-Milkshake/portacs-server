@@ -131,6 +131,7 @@ public class Forklift extends Client {
 
   public String getPathToNextTask(SimplePoint point) {
     pathToNextTask = warehouseMap.getPath(position, tasks.getNext(), point);
+    pathToNextTask.add(0,Move.STOP);
     return pathToNextTask.stream()
       .map(m->m.ordinal())
       .collect(Collectors.toList())
@@ -140,6 +141,9 @@ public class Forklift extends Client {
   }
 
   private void updatePosition(String... pos) {
+    //Integer newX = Integer.parseInt(pos[1]);
+    //Integer newY = Integer.parseInt(pos[2]);
+
     position.setPosition(
         Integer.parseInt(pos[1]),
         Integer.parseInt(pos[2]),
@@ -209,6 +213,14 @@ public class Forklift extends Client {
 
   public void removeFirstMove() {
     if(!pathToNextTask.isEmpty())pathToNextTask.remove(0);
+  }
+
+  public void clearPath() {
+    pathToNextTask.clear();
+  }
+
+  public boolean hasPath() {
+    return !pathToNextTask.isEmpty();
   }
 
 }
