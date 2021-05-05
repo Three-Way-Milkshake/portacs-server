@@ -9,6 +9,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequence;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class Forklift extends Client {
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
+  private Deque<String> exceptionalEvents;
   private int numberOfStalls; //TODO: Nicolò
         // ad ogni ricezione della posizione bisogna controllare
         // se il la posizione vecchia è uguale alla posizione
@@ -52,6 +54,10 @@ public class Forklift extends Client {
     this.position = position;
   }
 
+  public void setExceptionalEvents(Deque<String> exceptionalEvents) {
+    this.exceptionalEvents=exceptionalEvents;
+  }
+
   @Override
   public void processCommunication() {
     connection.send("ALIVE;");
@@ -75,15 +81,29 @@ public class Forklift extends Client {
                     if(!pathToNextTask.isEmpty())pathToNextTask.remove(0);
                     break;
                   case "PATH":
-                    if (par[1].equals("1")) tasks.extractNext();
-                    connection.writeToBuffer("PATH," + getPathToNextTask() + ";");
+                    if (par[1].equals("1")){
+                      if(!tasks.isEmpty()){
+                        tasks.extractNext();
+                      } 
+                    }
+                    if(tasks.isEmpty()){
+                      connection.writeToBuffer("PATH,EMPTY;");
+                    }
+                    else{
+                      connection.writeToBuffer("PATH," + getPathToNextTask() + ";");
+                    }
                     break;
                   case "LIST":
                     if(tasks==null || tasks.isEmpty()){
                       tasks = tasksSequencesList.getTasksSequence();
+                      //write to users?
                     }
                     connection.writeToBuffer(tasks.toString());
                     break;
+
+                  case "ECC":
+                    exceptionalEvents.add("ECC,"+"problem from unit "+id+";");
+
                   default:
                     System.out.println("Unrecognized message: " + par[0]);
                 }

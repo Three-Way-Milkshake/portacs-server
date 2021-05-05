@@ -10,6 +10,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
 import net.bytebuddy.utility.RandomString;
 
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class ForkliftsList {
 
   private static final int TOKEN_LENGTH=16;
 
-  public ForkliftsList(ForkliftDao forkliftDao, WarehouseMap warehouseMap, TasksSequencesList tasksSequencesList) {
+  public ForkliftsList(ForkliftDao forkliftDao, WarehouseMap warehouseMap, TasksSequencesList tasksSequencesList, Deque<String> exceptionalEvents) {
     this.forkliftDao = forkliftDao;
     List<Forklift> forklifts = forkliftDao.readForklifts();
     System.out.println("******************* REACHED ************* map is: "+warehouseMap);
@@ -51,6 +52,7 @@ public class ForkliftsList {
               f.setWarehouseMap(warehouseMap);
               f.setTasksSequencesList(tasksSequencesList);
               f.resetPosition();
+              f.setExceptionalEvents(exceptionalEvents);
             });
 
     System.out.println("Loaded forklifts are: "+getForkliftsAndTokensString());

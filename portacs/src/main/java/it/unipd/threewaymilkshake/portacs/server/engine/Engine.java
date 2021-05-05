@@ -12,6 +12,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionSolve
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 
 import java.util.Map;
+import java.util.Deque;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class Engine /* implements Runnable */ {
 
   @Autowired private WarehouseMap warehouseMap;
 
+  @Autowired Deque<String> exceptionalEvents;
+
   @Autowired 
   CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline;
 
@@ -54,9 +57,9 @@ public class Engine /* implements Runnable */ {
     new CollisionPipeline<>(new CollisionDetector()
     .addHandler(new CollisionSolver()));*/
 
-  @Scheduled(fixedDelay = 1000, initialDelay = 3000)
+  @Scheduled(fixedDelay = 500, initialDelay = 3000)
   public void execute() {
-    System.out.println("Hello from engine "+(counter++)+" with map"+warehouseMap);
+    System.out.println("Hello from engine "+(counter++)/* +" with map"+warehouseMap */);
     System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
       " forklifts and "+usersList.getActiveUsers().size()+" users active");
     
@@ -82,12 +85,22 @@ public class Engine /* implements Runnable */ {
     // ad ogni mossa eseguita, bisogna scalare le mosse 
 
     
-
+    StringBuilder b=new StringBuilder();
+    if(!exceptionalEvents.isEmpty()){
+      exceptionalEvents.stream()
+        .forEach(m->{
+          b.append(m);
+        });
+      }
+    final String msgEcc=b.isEmpty()?null:b.toString();
     //USERS UPDATE ON FORKS POSITIONS
     usersList.getActiveUsers().stream()
         .parallel()
         .forEach(
             u -> {
+              if(msgEcc!=null){
+                u.write(msgEcc);
+              }
               u.writeAndSend(forkliftsList.getForkliftsPositions());
             });
 

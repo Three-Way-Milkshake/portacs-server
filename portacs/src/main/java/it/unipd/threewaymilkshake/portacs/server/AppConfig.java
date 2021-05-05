@@ -20,6 +20,8 @@ import it.unipd.threewaymilkshake.portacs.server.persistency.UserDao;
 
 import static org.mockito.Mockito.mock;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -106,13 +108,13 @@ public class AppConfig {
   }
 
   @Bean("tasksSequencesListTest") // TODO: for testing only
-  @Scope("prototype")
+  // @Scope("prototype")
   public TasksSequencesList tasksSequencesListTest() {
     TasksSequencesList t = new TasksSequencesList();
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 2L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(3L, 4L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(5L, 6L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 8L, 13L, 7L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(10L, 16L, 6L, 8L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(15L, 3L, 2L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L, 6L)));
     return t;
   }
 
@@ -146,7 +148,7 @@ public class AppConfig {
 
   @Bean
   public ForkliftsList forkliftsList(){
-    return new ForkliftsList(jsonForklift(), warehouseMap(), tasksSequencesListTest()); //TODO set real one
+    return new ForkliftsList(jsonForklift(), warehouseMap(), tasksSequencesListTest(), exceptionalEvents()); //TODO set real one
     // return new ForkliftsList(forkliftDaoMock());
   }
 
@@ -176,5 +178,10 @@ public class AppConfig {
   @Bean
   public CollisionSolver collisionSolver(){
     return new CollisionSolver().setForkliftsList(forkliftsList());
+  }
+
+  @Bean
+  public Deque<String> exceptionalEvents(){
+    return new LinkedBlockingDeque<>();
   }
 }
