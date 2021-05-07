@@ -57,7 +57,7 @@ public class Engine /* implements Runnable */ {
     new CollisionPipeline<>(new CollisionDetector()
     .addHandler(new CollisionSolver()));*/
 
-  @Scheduled(fixedDelay = 2000, initialDelay = 3000)
+  @Scheduled(fixedDelay = 1000, initialDelay = 3000)
   public void execute() {
     System.out.println("Hello from engine "+(counter++)/* +" with map"+warehouseMap */);
     System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
