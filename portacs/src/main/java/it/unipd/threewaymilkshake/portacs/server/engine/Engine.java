@@ -6,12 +6,15 @@ import it.unipd.threewaymilkshake.portacs.server.engine.clients.Forklift;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.Action;
-import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetector;
+//import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetector;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionForklift;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionPipeline;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionSolver;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 
 import java.util.Map;
+import java.util.Set;
+import java.lang.reflect.Array;
 import java.util.Deque;
 import java.util.List;
 
@@ -44,7 +47,8 @@ public class Engine /* implements Runnable */ {
   @Autowired Deque<String> exceptionalEvents;
 
   @Autowired 
-  CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline;
+  //CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline;
+  CollisionPipeline<List<CollisionForklift>,Set<CollisionForklift>> collisionPipeline;
 
   // private CollisionDetector collisionDetector=new CollisionDetector();
   // private CollisionSolver collisionSolver=new CollisionSolver();
@@ -66,14 +70,48 @@ public class Engine /* implements Runnable */ {
     // FORKLIFT JOBS
     forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
 
-    forkliftsList.runtimeDeadlockChecker();
+    //forkliftsList.runtimeDeadlockChecker();
 
-    collisionPipeline.execute(forkliftsList).forEach((fork,actions)->{
+    Set<CollisionForklift> response = collisionPipeline.execute(forkliftsList.getCollisionForklifts());
+
+    response.forEach((fork)->{
+      if(fork.hasCollisionOccurred()) {
+        System.out.println("***********COLLISIONE AVVENUTA**********");
+        // TODO: EVENTO ECCEZIONALE DI COLLISIONE AVVENUTA (TRA UNITà IN GUIDA MANUALE E AUTOMATICA)
+        fork.getForklift().write("STOP,"+0+";");
+      }
+      else if(fork.isRecalculating()) {
+          String nextPath = fork.getForklift().getPathToNextTaskWithObstacles(fork.getObstacles());
+          String currentPath = fork.getForklift().getCurrentPathString();
+          System.out.println("CURRENT PATH: " + currentPath);
+          System.out.println("NEXT PATH: " + nextPath);
+          /*if(nextPath.equals(currentPath)) {
+            System.out.println("*****PERCORSO UGUALE AL PRECEDENTE*****");
+            fork.getForklift().addMove(Move.STOP);
+          }
+          else {*/   
+            fork.getForklift().write("PATH," + nextPath + ";");
+          /*}*/
+          
+      }
+      else if(fork.isInStop()){
+        int stops=fork.getStops();
+        System.out.println("SENDING STOP..." + stops);
+        fork.getForklift().write("STOP,"+stops+";");
+        for(int i=0; i<stops; ++i) {
+          fork.getForklift().addMove(Move.STOP);
+        }
+      }
+      
+    });
+
+    /*
+    response.forEach((fork,actions)->{
       if(!actions.isEmpty()){
         Forklift forklift=forkliftsList.getForklift(fork);
         if(actions.needRecalculation()){
           //forklift.clearPath();
-          String nextPath = forklift.getPathToNextTaskWithObstacle(actions.getObstacle());
+          String nextPath = forklift.getPathToNextTaskWithObstacle(Array.asList(actions.getObstacle()));
           System.out.println(nextPath);
           forklift.write("PATH," + nextPath + ";");
         }
@@ -87,6 +125,7 @@ public class Engine /* implements Runnable */ {
         }
       }
     });
+    */
 
     forkliftsList.goWithNextMove();
     

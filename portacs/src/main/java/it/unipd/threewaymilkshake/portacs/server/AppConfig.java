@@ -5,9 +5,15 @@ import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.Action;
-import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetector;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetection;
+//import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetector;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionForklift;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionPipeline;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionSolver;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.DeadlockCheck;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.HeadOnCollisions;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.NearestToCollision;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.NumberOfCollisions;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.PathFindingStrategy;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.StrategyBreadthFirst;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
@@ -24,6 +30,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import org.mockito.Mockito;
@@ -165,15 +172,47 @@ public class AppConfig {
   }
 
   @Bean
-  public CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline(){
+  /*public CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline(){
     return new CollisionPipeline<>(collisionDetector())
       .addHandler(collisionSolver());
+  }*/
+  public CollisionPipeline<List<CollisionForklift>,Set<CollisionForklift>> collisionPipeline(){
+    return new CollisionPipeline<>(deadlockCheck())
+      .addHandler(collisionDetection())
+      .addHandler(headOnCollisions())
+      .addHandler(numberOfCollisions())
+      .addHandler(nearestToCollision());
   }
 
   @Bean
+  public CollisionDetection collisionDetection(){
+    return new CollisionDetection().setWarehouseMap(warehouseMap());
+  }
+
+  @Bean
+  public DeadlockCheck deadlockCheck(){
+    return new DeadlockCheck();
+  }
+
+  @Bean
+  public NumberOfCollisions numberOfCollisions(){
+    return new NumberOfCollisions();
+  }
+
+  @Bean
+  public NearestToCollision nearestToCollision(){
+    return new NearestToCollision();
+  }
+
+  @Bean
+  public HeadOnCollisions headOnCollisions(){
+    return new HeadOnCollisions();
+  }
+
+  /*@Bean
   public CollisionDetector collisionDetector(){
     return new CollisionDetector().setWarehouseMap(warehouseMap());
-  }
+  }*/
 
   @Bean
   public CollisionSolver collisionSolver(){

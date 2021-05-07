@@ -165,4 +165,8 @@ public class Position extends AbstractLocation {
     }
     return toReturn;
   }
+
+  public SimplePoint getPoint() { //TODO:
+      return new SimplePoint(x,y);
+  }
 }

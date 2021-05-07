@@ -6,6 +6,7 @@ import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
+import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionForklift;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.ForkliftDao;
 import net.bytebuddy.utility.RandomString;
@@ -210,7 +211,7 @@ public class ForkliftsList {
    * @param second id of second muletto
    * @return true iif there is a head-on risk (rischio di frontale) based on if the two units are horizontally or verically aligned
    */
-  public boolean headOnRisk(String first, String second) {
+  public boolean headOnRisk(String first, String second) { //TODO: migrating
     Position positionFirst = getPositionFromString(first);
     Position positionSecond = getPositionFromString(second);
         if(positionFirst.getX() == positionSecond.getX()) {
@@ -234,6 +235,7 @@ public class ForkliftsList {
   
 
   public SimplePoint getSimplePointFromString(String a) {
+    //TODO : migrating
     return new SimplePoint(forkliftsMap.get(a).getPosition().getX(),forkliftsMap.get(a).getPosition().getY());
   }
 
@@ -272,10 +274,18 @@ public class ForkliftsList {
 
   public void goWithNextMove() {
     getActiveForklifts().parallelStream().forEach(Forklift::removeFirstMove);
-    /* for(String key : forkliftsMap.keySet()) {
+  
+   /*  for(String key : forkliftsMap.keySet()) {
       Forklift f = forkliftsMap.get(key);
+      Position foreseen = new Position(-1,-1,Orientation.UP);
+      if(!f.returnPathToNextTask().isEmpty()) f.getPosition().computeNextPosition(f.returnPathToNextTask().get(0));
+      f.setForeseenPosition(foreseen);
       if(f.isActive()) {f.removeFirstMove();}
     } */
+  }
+
+  public List<CollisionForklift> getCollisionForklifts() {
+    return forkliftsMap.values().stream().filter(f -> f.isActive()).map(f -> new CollisionForklift(f)).collect(Collectors.toList());
   }
 
 }
