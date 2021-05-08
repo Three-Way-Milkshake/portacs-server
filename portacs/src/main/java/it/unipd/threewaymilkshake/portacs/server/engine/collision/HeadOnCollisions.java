@@ -18,7 +18,7 @@ public class HeadOnCollisions implements Handler<Map<SimplePoint,List<CollisionF
     public boolean headOnRisk(CollisionForklift first, CollisionForklift second) {
         Position positionFirst = first.getForklift().getPosition();
         Position positionSecond = second.getForklift().getPosition();
-        if(positionFirst.getPoint() == positionSecond.getPoint()) {
+        if(positionFirst.getPoint().equals(positionSecond.getPoint())) {
             System.out.println("****************COLLISIONE AVVENUTA***********************");
             first.collisionOccurred();
             second.collisionOccurred();

@@ -92,7 +92,7 @@ public class WarehouseMap {
     // return strategy.getPath(intMatrix, start, end);
     int[][] mat=getIntMatrix();
     for(SimplePoint p : extras) {
-      if(p.getX() < map.length && p.getY() < map[0].length) {
+      if(p.getX() < map.length && p.getY() < map[0].length && p.getX() >= 0 && p.getY() >= 0) {
         mat[p.getX()][p.getY()]=CellType.OBSTACLE.ordinal();
       }
     }
