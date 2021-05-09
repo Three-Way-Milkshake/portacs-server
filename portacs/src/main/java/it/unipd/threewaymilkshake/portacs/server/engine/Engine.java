@@ -138,7 +138,8 @@ public class Engine /* implements Runnable */ {
         .forEach(m->{
           b.append(m);
         });
-      }
+      exceptionalEvents.clear();
+    }
     final String msgEcc=b.isEmpty()?null:b.toString();
     //USERS UPDATE ON FORKS POSITIONS
     usersList.getActiveUsers().stream()

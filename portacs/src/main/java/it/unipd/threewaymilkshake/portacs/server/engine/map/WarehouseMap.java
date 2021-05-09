@@ -87,11 +87,14 @@ public class WarehouseMap {
     return strategy.getPath(getIntMatrix(), start, end);
   }
 
-  public synchronized List<Move> getPath(AbstractLocation start, long poi, List<SimplePoint> extras) {
+  public synchronized List<Move> getPath(AbstractLocation start, long poi, List<SimplePoint> extras) throws Exception {
     AbstractLocation end = pois.get(poi).getLocation();
     // return strategy.getPath(intMatrix, start, end);
     int[][] mat=getIntMatrix();
     for(SimplePoint p : extras) {
+      if(p.equals(end)){
+        throw new Exception("obstacle == destination");
+      }
       if(p.getX() < map.length && p.getY() < map[0].length) {
         mat[p.getX()][p.getY()]=CellType.OBSTACLE.ordinal();
       }

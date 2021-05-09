@@ -141,14 +141,30 @@ public class Forklift extends Client {
   }
 
   public String getPathToNextTaskWithObstacles(List<SimplePoint> points) {
-    pathToNextTask = warehouseMap.getPath(position, tasks.getNext(), points);
     //pathToNextTask.add(0,Move.STOP); 
     //if(points.size() == 1) pathToNextTask.add(0,Move.STOP);
-    return pathToNextTask.stream()
+    String path=null;
+    try{
+      pathToNextTask = warehouseMap.getPath(position, tasks.getNext(), points);
+      
+    }
+    catch(Exception e){
+      //do nothing
+      // pathToNextTask.clear(); //TODO capire se svuotare o no mosse
+      // path=String.valueOf(Move.STOP.ordinal()+Move.STOP.ordinal());
+      pathToNextTask.add(0, Move.STOP);
+      pathToNextTask.add(0, Move.STOP);
+    }
+
+    path=pathToNextTask.stream()
       .map(m->m.ordinal())
       .collect(Collectors.toList())
       .toString()
       .replaceAll("\\[|\\]| ", "");
+
+    System.out.println("CALCULATED PATH IS: "+pathToNextTask);
+
+    return path;
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
