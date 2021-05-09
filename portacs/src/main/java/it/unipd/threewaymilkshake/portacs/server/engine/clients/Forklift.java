@@ -22,7 +22,7 @@ public class Forklift extends Client {
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
-  //private Position foreseenPosition = new Position(-1,-1,Orientation.UP);
+  private Position foreseenPosition;
   private Deque<String> exceptionalEvents;
   private int numberOfStalls; //TODO: Nicolò
         // ad ogni ricezione della posizione bisogna controllare
@@ -79,7 +79,7 @@ public class Forklift extends Client {
                 switch (par[0]) {
                   case "POS":
                     updatePositionAndDeadlock(par);
-                    /*if(position != foreseenPosition) {
+                    /*if(!pathToNextTask.isEmpty() && !position.equals(foreseenPosition)) {
                       System.out.println("***********POSIZIONE SI DISCOSTA DA QUANTO CALCOLATO************");
                       System.out.println("E': " + position.getX() + " " + position.getY() + " "+ position.getOrientation());
                       System.out.println("Ma doveva essere: " + foreseenPosition.getX() + " " + foreseenPosition.getY() + " "+ foreseenPosition.getOrientation());
@@ -283,9 +283,9 @@ public class Forklift extends Client {
       .replaceAll("\\[|\\]| ", "");
   }
 
-  /*public void setForeseenPosition(Position foreseen) {
+  public void setForeseenPosition(Position foreseen) {
     foreseenPosition = foreseen;
-  }*/
+  }
 
 
 }

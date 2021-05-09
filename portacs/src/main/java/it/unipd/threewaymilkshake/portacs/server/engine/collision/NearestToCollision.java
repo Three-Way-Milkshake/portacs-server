@@ -60,7 +60,7 @@ public class NearestToCollision implements Handler<Map<SimplePoint, List<Collisi
         
         if(!output.isEmpty()) System.out.println("++RISOLUZIONE COLLISIONI: ++");
         for(CollisionForklift unit : output) {
-            System.out.println(unit.getForklift().getId() + ": Stop per " + unit.getStops() + "turni; ricalcolo_" + unit.isRecalculating());
+            System.out.println(unit.getForklift().getId() + ": Stop per " + unit.getStops() + " turni; ricalcolo_" + unit.isRecalculating());
         }
 
         return output;

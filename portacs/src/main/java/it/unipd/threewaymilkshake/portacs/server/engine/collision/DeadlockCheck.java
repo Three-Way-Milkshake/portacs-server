@@ -26,7 +26,7 @@ public class DeadlockCheck
 
                 SimplePoint randomObstacle = f.getForklift().getPosition().generateNearRandomPoint(positionForklift);
 
-                System.out.println("Calculating new path with obstacle at " + obstacle.getX() + ";" + obstacle.getY() + "and random point: " + randomObstacle.getX() + ";" + randomObstacle.getY());
+                System.out.println("Calculating new path with obstacle at " + obstacle.getX() + ";" + obstacle.getY() + " and random point: " + randomObstacle.getX() + ";" + randomObstacle.getY());
                 f.getForklift().setDeadlock(false);
                 f.setRecalculate(Arrays.asList(obstacle,randomObstacle));
                 

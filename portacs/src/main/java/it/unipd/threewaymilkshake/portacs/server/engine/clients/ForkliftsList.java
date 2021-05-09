@@ -274,11 +274,11 @@ public class ForkliftsList {
 
   public void goWithNextMove() {
     getActiveForklifts().parallelStream().forEach(Forklift::removeFirstMove);
-  
-   /*  for(String key : forkliftsMap.keySet()) {
+  /*
+     for(String key : forkliftsMap.keySet()) {
       Forklift f = forkliftsMap.get(key);
       Position foreseen = new Position(-1,-1,Orientation.UP);
-      if(!f.returnPathToNextTask().isEmpty()) f.getPosition().computeNextPosition(f.returnPathToNextTask().get(0));
+      if(!f.returnPathToNextTask().isEmpty()) foreseen = f.getPosition().computeNextPosition(f.returnPathToNextTask().get(0));
       f.setForeseenPosition(foreseen);
       if(f.isActive()) {f.removeFirstMove();}
     } */

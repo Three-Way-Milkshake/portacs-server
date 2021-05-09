@@ -118,10 +118,13 @@ public class AppConfig {
   // @Scope("prototype")
   public TasksSequencesList tasksSequencesListTest() {
     TasksSequencesList t = new TasksSequencesList();
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 8L, 13L, 7L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(10L, 16L, 6L, 8L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(15L, 3L, 2L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L, 6L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 8L, 13L, 7L, 1L, 8L, 13L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(10L, 16L, 6L, 8L, 7L, 8L, 6L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(15L, 3L, 2L, 15L, 3L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L, 6L, 15L, 3L, 2L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 13L, 8L, 7L, 8L, 6L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L, 6L, 15L, 3L, 16L, 6L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L, 6L, 15L, 7L, 8L, 6L)));
     return t;
   }
 
