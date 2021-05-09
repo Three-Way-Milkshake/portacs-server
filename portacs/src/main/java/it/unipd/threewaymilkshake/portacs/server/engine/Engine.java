@@ -78,7 +78,7 @@ public class Engine /* implements Runnable */ {
       if(fork.hasCollisionOccurred()) {
         System.out.println("***********COLLISIONE AVVENUTA**********: unita' " + fork.getForklift().getId());
         // TODO: EVENTO ECCEZIONALE DI COLLISIONE AVVENUTA (TRA UNITà IN GUIDA MANUALE E AUTOMATICA)
-        fork.getForklift().write("STOP,"+0+";");
+        //fork.getForklift().write("STOP,"+0+";");
       }
       else if(fork.isRecalculating()) {
           String nextPath = fork.getForklift().getPathToNextTaskWithObstacles(fork.getObstacles());

@@ -180,7 +180,7 @@ public class AppConfig {
     return new CollisionPipeline<>(deadlockCheck())
       .addHandler(collisionDetection())
       .addHandler(headOnCollisions())
-      .addHandler(numberOfCollisions())
+    //  .addHandler(numberOfCollisions())
       .addHandler(nearestToCollision());
   }
 

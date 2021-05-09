@@ -43,6 +43,7 @@ public class NumberOfCollisions implements Handler<Map<SimplePoint,List<Collisio
             //System.out.println(key.id + ":" + numberOfCollision.get(key));
             
             if(numberOfCollision.get(key) > 1) {
+                System.out.println("Added 1 stop to unit" + key.getForklift().getId() + " because it causes > 1 collisions");
                 key.addStop();
             }
                 

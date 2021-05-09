@@ -149,11 +149,11 @@ public class Forklift extends Client {
       
     }
     catch(Exception e){
-      //do nothing
+      // do nothing
       // pathToNextTask.clear(); //TODO capire se svuotare o no mosse
       // path=String.valueOf(Move.STOP.ordinal()+Move.STOP.ordinal());
       pathToNextTask.add(0, Move.STOP);
-      pathToNextTask.add(0, Move.STOP);
+      //pathToNextTask.add(0, Move.STOP);
     }
 
     path=pathToNextTask.stream()

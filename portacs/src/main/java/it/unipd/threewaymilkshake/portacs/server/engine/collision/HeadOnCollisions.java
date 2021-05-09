@@ -44,12 +44,14 @@ public class HeadOnCollisions implements Handler<Map<SimplePoint,List<CollisionF
 
     public void setCollisions(CollisionForklift a, CollisionForklift b) {
         if(headOnRisk(a,b)) { // c'è rischio frontale
-            System.out.println("RISCHIO FRONTALE");
+            System.out.println("Head on risk: ");
             if(a.isInStop()) {
+                System.out.println("Unit " + a.getForklift().getId() + " will stop, while " + b.getForklift().getId() + " will recalculate based on the position "+ a.getForklift().getPosition());
                 a.addStop();
                 b.setRecalculate(a.getForklift().getPosition());
             }
             else if(b.isInStop()) {
+                System.out.println("Unit " + b.getForklift().getId() + " will stop, while " + a.getForklift().getId() + " will recalculate based on the position "+ b.getForklift().getPosition());                
                 b.addStop();
                 a.setRecalculate(b.getForklift().getPosition());
             }
@@ -57,10 +59,12 @@ public class HeadOnCollisions implements Handler<Map<SimplePoint,List<CollisionF
                 Random rand = new Random(); 
                 int random = rand.nextInt(1); 
                 if(random == 0) {
+                    System.out.println("Unit " + a.getForklift().getId() + " will stop, while " + b.getForklift().getId() + " will recalculate based on the position "+ a.getForklift().getPosition());                
                     a.addStop();
                     b.setRecalculate(a.getForklift().getPosition());
                 }
                 else {
+                    System.out.println("Unit " + b.getForklift().getId() + " will stop, while " + a.getForklift().getId() + " will recalculate based on the position "+ b.getForklift().getPosition());                
                     b.addStop();
                     a.setRecalculate(b.getForklift().getPosition());
                 }

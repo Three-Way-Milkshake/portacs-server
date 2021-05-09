@@ -31,6 +31,7 @@ public class NearestToCollision implements Handler<Map<SimplePoint, List<Collisi
                 int distance = unit.getForklift().getPosition().getPoint().calculateDistance(key);
                 if (!unit.isInStop() && !unit.isRecalculating()) {
                     if (distance > min) {
+                        System.out.println("Unit " + unit.getForklift().getId() + " stops because its distance to the collision point is "+ distance + "which is < than " + min);
                         unit.addStop();
                     } else if (distance == min) {
                         equals.add(unit);
@@ -43,6 +44,7 @@ public class NearestToCollision implements Handler<Map<SimplePoint, List<Collisi
                 int random = rand.nextInt(equals.size());
                 for (int i = 0; i < equals.size(); i++) {
                     if (i != random)
+                        System.out.println("Unit " + equals.get(i).getForklift().getId() + " stops because it has been randomly chosen for distance purposes");
                         equals.get(i).addStop();
                 }
 

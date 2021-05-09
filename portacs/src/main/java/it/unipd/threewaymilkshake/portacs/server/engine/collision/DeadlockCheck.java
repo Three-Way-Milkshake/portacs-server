@@ -20,7 +20,7 @@ public class DeadlockCheck
                 SimplePoint positionForklift = f.getForklift().getPosition().getPoint();
                 SimplePoint obstacle = f.getForklift().getPosition().getPoint();
 
-                for (int i = 1; obstacle == positionForklift; i++) {
+                for (int i = 1; obstacle.equals(positionForklift); i++) {
                     obstacle = f.getForklift().getNextPositions(i).get(i);
                 }
 
