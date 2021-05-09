@@ -95,7 +95,7 @@ public class WarehouseMap {
       if(p.equals(end)){
         throw new Exception("obstacle == destination");
       }
-      if(p.getX() < map.length && p.getY() < map[0].length) {
+      if(p.getX() < map.length && p.getY() < map[0].length && p.getX() >= 0 && p.getY() >= 0) {
         mat[p.getX()][p.getY()]=CellType.OBSTACLE.ordinal();
       }
     }
