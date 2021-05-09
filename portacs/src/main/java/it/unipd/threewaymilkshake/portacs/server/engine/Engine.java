@@ -61,7 +61,7 @@ public class Engine /* implements Runnable */ {
     new CollisionPipeline<>(new CollisionDetector()
     .addHandler(new CollisionSolver()));*/
 
-  @Scheduled(fixedDelay = 1000, initialDelay = 3000)
+  @Scheduled(fixedDelay = 500, initialDelay = 3000)
   public void execute() {
     System.out.println("Hello from engine "+(counter++)/* +" with map"+warehouseMap */);
     System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
@@ -142,6 +142,8 @@ public class Engine /* implements Runnable */ {
     }
     final String msgEcc=b.isEmpty()?null:b.toString();
     //USERS UPDATE ON FORKS POSITIONS
+    String activeForkliftsPositions=forkliftsList.getActiveForkliftsPositions();
+    
     usersList.getActiveUsers().stream()
         .parallel()
         .forEach(
@@ -149,7 +151,7 @@ public class Engine /* implements Runnable */ {
               if(msgEcc!=null){
                 u.write(msgEcc);
               }
-              u.writeAndSend(forkliftsList.getForkliftsPositions());
+              u.writeAndSend(activeForkliftsPositions);
             });
 
     //USERS JOBS

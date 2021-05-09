@@ -136,20 +136,23 @@ public class ForkliftsList {
     // return "FAKETOKEN";
   }
 
-  public String getForkliftsPositions() {
+  /**
+   * @return string representing positions and orientation of all active
+   * forklifts, as 3 way protocol (UNI,N,ID1,X1,Y1,D1)
+   */
+  public String getActiveForkliftsPositions() {
     StringBuilder b = new StringBuilder();
     b.append("UNI,");
-    b.append(forkliftsMap.size());
+    var activeForklifts=getActiveForklifts();
+    b.append(activeForklifts.size());
     b.append(',');
-    forkliftsMap.values().stream()
+    activeForklifts.stream()
         .forEach(
             f -> {
-              // if(f.isActive()){
                 b.append(f.getId());
                 b.append(',');
                 b.append(f.getPositionString());
                 b.append(',');
-              // }
             });
     b.deleteCharAt(b.length() - 1);
     b.append(';');
@@ -157,17 +160,25 @@ public class ForkliftsList {
     return b.toString();
   }
 
-  /** @return sequence representng all forklifts and their tasks (LIST,IDF,N,IDP1,IDP2;LIST...) */
+  /** @return string representng all forklifts and their tasks (LIST,IDF,N,IDP1,IDP2;LIST...) */
   public String getForkliftsTasks() {
     StringBuilder b = new StringBuilder();
-    forkliftsMap.forEach(
+    getActiveForklifts().forEach(f->{
+        b.append("LIST,");
+          b.append(f.getId());
+          b.append(',');
+          b.append(f.getTasksString());
+          b.append(';');
+      });
+
+    /* forkliftsMap.forEach(
         (k, v) -> {
           b.append("LIST,");
           b.append(k);
           b.append(',');
           b.append(v.getTasksString());
           b.append(';');
-        });
+        }); */
     return b.toString();
   }
 
