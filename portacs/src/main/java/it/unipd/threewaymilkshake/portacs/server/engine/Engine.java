@@ -1,6 +1,7 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine;
 
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.Admin;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.Client;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.Forklift;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
@@ -66,6 +67,12 @@ public class Engine /* implements Runnable */ {
     System.out.println("Hello from engine "+(counter++)/* +" with map"+warehouseMap */);
     System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
       " forklifts and "+usersList.getActiveUsers().size()+" users active");
+
+    //USER JOBS
+    usersList.getActiveUsers()
+      .stream()
+      .parallel()
+      .forEach(Client::processCommunication);
     
     // FORKLIFT JOBS
     forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
@@ -143,18 +150,23 @@ public class Engine /* implements Runnable */ {
     final String msgEcc=b.isEmpty()?null:b.toString();
     //USERS UPDATE ON FORKS POSITIONS
     String activeForkliftsPositions=forkliftsList.getActiveForkliftsPositions();
+    String activeForkliftsTasks=forkliftsList.getActiveForkliftsTasks();
     
     usersList.getActiveUsers().stream()
         .parallel()
         .forEach(
             u -> {
-              if(msgEcc!=null){
+              if(msgEcc!=null /* && u.getClass()==Admin.class */){ //TODO ECC solo per Admin?
                 u.write(msgEcc);
               }
+              u.write(activeForkliftsTasks);
               u.writeAndSend(activeForkliftsPositions);
             });
 
     //USERS JOBS
-    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
+    usersList.getActiveUsers()
+      .stream()
+      .parallel()
+      .forEach(Client::processCommunication);
   }
 }
