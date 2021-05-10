@@ -34,9 +34,9 @@ public class UsersList {
   private WarehouseMap warehouseMap;
   // @Autowired private PasswordEncoder passwordEncoder;
 
-  private static final String UNRECOGNIZED_USER = "FAIL,Unrecognized user";
-  private static final String WRONG_PWD = "FAIL,Wrong password";
-  private static final String ACTIVE_USER="FAIL,User is active";
+  private static final String UNRECOGNIZED_USER = "FAIL,Utente non riconosciuto";
+  private static final String WRONG_PWD = "FAIL,Password errata";
+  private static final String ACTIVE_USER="FAIL,L'utente è al momento attivo";
 
   private static final int BASE_PWD_LENGTH=8;
 

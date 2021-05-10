@@ -28,10 +28,10 @@ public class ForkliftsList {
   @Autowired private WarehouseMap warehouseMap;
   @Autowired private TasksSequencesList tasksSequencesList;
 
-  private static final String UNRECOGNIZED_FORKLIFT = "FAIL,Unrecognized forklift";
-  private static final String WRONG_TOKEN = "FAIL,Wrong token";
-  private static final String ACTIVE_FORKLIFT="FAIL,Forklift is active";
-  private static final String ALREADY_EXISTING_FORKLIFT="FAIL,Forklift is active";
+  private static final String UNRECOGNIZED_FORKLIFT = "FAIL,Muletto non riconosciuto";
+  private static final String WRONG_TOKEN = "FAIL,Token errato";
+  private static final String ACTIVE_FORKLIFT="FAIL,Muletto già attivo";
+  private static final String ALREADY_EXISTING_FORKLIFT="FAIL,Esiste già un muletto con questo identificativo";
 
   private static final int TOKEN_LENGTH=16;
 
@@ -161,7 +161,7 @@ public class ForkliftsList {
   }
 
   /** @return string representng all forklifts and their tasks (LIST,IDF,N,IDP1,IDP2;LIST...) */
-  public String getForkliftsTasks() {
+  public String getActiveForkliftsTasks() {
     StringBuilder b = new StringBuilder();
     getActiveForklifts().forEach(f->{
         b.append("LIST,");
