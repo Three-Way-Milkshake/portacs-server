@@ -62,17 +62,18 @@ public class Engine /* implements Runnable */ {
     new CollisionPipeline<>(new CollisionDetector()
     .addHandler(new CollisionSolver()));*/
 
-  @Scheduled(fixedDelay = 500, initialDelay = 3000)
+  @Scheduled(fixedDelay = 1000, initialDelay = 3000) //TODO set fixedRate instead to skip eventual failed executions (blocked IO) (?)
   public void execute() {
     System.out.println("Hello from engine "+(counter++)/* +" with map"+warehouseMap */);
     System.out.println("there are "+forkliftsList.getActiveForklifts().size()+
       " forklifts and "+usersList.getActiveUsers().size()+" users active");
 
     //USER JOBS
-    usersList.getActiveUsers()
+    //TODO exrta round 4 users? must send position here too otherwise will block IO user side
+    /* usersList.getActiveUsers()
       .stream()
       .parallel()
-      .forEach(Client::processCommunication);
+      .forEach(Client::processCommunication); */
     
     // FORKLIFT JOBS
     forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
