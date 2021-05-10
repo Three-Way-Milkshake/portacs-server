@@ -163,13 +163,18 @@ public class ForkliftsList {
   /** @return string representng all forklifts and their tasks (LIST,IDF,N,IDP1,IDP2;LIST...) */
   public String getActiveForkliftsTasks() {
     StringBuilder b = new StringBuilder();
-    getActiveForklifts().forEach(f->{
-        b.append("LIST,");
+    b.append("LIST,");
+    var activeForklifts=getActiveForklifts();
+    b.append(activeForklifts.size());
+    b.append(',');
+    activeForklifts.forEach(f->{
           b.append(f.getId());
           b.append(',');
           b.append(f.getTasksString());
-          b.append(';');
+          b.append(',');
       });
+    b.deleteCharAt(b.length() - 1);
+    b.append(';');
 
     /* forkliftsMap.forEach(
         (k, v) -> {

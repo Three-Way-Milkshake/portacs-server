@@ -28,6 +28,8 @@ public class ForkliftsListTest {
     List<Forklift> list = new ArrayList<>();
     Forklift f1 = mock(Forklift.class), f2 = mock(Forklift.class);
 
+    when(f1.isActive()).thenReturn(true);
+    when(f2.isActive()).thenReturn(true);
     when(f1.getId()).thenReturn("f1");
     when(f2.getId()).thenReturn("f2");
     when(f1.getToken()).thenReturn("abc");
@@ -42,7 +44,7 @@ public class ForkliftsListTest {
     fDao = mock(ForkliftDao.class);
     when(fDao.readForklifts()).thenReturn(list);
 
-    // fList = new ForkliftsList(fDao);
+    fList = new ForkliftsList(fDao, null, null, null);
   }
 
   @Test
@@ -62,7 +64,7 @@ public class ForkliftsListTest {
 
     ForkliftsList list=new ForkliftsList(fDao); */
 
-    assertEquals("UNI,2,f1,0,0,0,f2,2,3,2;", fList.getForkliftsPositions());
+    assertEquals("UNI,2,f1,0,0,0,f2,2,3,2;", fList.getActiveForkliftsPositions());
   }
 
   @Test
@@ -72,7 +74,7 @@ public class ForkliftsListTest {
 
   @Test
   public void testGetForkliftsTasks() {
-    assertEquals("LIST,f1,3,1,2,3;LIST,f2,5,4,7,12,9;", fList.getForkliftsTasks());
+    assertEquals("LIST,2,f1,3,1,2,3,f2,5,4,7,12,9;", fList.getActiveForkliftsTasks());
   }
 
   @Test
