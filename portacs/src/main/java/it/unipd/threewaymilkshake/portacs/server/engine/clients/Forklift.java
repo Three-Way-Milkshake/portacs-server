@@ -12,14 +12,10 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 public class Forklift extends Client {
-  @Expose
-  String token;
+  @Expose String token;
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
@@ -64,7 +60,7 @@ public class Forklift extends Client {
   public void processCommunication() {
     connection.send("ALIVE;");
     if (active && connection.isAlive()) {
-      try{
+      try {
         String[] commands = connection.getLastMessage().split(";");
         Arrays.stream(commands)
             .forEach(
@@ -86,43 +82,44 @@ public class Forklift extends Client {
                         System.out.println("Ma doveva essere: " + foreseenPosition.getX() + " " + foreseenPosition.getY() + " "+ foreseenPosition.getOrientation());
                       }*/
                       System.out.println("I am at: " + position.toString());
-                      //if(!pathToNextTask.isEmpty())pathToNextTask.remove(0);
+                      // if(!pathToNextTask.isEmpty())pathToNextTask.remove(0);
                       break;
                     case "PATH":
-                      if (par[1].equals("1")){
-                        if(!tasks.isEmpty()){
+                      if (par[1].equals("1")) {
+                        if (!tasks.isEmpty()) {
                           tasks.extractNext();
-                        } 
+                        }
                       }
-                      if(tasks.isEmpty()){
+                      if (tasks.isEmpty()) {
                         connection.writeToBuffer("PATH,EMPTY;");
-                      }
-                      else{
+                      } else {
                         connection.writeToBuffer("PATH," + getPathToNextTask() + ";");
                       }
                       break;
                     case "LIST":
-                      if(tasks==null || tasks.isEmpty()){
+                      if (tasks == null || tasks.isEmpty()) {
                         tasks = tasksSequencesList.getTasksSequence();
-                        //write to users?
+                        // write to users?
                       }
                       connection.writeToBuffer(tasks.toString());
                       break;
 
                     case "ECC":
-                      exceptionalEvents.add("ECC,"+"Il muletto "+id
-                        +" segnala un problema. Intervenire sul luogo;");
+                      exceptionalEvents.add(
+                          "ECC,"
+                              + "Il muletto "
+                              + id
+                              + " segnala un problema. Intervenire sul luogo;");
 
                     default:
                       System.out.println("Unrecognized message: " + par[0]);
                   }
                 });
-        }
-        catch(NullPointerException e){
-          //interruzione inaspettate della connessione
-          clearConnection();
-        }
-      
+      } catch (NullPointerException e) {
+        // interruzione inaspettate della connessione
+        clearConnection();
+      }
+
     } else {
       clearConnection();
     }
@@ -140,8 +137,11 @@ public class Forklift extends Client {
 
   String getPathToNextTask() {
     pathToNextTask = warehouseMap.getPath(position, tasks.getNext());
-    return pathToNextTask.stream().map(m -> m.ordinal()).collect(Collectors.toList()).toString().replaceAll("\\[|\\]| ",
-        "");
+    return pathToNextTask.stream()
+        .map(m -> m.ordinal())
+        .collect(Collectors.toList())
+        .toString()
+        .replaceAll("\\[|\\]| ", "");
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
@@ -160,8 +160,12 @@ public class Forklift extends Client {
       // pathToNextTask.add(0, Move.STOP);
     }
 
-    path = pathToNextTask.stream().map(m -> m.ordinal()).collect(Collectors.toList()).toString().replaceAll("\\[|\\]| ",
-        "");
+    path =
+        pathToNextTask.stream()
+            .map(m -> m.ordinal())
+            .collect(Collectors.toList())
+            .toString()
+            .replaceAll("\\[|\\]| ", "");
 
     System.out.println("CALCULATED PATH IS: " + pathToNextTask);
 
@@ -169,11 +173,15 @@ public class Forklift extends Client {
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
-  public String getPathToNextTaskWithObstacleRandom(SimplePoint obstacle, Position forkliftPosition) { // TODO: to
-                                                                                                       // remove
+  public String getPathToNextTaskWithObstacleRandom(
+      SimplePoint obstacle, Position forkliftPosition) { // TODO: to
+    // remove
     // pathToNextTask.add(0,Move.STOP);
-    return pathToNextTask.stream().map(m -> m.ordinal()).collect(Collectors.toList()).toString().replaceAll("\\[|\\]| ",
-        "");
+    return pathToNextTask.stream()
+        .map(m -> m.ordinal())
+        .collect(Collectors.toList())
+        .toString()
+        .replaceAll("\\[|\\]| ", "");
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
@@ -181,14 +189,15 @@ public class Forklift extends Client {
     Integer newX = Integer.parseInt(pos[1]);
     Integer newY = Integer.parseInt(pos[2]);
     Orientation newOrientation = Orientation.values()[Integer.parseInt(pos[3])];
-    if (newX == position.getX() && newY == position.getY() && newOrientation == position.getOrientation()
+    if (newX == position.getX()
+        && newY == position.getY()
+        && newOrientation == position.getOrientation()
         && hasPath()) {
       numberOfStalls++;
     } else {
       position.setPosition(newX, newY, newOrientation);
       numberOfStalls = 0;
     }
-
   }
 
   void resetPosition() {
@@ -204,10 +213,7 @@ public class Forklift extends Client {
     return position.toString();
   }
 
-  /**
-   * @return next tasks number and ids only e.g.: given 3 tasks 1,2,3 will return:
-   *         3,1,2,3
-   */
+  /** @return next tasks number and ids only e.g.: given 3 tasks 1,2,3 will return: 3,1,2,3 */
   public String getTasksString() {
     return String.valueOf(tasks.size()) + ',' + tasks.toString().replaceAll("(LIST,|;)", "");
   }
@@ -218,24 +224,32 @@ public class Forklift extends Client {
 
   public List<SimplePoint> getNextPositions(int numberOfNextMoves) {
     LinkedList<SimplePoint> positionsToReturn = new LinkedList<SimplePoint>();
-    Position positionParameter = new Position(position.getX(), position.getY(), position.getOrientation());
-    return getNextPositionsRecursive(0, numberOfNextMoves, positionParameter, pathToNextTask, positionsToReturn);
+    Position positionParameter =
+        new Position(position.getX(), position.getY(), position.getOrientation());
+    return getNextPositionsRecursive(
+        0, numberOfNextMoves, positionParameter, pathToNextTask, positionsToReturn);
   }
 
-  private static List<SimplePoint> getNextPositionsRecursive(int i, int numberOfNextMoves, Position actualPosition,
-      List<Move> pathToNextTask, LinkedList<SimplePoint> toReturn) {
+  private static List<SimplePoint> getNextPositionsRecursive(
+      int i,
+      int numberOfNextMoves,
+      Position actualPosition,
+      List<Move> pathToNextTask,
+      LinkedList<SimplePoint> toReturn) {
 
     if (i == numberOfNextMoves + 1) {
       return toReturn;
     } else if (i == 0) {
       toReturn.add(new SimplePoint(actualPosition.getX(), actualPosition.getY()));
-      return getNextPositionsRecursive(i + 1, numberOfNextMoves, actualPosition, pathToNextTask, toReturn);
+      return getNextPositionsRecursive(
+          i + 1, numberOfNextMoves, actualPosition, pathToNextTask, toReturn);
     } else {
       if (pathToNextTask.size() > i - 1) {
         actualPosition.computeNextPosition(pathToNextTask.get(i - 1));
       }
       toReturn.add(new SimplePoint(actualPosition.getX(), actualPosition.getY()));
-      return getNextPositionsRecursive(i + 1, numberOfNextMoves, actualPosition, pathToNextTask, toReturn);
+      return getNextPositionsRecursive(
+          i + 1, numberOfNextMoves, actualPosition, pathToNextTask, toReturn);
     }
   }
 
@@ -252,8 +266,7 @@ public class Forklift extends Client {
   }
 
   public void removeFirstMove() {
-    if (!pathToNextTask.isEmpty())
-      pathToNextTask.remove(0);
+    if (!pathToNextTask.isEmpty()) pathToNextTask.remove(0);
   }
 
   public void clearPath() {
@@ -273,12 +286,14 @@ public class Forklift extends Client {
   }
 
   public String getCurrentPathString() {
-    return pathToNextTask.stream().map(m -> m.ordinal()).collect(Collectors.toList()).toString().replaceAll("\\[|\\]| ",
-        "");
+    return pathToNextTask.stream()
+        .map(m -> m.ordinal())
+        .collect(Collectors.toList())
+        .toString()
+        .replaceAll("\\[|\\]| ", "");
   }
 
   public void setForeseenPosition(Position foreseen) {
     foreseenPosition = foreseen;
   }
-
 }

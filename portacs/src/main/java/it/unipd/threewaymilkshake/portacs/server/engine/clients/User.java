@@ -4,9 +4,7 @@ package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Arrays;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 /** Rappresenta un utente generico di portacs */
 public abstract class User extends Client implements Serializable {
@@ -64,8 +62,8 @@ public abstract class User extends Client implements Serializable {
     this.lastName = lastName;
   }
 
-  public void setPwdHash(String pwdHash){
-    this.pwdHash=pwdHash;
+  public void setPwdHash(String pwdHash) {
+    this.pwdHash = pwdHash;
   }
 
   private void editProfile(String what, String value) {
@@ -83,14 +81,15 @@ public abstract class User extends Client implements Serializable {
   @Override
   public void processCommunication() {
     if (active && connection.isAlive()) {
-      try{
-        String[] commands = connection.getLastMessage().split(";"); //TODO avoid null pointer exception
+      try {
+        String[] commands =
+            connection.getLastMessage().split(";"); // TODO avoid null pointer exception
         Arrays.stream(commands)
             .forEach(
                 c -> {
                   String[] par = c.split(",");
 
-                  System.out.print("(user) "+id + ") Command: " + par[0] + ", params: ");
+                  System.out.print("(user) " + id + ") Command: " + par[0] + ", params: ");
                   for (int i = 1; i < par.length; ++i) {
                     System.out.print(par[i] + " ");
                   }
@@ -107,9 +106,8 @@ public abstract class User extends Client implements Serializable {
                       // not a common operation
                   }
                 });
-      }
-      catch(NullPointerException e){
-        //interruzione inaspettate della connessione
+      } catch (NullPointerException e) {
+        // interruzione inaspettate della connessione
         clearConnection();
       }
     } else {

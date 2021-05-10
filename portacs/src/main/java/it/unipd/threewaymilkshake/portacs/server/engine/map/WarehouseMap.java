@@ -78,7 +78,7 @@ public class WarehouseMap {
   public WarehouseMap(MapDao mapDao, PathFindingStrategy pathFindingStrategy) {
     this(mapDao.readMap());
     this.mapDao = mapDao;
-    this.strategy=pathFindingStrategy;
+    this.strategy = pathFindingStrategy;
   }
 
   public synchronized List<Move> getPath(AbstractLocation start, long poi) {
@@ -87,16 +87,17 @@ public class WarehouseMap {
     return strategy.getPath(getIntMatrix(), start, end);
   }
 
-  public synchronized List<Move> getPath(AbstractLocation start, long poi, List<SimplePoint> extras) throws Exception {
+  public synchronized List<Move> getPath(AbstractLocation start, long poi, List<SimplePoint> extras)
+      throws Exception {
     AbstractLocation end = pois.get(poi).getLocation();
     // return strategy.getPath(intMatrix, start, end);
-    int[][] mat=getIntMatrix();
-    for(SimplePoint p : extras) {
-      if(p.equals(end)){
+    int[][] mat = getIntMatrix();
+    for (SimplePoint p : extras) {
+      if (p.equals(end)) {
         throw new Exception("obstacle == destination");
       }
-      if(p.getX() < map.length && p.getY() < map[0].length && p.getX() >= 0 && p.getY() >= 0) {
-        mat[p.getX()][p.getY()]=CellType.OBSTACLE.ordinal();
+      if (p.getX() < map.length && p.getY() < map[0].length && p.getX() >= 0 && p.getY() >= 0) {
+        mat[p.getX()][p.getY()] = CellType.OBSTACLE.ordinal();
       }
     }
     return strategy.getPath(mat, start, end);
@@ -156,28 +157,30 @@ public class WarehouseMap {
 
   public void setMap(CellType[][] map) {
     this.map = map;
-    System.out.println("*** MAP IS (from map): "+toString());
+    System.out.println("*** MAP IS (from map): " + toString());
     support.firePropertyChange("map", null, map);
     mapDao.updateMap(this);
   }
 
-  public void setCell(int x, int y, String... actions){
-    //CELL,X,Y,A[,ID,T,NAME]
-    
+  public void setCell(int x, int y, String... actions) {
+    // CELL,X,Y,A[,ID,T,NAME]
 
-    CellType type=CellType.values()[Integer.valueOf(actions[0])];
-    if(map[x][y]==CellType.POI || type==CellType.POI){
-      long poiId=Long.parseLong(actions[1]);
-      if(type!=CellType.POI){
+    CellType type = CellType.values()[Integer.valueOf(actions[0])];
+    if (map[x][y] == CellType.POI || type == CellType.POI) {
+      long poiId = Long.parseLong(actions[1]);
+      if (type != CellType.POI) {
         pois.remove(poiId);
-      }
-      else{
-        Poi p=pois.get(poiId);
-        if(p==null){
-          poiId=getNextPoiId();
-          p=new Poi(poiId, actions[3], new SimplePoint(x, y), PoiType.values()[Integer.parseInt(actions[2])]);
-        }
-        else{
+      } else {
+        Poi p = pois.get(poiId);
+        if (p == null) {
+          poiId = getNextPoiId();
+          p =
+              new Poi(
+                  poiId,
+                  actions[3],
+                  new SimplePoint(x, y),
+                  PoiType.values()[Integer.parseInt(actions[2])]);
+        } else {
           p.setType(PoiType.values()[Integer.parseInt(actions[2])]);
           p.setName(actions[3]);
         }
@@ -185,14 +188,14 @@ public class WarehouseMap {
       }
     }
 
-    map[x][y]=type;
+    map[x][y] = type;
 
     support.firePropertyChange("map", null, map);
     mapDao.updateMap(this);
   }
 
-  private long getNextPoiId(){
-    return pois.keySet().stream().max(Long::compareTo).orElse(0L)+1;
+  private long getNextPoiId() {
+    return pois.keySet().stream().max(Long::compareTo).orElse(0L) + 1;
   }
 
   public Map<Long, Poi> getPois() {
@@ -201,7 +204,7 @@ public class WarehouseMap {
 
   public void setPois(Map<Long, Poi> pois) {
     this.pois = pois;
-    support.firePropertyChange("map", null, map); //TODO is it right?
+    support.firePropertyChange("map", null, map); // TODO is it right?
   }
 
   public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -218,5 +221,5 @@ public class WarehouseMap {
 
   public int getColumns() {
     return map[0].length;
-  }  
+  }
 }

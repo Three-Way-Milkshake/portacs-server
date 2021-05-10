@@ -78,9 +78,8 @@ public class ForkliftsListTest {
   }
 
   @Test
-  public void testTokenGeneration(){
-    ForkliftsList l=mock(ForkliftsList.class, Mockito.CALLS_REAL_METHODS);
+  public void testTokenGeneration() {
+    ForkliftsList l = mock(ForkliftsList.class, Mockito.CALLS_REAL_METHODS);
     assertNotNull(l.generateRandomToken());
   }
-
 }

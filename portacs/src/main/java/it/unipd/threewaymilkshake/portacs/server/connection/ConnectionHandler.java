@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.AbstractQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -25,30 +24,29 @@ public class ConnectionHandler implements Runnable {
   public ConnectionHandler(UsersList usersList, ForkliftsList forkliftsList) {
     this.users = usersList;
     this.forklifts = forkliftsList;
-    this.testCounter=1;
+    this.testCounter = 1;
   }
 
   @Scheduled(fixedDelay = 1000, initialDelay = 1000)
-  public void execute() throws InterruptedException, IOException{
+  public void execute() throws InterruptedException, IOException {
     // while(true){
-    System.out.println("Hello from handler with: "+(testCounter++));
+    System.out.println("Hello from handler with: " + (testCounter++));
     //   Thread.sleep(1000);
     // }
     /* if(!buffer.isEmpty()){
       System.out.println("REACHED");
       Socket s=buffer.poll();
-      BufferedReader in = 
+      BufferedReader in =
         new BufferedReader(new InputStreamReader(s.getInputStream()));
       System.out.println(in.readLine());
     } */
-    if(!buffer.isEmpty()) {
+    if (!buffer.isEmpty()) {
       buffer.stream()
           // .parallel()
           .forEach(
               s -> {
                 try {
-                  BufferedReader in =
-                      new BufferedReader(new InputStreamReader(s.getInputStream()));
+                  BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
                   PrintWriter out = new PrintWriter(s.getOutputStream());
                   Connection c = new Connection(s, in, out);
                   switch (in.readLine()) {

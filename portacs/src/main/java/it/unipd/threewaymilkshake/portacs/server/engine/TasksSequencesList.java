@@ -12,7 +12,8 @@ public class TasksSequencesList {
 
   public synchronized long addTasksSequence(LinkedBlockingDeque<Long> pois) {
     TasksSequence t = new TasksSequence(pois);
-    System.out.println("************** ADDED TASK LIST with ID("+NEW_SEQUENCE_ID+"): "+t.toString());
+    System.out.println(
+        "************** ADDED TASK LIST with ID(" + NEW_SEQUENCE_ID + "): " + t.toString());
     tasksMap.put(NEW_SEQUENCE_ID, t);
     return NEW_SEQUENCE_ID++;
   }
@@ -28,19 +29,19 @@ public class TasksSequencesList {
   }
 
   public synchronized TasksSequence getTasksSequence() {
-    TasksSequence r=null;
-    if(!tasksMap.isEmpty()){
+    TasksSequence r = null;
+    if (!tasksMap.isEmpty()) {
       while (!tasksMap.containsKey(NEXT_SEQUENCE_ID)) {
         ++NEXT_SEQUENCE_ID;
       }
-      r=tasksMap.remove(NEXT_SEQUENCE_ID++);
+      r = tasksMap.remove(NEXT_SEQUENCE_ID++);
     }
-    System.out.println("************** LOOKING FOR TASKS LIST with ID("+(NEXT_SEQUENCE_ID-1));
+    System.out.println("************** LOOKING FOR TASKS LIST with ID(" + (NEXT_SEQUENCE_ID - 1));
 
     return r;
   }
 
-  public int size(){
+  public int size() {
     return tasksMap.size();
   }
 }

@@ -7,7 +7,6 @@ import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,8 +14,8 @@ public abstract class Client implements PropertyChangeListener {
   @Expose protected String id;
   protected boolean active = false;
   protected Connection connection = null;
-  
-  // @Autowired 
+
+  // @Autowired
   protected WarehouseMap warehouseMap;
   protected TasksSequencesList tasksSequencesList;
 
@@ -57,7 +56,7 @@ public abstract class Client implements PropertyChangeListener {
     // connection.writeToBuffer(e.getNewValue().toString());
     if (active) {
       writeMap();
-      System.out.println("*** MAP IS (from client): "+warehouseMap.toString());
+      System.out.println("*** MAP IS (from client): " + warehouseMap.toString());
       // connection.writeToBuffer(e.getNewValue().toString());
       writePois();
     }

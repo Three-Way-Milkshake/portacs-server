@@ -148,25 +148,22 @@ public class Position extends AbstractLocation {
   }
 
   public SimplePoint generateNearRandomPoint(SimplePoint obstacle) {
-    Random rand = new Random(); 
+    Random rand = new Random();
     int random = rand.nextInt(4);
     SimplePoint toReturn;
-    if(random == 0) {
-      toReturn = new SimplePoint(obstacle.getX()+1,obstacle.getY());
-    }
-    else if(random == 1) {
-      toReturn = new SimplePoint(obstacle.getX(),obstacle.getY()+1);
-    }
-    else if(random == 2) {
-      toReturn = new SimplePoint(obstacle.getX()-1,obstacle.getY());
-    }
-    else {
-      toReturn = new SimplePoint(obstacle.getX(),obstacle.getY()-1);
+    if (random == 0) {
+      toReturn = new SimplePoint(obstacle.getX() + 1, obstacle.getY());
+    } else if (random == 1) {
+      toReturn = new SimplePoint(obstacle.getX(), obstacle.getY() + 1);
+    } else if (random == 2) {
+      toReturn = new SimplePoint(obstacle.getX() - 1, obstacle.getY());
+    } else {
+      toReturn = new SimplePoint(obstacle.getX(), obstacle.getY() - 1);
     }
     return toReturn;
   }
 
-  public SimplePoint getPoint() { //TODO:
-      return new SimplePoint(x,y);
+  public SimplePoint getPoint() { // TODO:
+    return new SimplePoint(x, y);
   }
 }

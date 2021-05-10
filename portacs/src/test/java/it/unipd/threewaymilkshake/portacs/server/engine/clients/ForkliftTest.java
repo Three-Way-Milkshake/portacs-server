@@ -20,7 +20,6 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,8 +39,6 @@ public class ForkliftTest {
   @Autowired private TasksSequencesList tasksSequencesListTest;
 
   @Captor private ArgumentCaptor<String> outCaptor;
-
-
 
   @Test
   @DisplayName("Tests if getNextPositions work as expected")
@@ -77,21 +74,20 @@ public class ForkliftTest {
 
     List<SimplePoint> returned = forklift.getNextPositions(2);
     /*List<SimplePoint> toCompare =
-        Arrays.asList(
-            new SimplePoint(0, 0),
-            new SimplePoint(0, 0),
-            new SimplePoint(1, 0));*/
+    Arrays.asList(
+        new SimplePoint(0, 0),
+        new SimplePoint(0, 0),
+        new SimplePoint(1, 0));*/
 
-    
-    for(SimplePoint s : returned) {
+    for (SimplePoint s : returned) {
       System.out.println("-+-" + s.getX() + " " + s.getY());
     }
     // System.out.println("*****************************************************");
     /*IntStream.range(0, returned.size())
-        .forEach(
-            i -> {
-              assertEquals(returned.get(i), toCompare.get(i));
-            });*/
+    .forEach(
+        i -> {
+          assertEquals(returned.get(i), toCompare.get(i));
+        });*/
     // System.out.println("*****************************************************");
   }
 

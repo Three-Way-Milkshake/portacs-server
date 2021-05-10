@@ -1,12 +1,11 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server;
 
+import static org.mockito.Mockito.mock;
+
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
-import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
-import it.unipd.threewaymilkshake.portacs.server.engine.collision.Action;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetection;
-//import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetector;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionForklift;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionPipeline;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionSolver;
@@ -23,22 +22,14 @@ import it.unipd.threewaymilkshake.portacs.server.persistency.JsonMap;
 import it.unipd.threewaymilkshake.portacs.server.persistency.JsonUser;
 import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
 import it.unipd.threewaymilkshake.portacs.server.persistency.UserDao;
-
-import static org.mockito.Mockito.mock;
-
 import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingDeque;
-
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -46,7 +37,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @PropertySource("classpath:application.properties")
 public class AppConfig {
   // private final static String MAP_FILE="Map.json";
-  //private static final String FORKLIFT_FILE = "Forklift.json";
+  // private static final String FORKLIFT_FILE = "Forklift.json";
 
   @Value("${server.database.json-users}")
   private String usersFilePath;
@@ -54,11 +45,11 @@ public class AppConfig {
   @Value("${server.database.json-forklifts}")
   private String forkliftsFilePath;
 
-  @Value("${server.database.json-map}") 
+  @Value("${server.database.json-map}")
   private String mapFilePath;
 
   @Bean("warehouseMap")
-  public WarehouseMap warehouseMap(){
+  public WarehouseMap warehouseMap() {
     return new WarehouseMap(jsonMap(), pathFindingStrategy());
   }
 
@@ -149,23 +140,27 @@ public class AppConfig {
     // return new UsersList(userDaoMock(), passwordEncoder());
   } */
 
-  //TODO: remove -> BIG code smell (imported mockito here and changed gradle)
+  // TODO: remove -> BIG code smell (imported mockito here and changed gradle)
   @Bean
-  public UserDao userDaoMock(){
-    UserDao u=mock(UserDao.class);
+  public UserDao userDaoMock() {
+    UserDao u = mock(UserDao.class);
     return u;
   }
 
   @Bean
-  public ForkliftsList forkliftsList(){
-    return new ForkliftsList(jsonForklift(), warehouseMap(), tasksSequencesListTest(), exceptionalEvents()); //TODO set real one
+  public ForkliftsList forkliftsList() {
+    return new ForkliftsList(
+        jsonForklift(),
+        warehouseMap(),
+        tasksSequencesListTest(),
+        exceptionalEvents()); // TODO set real one
     // return new ForkliftsList(forkliftDaoMock());
   }
 
-  //TODO: remove -> BIG code smell (imported mockito here and changed gradle)
+  // TODO: remove -> BIG code smell (imported mockito here and changed gradle)
   @Bean
-  public ForkliftDao forkliftDaoMock(){
-    ForkliftDao f=mock(ForkliftDao.class);
+  public ForkliftDao forkliftDaoMock() {
+    ForkliftDao f = mock(ForkliftDao.class);
     return f;
   }
 
@@ -179,36 +174,36 @@ public class AppConfig {
     return new CollisionPipeline<>(collisionDetector())
       .addHandler(collisionSolver());
   }*/
-  public CollisionPipeline<List<CollisionForklift>,Set<CollisionForklift>> collisionPipeline(){
+  public CollisionPipeline<List<CollisionForklift>, Set<CollisionForklift>> collisionPipeline() {
     return new CollisionPipeline<>(deadlockCheck())
-      .addHandler(collisionDetection())
-      .addHandler(headOnCollisions())
-    //  .addHandler(numberOfCollisions())
-      .addHandler(nearestToCollision());
+        .addHandler(collisionDetection())
+        .addHandler(headOnCollisions())
+        //  .addHandler(numberOfCollisions())
+        .addHandler(nearestToCollision());
   }
 
   @Bean
-  public CollisionDetection collisionDetection(){
+  public CollisionDetection collisionDetection() {
     return new CollisionDetection().setWarehouseMap(warehouseMap());
   }
 
   @Bean
-  public DeadlockCheck deadlockCheck(){
+  public DeadlockCheck deadlockCheck() {
     return new DeadlockCheck();
   }
 
   @Bean
-  public NumberOfCollisions numberOfCollisions(){
+  public NumberOfCollisions numberOfCollisions() {
     return new NumberOfCollisions();
   }
 
   @Bean
-  public NearestToCollision nearestToCollision(){
+  public NearestToCollision nearestToCollision() {
     return new NearestToCollision();
   }
 
   @Bean
-  public HeadOnCollisions headOnCollisions(){
+  public HeadOnCollisions headOnCollisions() {
     return new HeadOnCollisions();
   }
 
@@ -218,12 +213,12 @@ public class AppConfig {
   }*/
 
   @Bean
-  public CollisionSolver collisionSolver(){
+  public CollisionSolver collisionSolver() {
     return new CollisionSolver().setForkliftsList(forkliftsList());
   }
 
   @Bean
-  public Deque<String> exceptionalEvents(){
+  public Deque<String> exceptionalEvents() {
     return new LinkedBlockingDeque<>();
   }
 }

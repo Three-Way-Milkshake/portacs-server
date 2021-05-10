@@ -1,12 +1,10 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
-import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class Manager extends User {
@@ -53,7 +51,7 @@ public class Manager extends User {
               c -> {
                 String[] par = c.split(",");
 
-                System.out.print("(manager) "+id + ") Command: " + par[0] + ", params: ");
+                System.out.print("(manager) " + id + ") Command: " + par[0] + ", params: ");
                 for (int i = 1; i < par.length; ++i) {
                   System.out.print(par[i] + " ");
                 }
@@ -62,15 +60,14 @@ public class Manager extends User {
                 switch (par[0]) {
                   case "ADL":
                     /* addTasksSequence(
-                        Arrays.stream(Arrays.copyOfRange(par, 1, par.length))
-                            .map(Long::parseLong)
-                            .collect(Collectors.toList())); */
-                    addTasksSequence(
-                      Arrays.stream(par)
-                        .skip(1)
+                    Arrays.stream(Arrays.copyOfRange(par, 1, par.length))
                         .map(Long::parseLong)
-                        .collect(Collectors.toList())
-                    );
+                        .collect(Collectors.toList())); */
+                    addTasksSequence(
+                        Arrays.stream(par)
+                            .skip(1)
+                            .map(Long::parseLong)
+                            .collect(Collectors.toList()));
                     break;
 
                   case "RML":
