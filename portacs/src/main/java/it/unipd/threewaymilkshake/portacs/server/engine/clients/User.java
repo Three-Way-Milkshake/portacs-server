@@ -83,29 +83,35 @@ public abstract class User extends Client implements Serializable {
   @Override
   public void processCommunication() {
     if (active && connection.isAlive()) {
-      String[] commands = connection.getLastMessage().split(";");
-      Arrays.stream(commands)
-          .forEach(
-              c -> {
-                String[] par = c.split(",");
+      try{
+        String[] commands = connection.getLastMessage().split(";"); //TODO avoid null pointer exception
+        Arrays.stream(commands)
+            .forEach(
+                c -> {
+                  String[] par = c.split(",");
 
-                System.out.print("(user) "+id + ") Command: " + par[0] + ", params: ");
-                for (int i = 1; i < par.length; ++i) {
-                  System.out.print(par[i] + " ");
-                }
-                System.out.println();
+                  System.out.print("(user) "+id + ") Command: " + par[0] + ", params: ");
+                  for (int i = 1; i < par.length; ++i) {
+                    System.out.print(par[i] + " ");
+                  }
+                  System.out.println();
 
-                switch (par[0]) {
-                  case "LOGOUT":
-                    clearConnection();
-                    break;
-                  case "EDIT":
-                    editProfile(par[1], par[2]);
-                  default:
-                    // System.out.println("Unrecognized message: " + par[0]);
-                    // not a common operation
-                }
-              });
+                  switch (par[0]) {
+                    case "LOGOUT":
+                      clearConnection();
+                      break;
+                    case "EDIT":
+                      editProfile(par[1], par[2]);
+                    default:
+                      // System.out.println("Unrecognized message: " + par[0]);
+                      // not a common operation
+                  }
+                });
+      }
+      catch(NullPointerException e){
+        //interruzione inaspettate della connessione
+        clearConnection();
+      }
     } else {
       clearConnection();
     }
