@@ -4,6 +4,11 @@ plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'com.diffplug.spotless' version '5.12.4'
+
+    id 'com.github.kt3k.coveralls' version '2.12.0'
+    id 'jacoco'
+
+    id 'checkstyle'
 }
 
 group = 'it.unipd.threewaymilkshake'
@@ -38,7 +43,7 @@ spotless {
     // make sure every file has the following copyright header.
     // optionally, Spotless can set copyright years by digging
     // through git history (see "license" section below)
-    licenseHeader '/* (C) 2021 Three Way Milkshake - PORTACS - UniPD SWE */'
+    licenseHeader '/* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/'
   }
 }
 
@@ -51,12 +56,24 @@ repositories {
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.mockito:mockito-core:3.+'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.mockito:mockito-core:3.+'
+    testImplementation 'org.mockito:mockito-core:3.+' 
+}
+
+jacocoTestReport{
+	reports{
+		html.enabled = true
+		xml.enabled = true
+		csv.enabled = true
+	}
 }
 
 test {
     useJUnitPlatform()
+}
+
+
+checkstyle {
+    config = rootProject.resources.text.fromFile('config/checkstyle/checkstyle.xml')
 }
