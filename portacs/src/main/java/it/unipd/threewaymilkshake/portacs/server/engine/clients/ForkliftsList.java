@@ -256,35 +256,7 @@ public class ForkliftsList {
     return forkliftsMap.get(a).getPosition();
   }
 
-  public void runtimeDeadlockChecker() {
-    int ALERT_DEADLOCK = 2; // causa un ricalcolo del muletto
-    int CRITICAL_DEADLOCK = 10; // invio evento eccezionale
 
-    for (String key : forkliftsMap.keySet()) {
-      Forklift f = forkliftsMap.get(key);
-      if (f.isInDeadlock(ALERT_DEADLOCK)) { // TODO: Nicolò
-        System.out.println("DEADLOCK ALERT!!!!!!!!!!! " + f.id);
-        SimplePoint obstacle = new SimplePoint(f.getPosition().getX(), f.getPosition().getY());
-
-        for (int i = 1;
-            obstacle.getX() == f.getPosition().getX() && obstacle.getY() == f.getPosition().getY();
-            i++) {
-          obstacle = f.getNextPositions(i).get(i);
-        }
-        System.out.println(
-            "Calculating new path with obstacle at " + obstacle.getX() + ";" + obstacle.getY());
-        String nextPath = f.getPathToNextTaskWithObstacleRandom(obstacle, f.getPosition());
-        f.write("PATH," + nextPath + ";");
-
-        // f.setDeadlock(false);
-        // SEGNALARE RICALCOLO -> PROBLEMA: NON DEVE ESSERE SOVRASCRITTO DA UN EVENTUALE
-        // ALTRO MESSAGGIO DERIVANTE DALLA GESTIONE DELLE COLLISIONI (STOP/RICALCOLO)
-        // OPPURE SMINCHIARE IL BUFFER
-      } else if (f.isInDeadlock(CRITICAL_DEADLOCK)) { // TODO: Nicolò
-        // SEGNALARE EVENTO ECCEZIONALE
-      }
-    }
-  }
 
   public void goWithNextMove() {
     getActiveForklifts().parallelStream().forEach(Forklift::removeFirstMove);

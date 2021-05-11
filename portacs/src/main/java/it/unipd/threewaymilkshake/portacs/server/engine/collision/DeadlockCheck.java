@@ -9,12 +9,17 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
 
   @Override
   public List<CollisionForklift> process(List<CollisionForklift> input) {
-    int ALERT_DEADLOCK = 3; // causa un ricalcolo del muletto
-    int CRITICAL_DEADLOCK = 10; // invio evento eccezionale
+    int SIMPLE_DEADLOCK = 2; // causa un ricalcolo del muletto
+    int CRITICAL_DEADLOCK = 4; // ricalcolo casuale
+    int FATAL_DEADLOCK = 10;
 
     for (CollisionForklift f : input) {
-      if (f.getForklift().isInDeadlock(ALERT_DEADLOCK)) { // TODO: Nicolò
-        System.out.println("DEADLOCK ALERT!!! " + f.getForklift().getId());
+      /*if(f.getForklift().isInDeadlock(CRITICAL_DEADLOCK)) {
+        System.out.println("CRITICAL DEADLOCK! Unit " + f.getForklift().getId() + " has been in stall for " + f.getForklift().getNumberOfStalls() + " turns");
+        f.setCriticalRecalculate();
+      }
+      else*/ if (f.getForklift().isInDeadlock(SIMPLE_DEADLOCK)) { // TODO: Nicolò
+        System.out.println("DEADLOCK ALERT! Unit " + f.getForklift().getId() + " has been in stall for " + f.getForklift().getNumberOfStalls() + " turns");
         SimplePoint positionForklift = f.getForklift().getPosition().getPoint();
         SimplePoint obstacle = f.getForklift().getPosition().getPoint();
 
@@ -30,21 +35,20 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
                 + obstacle.getX()
                 + ";"
                 + obstacle.getY()
-                + " and random point: "
+                + " and random point at: "
                 + randomObstacle.getX()
                 + ";"
                 + randomObstacle.getY());
-        f.getForklift().setDeadlock(false);
+        //f.getForklift().setDeadlock(false);
         f.setRecalculate(Arrays.asList(obstacle, randomObstacle));
 
         // f.setDeadlock(false);
         // SEGNALARE RICALCOLO -> PROBLEMA: NON DEVE ESSERE SOVRASCRITTO DA UN EVENTUALE
         // ALTRO MESSAGGIO DERIVANTE DALLA GESTIONE DELLE COLLISIONI (STOP/RICALCOLO)
         // OPPURE SMINCHIARE IL BUFFER
-      } else if (f.getForklift().isInDeadlock(CRITICAL_DEADLOCK)) { // TODO: Nicolò
-        // SEGNALARE EVENTO ECCEZIONALE
       }
     }
+    
     return input;
   }
 }

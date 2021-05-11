@@ -10,6 +10,7 @@ public class ResponseCollision {
   private boolean stop;
   private int numberOfStops;
   private boolean collisionOccurred;
+  private boolean criticalRecalculate;
   private List<SimplePoint> obstacles;
 
   public List<SimplePoint> getObstacles() {
@@ -18,6 +19,7 @@ public class ResponseCollision {
 
   public ResponseCollision() {
     this.recalculate = false;
+    this.criticalRecalculate = false;
     this.stop = false;
     this.numberOfStops = 0;
     this.collisionOccurred = false;
@@ -29,7 +31,11 @@ public class ResponseCollision {
   }
 
   public boolean isRecalculating() {
-    return this.recalculate;
+    return this.recalculate || this.criticalRecalculate;
+  }
+
+  public boolean isCriticalRecalculating() {
+    return this.criticalRecalculate;
   }
 
   public void addStop(int numberOfStops) {
@@ -42,6 +48,9 @@ public class ResponseCollision {
       this.obstacles.add(obstacle);
     }
     recalculate = true;
+  }
+  public void setCriticalRecalculate() {
+    criticalRecalculate = true;
   }
 
   public void setRecalculate(List<SimplePoint> obstacles) {

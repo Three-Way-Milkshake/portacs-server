@@ -42,6 +42,7 @@ public class HeadOnCollisions
   public void setCollisions(CollisionForklift a, CollisionForklift b) {
     if (headOnRisk(a, b)) { // c'è rischio frontale
       System.out.println("Head on risk: ");
+      if(!a.isCriticalRecalculating() && !b.isCriticalRecalculating()) {
       if (a.isInStop()) {
         System.out.println(
             "Unit "
@@ -86,6 +87,7 @@ public class HeadOnCollisions
           b.addStop();
           a.setRecalculate(b.getForklift().getPosition());
         }
+      }
       }
     }
   }

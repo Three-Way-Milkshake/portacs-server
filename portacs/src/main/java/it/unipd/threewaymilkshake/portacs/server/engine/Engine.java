@@ -83,18 +83,20 @@ public class Engine /* implements Runnable */ {
 
     response.forEach(
         (fork) -> {
-          if (fork.hasCollisionOccurred()) {
+          /*if (fork.hasCollisionOccurred()) {
             System.out.println(
                 "***********COLLISIONE AVVENUTA**********: unita' " + fork.getForklift().getId());
             // TODO: EVENTO ECCEZIONALE DI COLLISIONE AVVENUTA (TRA UNITà IN GUIDA MANUALE E
             // AUTOMATICA)
             // fork.getForklift().write("STOP,"+0+";");
-          } else if (fork.isRecalculating()) {
+          } else if(fork.isCriticalRecalculating()) {
+            System.out.println("Dealing with a critical recalculation");
+            String nextPath = fork.getForklift().getPathToNextTaskWithRandomMidpoint();
+            fork.getForklift().write("PATH," + nextPath + ";");
+          }
+          else*/ if (fork.isRecalculating()) {
             String nextPath =
                 fork.getForklift().getPathToNextTaskWithObstacles(fork.getObstacles());
-            String currentPath = fork.getForklift().getCurrentPathString();
-            System.out.println("CURRENT PATH: " + currentPath);
-            System.out.println("NEXT PATH: " + nextPath);
             /*if(nextPath.equals(currentPath)) {
               System.out.println("*****PERCORSO UGUALE AL PRECEDENTE*****");
               fork.getForklift().addMove(Move.STOP);
@@ -113,31 +115,8 @@ public class Engine /* implements Runnable */ {
           }
         });
 
-    /*
-    response.forEach((fork,actions)->{
-      if(!actions.isEmpty()){
-        Forklift forklift=forkliftsList.getForklift(fork);
-        if(actions.needRecalculation()){
-          //forklift.clearPath();
-          String nextPath = forklift.getPathToNextTaskWithObstacle(Array.asList(actions.getObstacle()));
-          System.out.println(nextPath);
-          forklift.write("PATH," + nextPath + ";");
-        }
-        else{
-          int stops=actions.stopCount();
-          System.out.println("SENDING STOP..." + stops);
-          forklift.write("STOP,"+stops+";");
-          for(int i=0; i<stops; ++i) {
-            forklift.addMove(Move.STOP);
-          }
-        }
-      }
-    });
-    */
-
     forkliftsList.goWithNextMove();
 
-    // ad ogni mossa eseguita, bisogna scalare le mosse
 
     StringBuilder b = new StringBuilder();
     if (!exceptionalEvents.isEmpty()) {

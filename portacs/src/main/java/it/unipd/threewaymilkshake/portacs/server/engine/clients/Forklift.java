@@ -13,6 +13,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Forklift extends Client {
   @Expose String token;
@@ -173,16 +174,25 @@ public class Forklift extends Client {
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
-  public String getPathToNextTaskWithObstacleRandom(
-      SimplePoint obstacle, Position forkliftPosition) { // TODO: to
-    // remove
-    // pathToNextTask.add(0,Move.STOP);
-    return pathToNextTask.stream()
-        .map(m -> m.ordinal())
-        .collect(Collectors.toList())
-        .toString()
-        .replaceAll("\\[|\\]| ", "");
-    // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
+  public String getPathToNextTaskWithRandomMidpoint() { 
+    SimplePoint randomMapPoint = warehouseMap.getRandomPoint();
+    String path = null;
+    List<Move> firstPath = warehouseMap.getPathFromStartToEnd(position, randomMapPoint);
+    System.out.println("For unit " + getId() + " random midpoint at " + randomMapPoint.getX() + " " + randomMapPoint.getY());
+    List<Move> secondPath = warehouseMap.getPath(new Position(randomMapPoint.getX(),randomMapPoint.getY(),null), tasks.getNext());
+
+    pathToNextTask = Stream.concat(firstPath.stream(), secondPath.stream())
+                             .collect(Collectors.toList());
+    path =
+        pathToNextTask.stream()
+            .map(m -> m.ordinal())
+            .collect(Collectors.toList())
+            .toString()
+            .replaceAll("\\[|\\]| ", "");
+
+    System.out.println("CALCULATED PATH IS: " + pathToNextTask);
+
+    return path;
   }
 
   private void updatePositionAndDeadlock(String... pos) {
@@ -295,5 +305,9 @@ public class Forklift extends Client {
 
   public void setForeseenPosition(Position foreseen) {
     foreseenPosition = foreseen;
+  }
+
+  public int getNumberOfStalls() {
+    return numberOfStalls;
   }
 }

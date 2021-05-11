@@ -4,6 +4,7 @@ package it.unipd.threewaymilkshake.portacs.server.engine.map;
 import com.google.gson.annotations.Expose;
 import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
+import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
 import java.beans.PropertyChangeListener;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Rappresenta la planimetria del magazzino ed espone un metodo per il calcolo automatico del
@@ -84,6 +86,10 @@ public class WarehouseMap {
   public synchronized List<Move> getPath(AbstractLocation start, long poi) {
     AbstractLocation end = pois.get(poi).getLocation();
     // return strategy.getPath(intMatrix, start, end);
+    return strategy.getPath(getIntMatrix(), start, end);
+  }
+
+  public synchronized List<Move> getPathFromStartToEnd(AbstractLocation start, AbstractLocation end) {
     return strategy.getPath(getIntMatrix(), start, end);
   }
 
@@ -221,5 +227,22 @@ public class WarehouseMap {
 
   public int getColumns() {
     return map[0].length;
+  }
+
+  public SimplePoint getRandomPoint() {
+    Random rand = new Random();
+    SimplePoint toReturn = null;
+    boolean found = false;
+    while(!found) {
+      int x_rand = rand.nextInt(map.length);
+      int y_rand = rand.nextInt(map[0].length);
+      CellType cell = map[x_rand][y_rand];
+      if(cell != CellType.OBSTACLE && cell != CellType.POI)
+      {
+        toReturn = new SimplePoint(x_rand,y_rand);
+        found = true;
+      }
+    }
+    return toReturn;
   }
 }
