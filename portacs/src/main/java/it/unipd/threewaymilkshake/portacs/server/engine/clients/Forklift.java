@@ -21,6 +21,7 @@ public class Forklift extends Client {
   private Position position;
   private Position foreseenPosition;
   private Deque<String> exceptionalEvents;
+  private boolean parked=false;
   private int numberOfStalls; // TODO: Nicolò
   // ad ogni ricezione della posizione bisogna controllare
   // se il la posizione vecchia è uguale alla posizione
@@ -46,6 +47,7 @@ public class Forklift extends Client {
   public void initializeFields() {
     this.pathToNextTask = new LinkedList<>();
     this.position = new Position(0, 1, Orientation.RIGHT);
+    parked=false;
   }
 
   public void setPosition(Position position) { // TODO: visibility
@@ -54,6 +56,10 @@ public class Forklift extends Client {
 
   public void setExceptionalEvents(Deque<String> exceptionalEvents) {
     this.exceptionalEvents = exceptionalEvents;
+  }
+
+  public boolean isParked(){
+    return parked;
   }
 
   @Override
@@ -99,9 +105,32 @@ public class Forklift extends Client {
                     case "LIST":
                       if (tasks == null || tasks.isEmpty()) {
                         tasks = tasksSequencesList.getTasksSequence();
-                        // write to users?
                       }
-                      connection.writeToBuffer(tasks.toString());
+                      if(tasks!=null){
+                        connection.writeToBuffer(tasks.toString());
+                      }
+                      else{
+                        if(parked){
+                          connection.writeToBuffer("NULL;");
+                        }
+                        else{
+                          long closestExit=warehouseMap.getClosestExit(position);
+                          tasks=new TasksSequence(closestExit);
+                          connection.writeToBuffer("LISTB,"
+                            + String.valueOf(closestExit)
+                            + ";");
+                        }
+                        //TODO goingBase / parked
+                      }
+
+                      break;
+
+                    case "BASE":
+                      if(!parked && pathToNextTask.isEmpty()){
+                        parked=true;
+                        tasks=null;
+                      }
+
                       break;
 
                     case "ECC":
@@ -123,6 +152,7 @@ public class Forklift extends Client {
     } else {
       clearConnection();
     }
+    
   }
 
   public void printNextMoves() {
@@ -197,6 +227,7 @@ public class Forklift extends Client {
     } else {
       position.setPosition(newX, newY, newOrientation);
       numberOfStalls = 0;
+      // parked=false;
     }
   }
 
@@ -215,7 +246,7 @@ public class Forklift extends Client {
 
   /** @return next tasks number and ids only e.g.: given 3 tasks 1,2,3 will return: 3,1,2,3 */
   public String getTasksString() {
-    return String.valueOf(tasks.size()) + ',' + tasks.toString().replaceAll("(LIST,|;)", "");
+    return tasks!=null?String.valueOf(tasks.size()) + ',' + tasks.toString().replaceAll("(LIST,|;)", ""):"";
   }
 
   public String getToken() {

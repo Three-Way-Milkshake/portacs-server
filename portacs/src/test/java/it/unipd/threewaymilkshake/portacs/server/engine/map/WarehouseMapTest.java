@@ -11,6 +11,8 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import it.unipd.threewaymilkshake.portacs.server.AppConfig;
+import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
+import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.Manager;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.User;
@@ -87,5 +89,29 @@ public class WarehouseMapTest {
 
     assertEquals("MAP,4,4,6331100116015555;", map.toString());
     assertEquals("POI,2,0,0,0,1,test,2,1,1,2,the second;", map.poisToString());
+  }
+
+  @Test
+  public void testGetClosestPoi(){
+    CellType[][] arr = {
+      {CellType.POI     , CellType.POI      , CellType.RIGHT    , CellType.NEUTRAL },
+      {CellType.NEUTRAL , CellType.OBSTACLE , CellType.NEUTRAL , CellType.NEUTRAL },
+      {CellType.NEUTRAL , CellType.POI      , CellType.POI      , CellType.POI },
+      {CellType.LEFT    , CellType.POI      , CellType.LEFT     , CellType.LEFT    }
+    };
+    List<Poi> pois = new ArrayList<>();
+    pois.add(new Poi(1L, "test", new SimplePoint(0, 0), PoiType.EXIT));
+    pois.add(new Poi(2L, "the second", new SimplePoint(2, 1), PoiType.EXIT));
+    pois.add(new Poi(3L, "the second", new SimplePoint(2, 2), PoiType.EXIT));
+    pois.add(new Poi(4L, "the second", new SimplePoint(0, 1), PoiType.LOAD));
+    pois.add(new Poi(5L, "the second", new SimplePoint(3, 1), PoiType.UNLOAD));
+    pois.add(new Poi(6L, "the second", new SimplePoint(2, 3), PoiType.LOAD));
+    WarehouseMap map = new WarehouseMap(arr, pois, new StrategyBreadthFirst());
+
+    Position p1=new Position(1,0,Orientation.DOWN);
+    Position p2=new Position(0,3,Orientation.UP);
+
+    assertEquals(1L, map.getClosestExit(p1));
+    assertEquals(3L, map.getClosestExit(p2));
   }
 }

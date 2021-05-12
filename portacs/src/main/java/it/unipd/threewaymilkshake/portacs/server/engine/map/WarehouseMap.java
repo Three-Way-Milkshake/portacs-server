@@ -4,6 +4,7 @@ package it.unipd.threewaymilkshake.portacs.server.engine.map;
 import com.google.gson.annotations.Expose;
 import it.unipd.threewaymilkshake.portacs.server.engine.AbstractLocation;
 import it.unipd.threewaymilkshake.portacs.server.engine.Move;
+import it.unipd.threewaymilkshake.portacs.server.engine.Position;
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.persistency.MapDao;
 import java.beans.PropertyChangeListener;
@@ -12,6 +13,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Rappresenta la planimetria del magazzino ed espone un metodo per il calcolo automatico del
@@ -79,6 +82,26 @@ public class WarehouseMap {
     this(mapDao.readMap());
     this.mapDao = mapDao;
     this.strategy = pathFindingStrategy;
+  }
+
+  public long getClosestExit(Position forklift){
+    TreeMap<Integer, Long> exits=new TreeMap<>();
+    pois.values()
+      .stream()
+      .filter(p->p.getType()==PoiType.EXIT)
+      .map(exit->exit.getId())
+      .forEach(exitId->{
+        try{
+          exits.put(getPath(forklift, exitId).size(), exitId);
+        }
+        catch(RuntimeException e){
+          //no way to exitID from this position
+        }
+      });
+
+    System.out.println("\n\n\n\n==================Found exit: "+exits.firstEntry().getValue().toString()+"\n\n\n\n");
+
+    return exits.firstEntry().getValue();
   }
 
   public synchronized List<Move> getPath(AbstractLocation start, long poi) {

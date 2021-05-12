@@ -166,5 +166,28 @@ public class Engine /* implements Runnable */ {
 
     // USERS JOBS
     usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
+
+    //TODO multiple interactions with users to recduce time for operations
+    /* usersList.getActiveUsers().stream()
+        .parallel()
+        .forEach(
+            u -> {
+              
+              u.write(activeForkliftsTasks);
+              u.writeAndSend(activeForkliftsPositions);
+            });
+    
+    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication); 
+
+    usersList.getActiveUsers().stream()
+        .parallel()
+        .forEach(
+            u -> {
+              
+              u.write(activeForkliftsTasks);
+              u.writeAndSend(activeForkliftsPositions);
+            });
+    
+    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);  */
   }
 }
