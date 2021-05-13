@@ -154,8 +154,10 @@ public class Engine /* implements Runnable */ {
                 u.write(msgEcc);
               }
               u.write(activeForkliftsTasks);
+              u.write(activeForkliftsPositions);
+              // u.writeAndSend(activeForkliftsPositions);
               for(int i=0; i<5; ++i){
-                u.writeAndSend(activeForkliftsPositions);
+                u.writeAndSend("");
                 u.processCommunication();
                 try{
                   Thread.sleep(8);
