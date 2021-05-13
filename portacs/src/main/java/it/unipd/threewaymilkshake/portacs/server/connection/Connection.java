@@ -11,6 +11,7 @@ public class Connection {
   private BufferedReader in;
   private PrintWriter out;
   private String lastMessage;
+  private String nextMessageToSend;
 
   public Connection(Socket socket, BufferedReader in, PrintWriter out) {
     this.socket = socket;
@@ -30,12 +31,20 @@ public class Connection {
   }
 
   public boolean writeToBuffer(String msg) {
-    out.print(msg);
+    // out.print(msg);
+    if(nextMessageToSend==null){
+      nextMessageToSend=msg;
+    }
+    else{
+      nextMessageToSend+=msg;
+    }
     return !out.checkError();
   }
 
   public boolean send(String msg) {
-    out.println(msg);
+    writeToBuffer(msg);
+    out.println(nextMessageToSend);
+    nextMessageToSend=null;
     return !out.checkError();
   }
 
@@ -54,6 +63,24 @@ public class Connection {
     boolean alive = true;
     try {
       lastMessage = in.readLine();
+      // lastMessage="";
+      // while(in.ready())
+      //   lastMessage+=in.readLine();
+    } catch (IOException e) {
+      alive = false;
+      close();
+    }
+
+    return alive;
+  }
+
+  public boolean isAliveFlush() {
+    boolean alive = true;
+    try {
+      // lastMessage = in.readLine();
+      lastMessage="";
+      while(in.ready())
+        lastMessage+=in.readLine();
     } catch (IOException e) {
       alive = false;
       close();

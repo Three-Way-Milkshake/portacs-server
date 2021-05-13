@@ -161,7 +161,16 @@ public class Engine /* implements Runnable */ {
                 u.write(msgEcc);
               }
               u.write(activeForkliftsTasks);
-              u.writeAndSend(activeForkliftsPositions);
+              for(int i=0; i<5; ++i){
+                u.writeAndSend(activeForkliftsPositions);
+                u.processCommunication();
+                try{
+
+                  Thread.sleep(8);
+                }
+                catch(InterruptedException e){}
+              }
+              // u.writeAndSend(activeForkliftsTasks+activeForkliftsPositions);
             });
 
     // USERS JOBS

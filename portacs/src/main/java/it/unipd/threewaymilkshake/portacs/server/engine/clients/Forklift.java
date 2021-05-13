@@ -227,7 +227,9 @@ public class Forklift extends Client {
     } else {
       position.setPosition(newX, newY, newOrientation);
       numberOfStalls = 0;
-      // parked=false;
+      if(tasks!=null){
+        parked=false;
+      }
     }
   }
 

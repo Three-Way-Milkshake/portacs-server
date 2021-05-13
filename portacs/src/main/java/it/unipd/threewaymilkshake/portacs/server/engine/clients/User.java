@@ -80,7 +80,7 @@ public abstract class User extends Client implements Serializable {
 
   @Override
   public void processCommunication() {
-    if (active && connection.isAlive()) {
+    if (active && connection.isAliveFlush()) {
       try {
         String[] commands =
             connection.getLastMessage().split(";"); // TODO avoid null pointer exception

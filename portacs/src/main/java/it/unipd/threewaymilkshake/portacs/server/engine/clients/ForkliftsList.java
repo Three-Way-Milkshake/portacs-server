@@ -24,11 +24,11 @@ public class ForkliftsList {
   @Autowired private WarehouseMap warehouseMap;
   @Autowired private TasksSequencesList tasksSequencesList;
 
-  private static final String UNRECOGNIZED_FORKLIFT = "FAIL,Muletto non riconosciuto";
-  private static final String WRONG_TOKEN = "FAIL,Token errato";
-  private static final String ACTIVE_FORKLIFT = "FAIL,Muletto già attivo";
+  private static final String UNRECOGNIZED_FORKLIFT = "FAIL,Muletto non riconosciuto;";
+  private static final String WRONG_TOKEN = "FAIL,Token errato;";
+  private static final String ACTIVE_FORKLIFT = "FAIL,Muletto già attivo;";
   private static final String ALREADY_EXISTING_FORKLIFT =
-      "FAIL,Esiste già un muletto con questo identificativo";
+      "FAIL,Esiste già un muletto con questo identificativo;";
 
   private static final int TOKEN_LENGTH = 16;
 
