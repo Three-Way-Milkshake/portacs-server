@@ -231,7 +231,7 @@ public class Forklift extends Client {
 
   /** @return next tasks number and ids only e.g.: given 3 tasks 1,2,3 will return: 3,1,2,3 */
   public String getTasksString() {
-    return tasks!=null?String.valueOf(tasks.size()) + ',' + tasks.toString().replaceAll("(LIST,|;)", ""):"";
+    return tasks!=null?String.valueOf(tasks.size()) + ',' + tasks.toString().replaceAll("(LIST,|;)", ""):"0";
   }
 
   public String getToken() {
