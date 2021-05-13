@@ -97,6 +97,13 @@ public class ForkliftsListTest {
 
     ForkliftsList fListEmpty = new ForkliftsList(fDao2, null, null, null);
     assertEquals("LIST,0;", fListEmpty.getActiveForkliftsTasks());
+
+    when(f1.isActive()).thenReturn(true);
+    when(f2.isActive()).thenReturn(true);
+    when(f1.getTasksString()).thenReturn("0");
+    when(f2.getTasksString()).thenReturn("0");
+
+    assertEquals("LIST,2,f1,0,f2,0;", fListEmpty.getActiveForkliftsTasks());
   }
 
   @Test
