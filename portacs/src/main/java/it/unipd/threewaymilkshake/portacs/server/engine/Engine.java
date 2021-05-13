@@ -66,13 +66,6 @@ public class Engine /* implements Runnable */ {
             + usersList.getActiveUsers().size()
             + " users active");
 
-    // USER JOBS
-    // TODO exrta round 4 users? must send position here too otherwise will block IO user side
-    /* usersList.getActiveUsers()
-    .stream()
-    .parallel()
-    .forEach(Client::processCommunication); */
-
     // FORKLIFT JOBS
     forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
 
@@ -165,7 +158,6 @@ public class Engine /* implements Runnable */ {
                 u.writeAndSend(activeForkliftsPositions);
                 u.processCommunication();
                 try{
-
                   Thread.sleep(8);
                 }
                 catch(InterruptedException e){}
@@ -174,7 +166,7 @@ public class Engine /* implements Runnable */ {
             });
 
     // USERS JOBS
-    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
+    // usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
 
     //TODO multiple interactions with users to recduce time for operations
     /* usersList.getActiveUsers().stream()

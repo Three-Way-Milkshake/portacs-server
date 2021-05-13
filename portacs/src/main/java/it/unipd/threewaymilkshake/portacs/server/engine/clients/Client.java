@@ -46,7 +46,7 @@ public abstract class Client implements PropertyChangeListener {
   }
 
   void clearConnection() {
-    connection.close();
+    if(connection!=null)connection.close();
     connection = null;
     active = false;
     warehouseMap.removePropertyChangeListener(this);
@@ -77,7 +77,7 @@ public abstract class Client implements PropertyChangeListener {
    * @return true if writing to buffer went good
    */
   public boolean write(String s) {
-    return connection.writeToBuffer(s);
+    return connection!=null?connection.writeToBuffer(s):false;
   }
 
   /**
@@ -87,7 +87,7 @@ public abstract class Client implements PropertyChangeListener {
    * @return true if writing to buffer went good
    */
   public boolean writeAndSend(String s) {
-    return connection.send(s);
+    return connection!=null?connection.send(s):false;
   }
 
   public boolean send() {

@@ -102,7 +102,7 @@ public class ForkliftsList {
       f.initializeFields();
       f.setWarehouseMap(warehouseMap);
       forkliftsMap.put(newId, f);
-      res += "OK," + token;
+      res += "OK," + token+";";
     }
 
     return res;
@@ -116,7 +116,7 @@ public class ForkliftsList {
       res += ACTIVE_FORKLIFT;
     } else {
       forkliftsMap.remove(toRemoveId);
-      res += "OK";
+      res += "OK;";
     }
 
     return res;

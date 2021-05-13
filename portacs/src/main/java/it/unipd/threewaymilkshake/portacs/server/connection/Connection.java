@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Connection {
   private Socket socket;
@@ -77,10 +79,21 @@ public class Connection {
   public boolean isAliveFlush() {
     boolean alive = true;
     try {
-      // lastMessage = in.readLine();
+      // if(in.ready())lastMessage = in.lines().collect(Collectors.joining());
+      // if(lastMessage==null) throw new IOException();
+
+      // lastMessage=in.readLine();
       lastMessage="";
-      while(in.ready())
-        lastMessage+=in.readLine();
+      if(in.ready()){
+        while(in.ready()){
+          lastMessage+=in.readLine();
+        }
+      }
+      else{
+        // alive=false; //TODO FIX
+        // close();
+      }
+      
     } catch (IOException e) {
       alive = false;
       close();
