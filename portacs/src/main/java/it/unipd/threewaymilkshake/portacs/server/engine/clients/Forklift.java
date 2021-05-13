@@ -19,7 +19,7 @@ public class Forklift extends Client {
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
-  private Position foreseenPosition;
+  //private Position foreseenPosition;
   private Deque<String> exceptionalEvents;
   private boolean parked=false;
   private int numberOfStalls; // TODO: Nicolò
@@ -29,6 +29,8 @@ public class Forklift extends Client {
   // se no -> azzerarla
 
   // private TasksSequencesList tasksSequencesList;
+
+
 
   public Forklift(String id, String token) {
     super(id);
@@ -176,18 +178,11 @@ public class Forklift extends Client {
   }
 
   public String getPathToNextTaskWithObstacles(List<SimplePoint> points) {
-    // pathToNextTask.add(0,Move.STOP);
-    // if(points.size() == 1) pathToNextTask.add(0,Move.STOP);
     String path = null;
     try {
       pathToNextTask = warehouseMap.getPath(position, tasks.getNext(), points);
-
     } catch (Exception e) {
-      // do nothing
-      // pathToNextTask.clear(); //TODO capire se svuotare o no mosse
-      // path=String.valueOf(Move.STOP.ordinal()+Move.STOP.ordinal());
       pathToNextTask.add(0, Move.STOP);
-      // pathToNextTask.add(0, Move.STOP);
     }
 
     path =
@@ -200,18 +195,6 @@ public class Forklift extends Client {
     System.out.println("CALCULATED PATH IS: " + pathToNextTask);
 
     return path;
-    // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
-  }
-
-  public String getPathToNextTaskWithObstacleRandom(
-      SimplePoint obstacle, Position forkliftPosition) { // TODO: to
-    // remove
-    // pathToNextTask.add(0,Move.STOP);
-    return pathToNextTask.stream()
-        .map(m -> m.ordinal())
-        .collect(Collectors.toList())
-        .toString()
-        .replaceAll("\\[|\\]| ", "");
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
@@ -256,11 +239,20 @@ public class Forklift extends Client {
   }
 
   public List<SimplePoint> getNextPositions(int numberOfNextMoves) {
-    LinkedList<SimplePoint> positionsToReturn = new LinkedList<SimplePoint>();
-    Position positionParameter =
-        new Position(position.getX(), position.getY(), position.getOrientation());
-    return getNextPositionsRecursive(
-        0, numberOfNextMoves, positionParameter, pathToNextTask, positionsToReturn);
+    List<SimplePoint> positionsToReturn = new LinkedList<SimplePoint>();
+    if(!isActive()) {
+      for(int i = 0; i < numberOfNextMoves + 1; i++) {
+        positionsToReturn.add(new SimplePoint(position.getX(), position.getY()));
+      }
+      return positionsToReturn;
+    }
+    else {
+      
+      Position positionParameter =
+          new Position(position.getX(), position.getY(), position.getOrientation());
+      return getNextPositionsRecursive(
+          0, numberOfNextMoves, positionParameter, pathToNextTask, positionsToReturn);
+    }
   }
 
   private static List<SimplePoint> getNextPositionsRecursive(
@@ -268,7 +260,7 @@ public class Forklift extends Client {
       int numberOfNextMoves,
       Position actualPosition,
       List<Move> pathToNextTask,
-      LinkedList<SimplePoint> toReturn) {
+      List<SimplePoint> toReturn) {
 
     if (i == numberOfNextMoves + 1) {
       return toReturn;
@@ -326,7 +318,16 @@ public class Forklift extends Client {
         .replaceAll("\\[|\\]| ", "");
   }
 
-  public void setForeseenPosition(Position foreseen) {
+  /*public void setForeseenPosition(Position foreseen) {
     foreseenPosition = foreseen;
+  }*/
+
+  public void addExceptionalEvent(String message) {
+    exceptionalEvents.add("ECC," + message + ";");
+
+  }
+
+    public int getNumberOfStalls() {
+    return numberOfStalls;
   }
 }

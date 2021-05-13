@@ -16,7 +16,6 @@ public class HeadOnCollisions
     Position positionFirst = first.getForklift().getPosition();
     Position positionSecond = second.getForklift().getPosition();
     if (positionFirst.getPoint().equals(positionSecond.getPoint())) {
-      System.out.println("****************COLLISIONE AVVENUTA***********************");
       first.collisionOccurred();
       second.collisionOccurred();
     } else if (positionFirst.getX() == positionSecond.getX()) {
