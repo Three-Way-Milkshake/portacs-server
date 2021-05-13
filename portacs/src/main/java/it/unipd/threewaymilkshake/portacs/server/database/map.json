@@ -160,7 +160,7 @@
       "NEUTRAL",
       "POI",
       "NEUTRAL",
-      "NEUTRAL",
+      "POI",
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL"
@@ -275,15 +275,6 @@
       },
       "type": "LOAD"
     },
-    "13": {
-      "id": 13,
-      "name": "p16",
-      "location": {
-        "x": 3,
-        "y": 12
-      },
-      "type": "LOAD"
-    },
     "14": {
       "id": 14,
       "name": "p13",
@@ -310,6 +301,24 @@
         "y": 7
       },
       "type": "LOAD"
+    },
+    "17": {
+      "id": 17,
+      "name": "e1",
+      "location": {
+        "x": 10,
+        "y": 9
+      },
+      "type": "EXIT"
+    },
+    "18": {
+      "id": 18,
+      "name": "p16",
+      "location": {
+        "x": 3,
+        "y": 12
+      },
+      "type": "UNLOAD"
     }
   }
 }

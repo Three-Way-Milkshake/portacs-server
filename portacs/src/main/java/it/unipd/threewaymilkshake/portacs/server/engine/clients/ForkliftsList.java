@@ -162,7 +162,7 @@ public class ForkliftsList {
   public String getActiveForkliftsTasks() {
     StringBuilder b = new StringBuilder();
     b.append("LIST,");
-    var activeForklifts = getActiveForklifts();
+    var activeForklifts = getActiveForklifts().stream().filter(f->!f.isParked()).collect(Collectors.toList());
     b.append(activeForklifts.size());
     b.append(',');
     activeForklifts.forEach(

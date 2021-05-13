@@ -185,10 +185,16 @@ public class WarehouseMap {
     mapDao.updateMap(this);
   }
 
-  public void setCell(int x, int y, String... actions) {
+  public void setCell(int x, int y, String... actions) { //TODO refactor
     // CELL,X,Y,A[,ID,T,NAME]
 
     CellType type = CellType.values()[Integer.valueOf(actions[0])];
+
+    if(actions.length==2){
+      // è o era POI
+      long poiId = Long.parseLong(actions[1]);
+      pois.remove(poiId);
+    }
     if (map[x][y] == CellType.POI || type == CellType.POI) {
       long poiId = Long.parseLong(actions[1]);
       if (type != CellType.POI) {
