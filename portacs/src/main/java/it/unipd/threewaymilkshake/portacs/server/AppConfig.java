@@ -8,7 +8,6 @@ import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetection;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionForklift;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionPipeline;
-import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionSolver;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.DeadlockCheck;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.HeadOnCollisions;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.NearestToCollision;
@@ -53,51 +52,44 @@ public class AppConfig {
     return new WarehouseMap(jsonMap(), pathFindingStrategy());
   }
 
-  /* @Bean("jsonMap")
-  public JsonMap jsonMap(@Value("${server.database.json-map}") String mapFilePath) {
-    return new JsonMap(mapFilePath);
-  } */
-
   @Bean("jsonMap")
   public MapDao jsonMap() {
     return new JsonMap(mapFilePath);
   }
 
+  @Value("${server.database.json-map-test}") 
+  private String mapTestFilePath;
+
   @Bean("jsonMapTest")
-  public JsonMap jsonMapTest(@Value("${server.database.json-map-test}") String mapFilePath) {
+  public JsonMap jsonMapTest() {
     return new JsonMap(mapFilePath);
   }
-
-  /* @Bean("jsonUser")
-  public JsonUser jsonUser(@Value("${server.database.json-users}") String usersFilePath) {
-    return new JsonUser(usersFilePath);
-  } */
 
   @Bean("jsonUser")
   public UserDao jsonUser() {
     return new JsonUser(usersFilePath);
   }
 
-  @Bean("jsonUserTest")
-  public JsonUser jsonUserTest(@Value("${server.database.json-users-test}") String usersFilePath) {
-    return new JsonUser(usersFilePath);
-  }
+  @Value("${server.database.json-users-test}") 
+  String usersTestFilePath;
 
-  /* @Bean("jsonForklift")
-  public JsonForklift jsonForklift(
-      @Value("${server.database.json-forklifts}") String forkliftFilePath) {
-    return new JsonForklift(forkliftFilePath);
-  } */
+  @Bean("jsonUserTest")
+  public JsonUser jsonUserTest() {
+    return new JsonUser(usersTestFilePath);
+  }
 
   @Bean("jsonForklift")
   public ForkliftDao jsonForklift() {
     return new JsonForklift(forkliftsFilePath);
   }
 
+  @Value("${server.database.json-forklifts-test}") 
+  String forkliftsTestFilePath;
+  
+
   @Bean("jsonForkliftTest")
-  public JsonForklift jsonForkliftTest(
-      @Value("${server.database.json-forklifts-test}") String forkliftFilePath) {
-    return new JsonForklift(forkliftFilePath);
+  public JsonForklift jsonForkliftTest() {
+    return new JsonForklift(forkliftsTestFilePath);
   }
 
   @Bean
@@ -109,12 +101,14 @@ public class AppConfig {
   // @Scope("prototype")
   public TasksSequencesList tasksSequencesListTest() {
     TasksSequencesList t = new TasksSequencesList();
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L)));
-    /* t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 8L, 13L, 7L, 1L, 8L, 13L)));
+    /*t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(13L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L)));*/
+    /*t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 8L, 7L, 1L, 8L )));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(10L, 16L, 6L, 8L, 7L, 8L, 6L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(15L, 3L, 2L, 15L, 3L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L, 6L, 15L, 3L, 2L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 13L, 8L, 7L, 8L, 6L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L, 7L, 8L, 6L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L, 6L, 15L, 3L, 16L, 6L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L, 6L, 15L, 7L, 8L, 6L))); */
     return t;
@@ -171,10 +165,6 @@ public class AppConfig {
   }
 
   @Bean
-  /*public CollisionPipeline<ForkliftsList,Map<String, Action>> collisionPipeline(){
-    return new CollisionPipeline<>(collisionDetector())
-      .addHandler(collisionSolver());
-  }*/
   public CollisionPipeline<List<CollisionForklift>, Set<CollisionForklift>> collisionPipeline() {
     return new CollisionPipeline<>(deadlockCheck())
         .addHandler(collisionDetection())
@@ -206,16 +196,6 @@ public class AppConfig {
   @Bean
   public HeadOnCollisions headOnCollisions() {
     return new HeadOnCollisions();
-  }
-
-  /*@Bean
-  public CollisionDetector collisionDetector(){
-    return new CollisionDetector().setWarehouseMap(warehouseMap());
-  }*/
-
-  @Bean
-  public CollisionSolver collisionSolver() {
-    return new CollisionSolver().setForkliftsList(forkliftsList());
   }
 
   @Bean

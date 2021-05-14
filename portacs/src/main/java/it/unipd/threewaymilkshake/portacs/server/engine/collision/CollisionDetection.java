@@ -12,7 +12,7 @@ import java.util.Set;
 
 class CollisionCell {
 
-  Set<CollisionForklift> collisionsForCell;
+  private Set<CollisionForklift> collisionsForCell;
 
   public CollisionCell() {
     this.collisionsForCell = new LinkedHashSet<CollisionForklift>();
@@ -40,7 +40,7 @@ class CollisionMap {
       for (SimplePoint point : positions) {
         // System.out.println("POSIZIONEEEE " +point.getX() + ";" + point.getY());
 
-        if (point.getX() < map.length && point.getY() < map[0].length) {
+        if (checkMapDomain(point)) {
 
           if (map[point.getX()][point.getY()] == null) {
             map[point.getX()][point.getY()] = new CollisionCell();
@@ -49,6 +49,10 @@ class CollisionMap {
         }
       }
     }
+  }
+
+  private boolean checkMapDomain(SimplePoint point) {
+    return point.getX() < map.length && point.getY() < map[0].length && point.getX() >= 0 && point.getY() >= 0;
   }
 
   public Map<SimplePoint, List<CollisionForklift>> getCollisions() {
@@ -89,9 +93,7 @@ public class CollisionDetection
         new HashMap<CollisionForklift, List<SimplePoint>>();
 
     for (CollisionForklift key : forklifts) {
-      if (key.getForklift().isActive()) {
         nextPositions.put(key, key.getForklift().getNextPositions(NUMBER_OF_FUTURE_MOVES));
-      }
     }
 
     for (CollisionForklift key : nextPositions.keySet()) {

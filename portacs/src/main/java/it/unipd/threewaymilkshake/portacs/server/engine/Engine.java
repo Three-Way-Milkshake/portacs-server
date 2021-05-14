@@ -2,6 +2,7 @@
 package it.unipd.threewaymilkshake.portacs.server.engine;
 
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.Client;
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.Forklift;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.UsersList;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionForklift;
@@ -69,68 +70,45 @@ public class Engine /* implements Runnable */ {
     // FORKLIFT JOBS
     forkliftsList.getActiveForklifts().stream().parallel().forEach(Client::processCommunication);
 
-    // forkliftsList.runtimeDeadlockChecker();
-
     Set<CollisionForklift> response =
         collisionPipeline.execute(forkliftsList.getCollisionForklifts());
 
     response.forEach(
         (fork) -> {
+          Forklift forklift = fork.getForklift();
           if (fork.hasCollisionOccurred()) {
             System.out.println(
                 "***********COLLISIONE AVVENUTA**********: unita' " + fork.getForklift().getId());
+            if(forklift.isActive()) forklift.addExceptionalEvent("Attenzione! Il muletto " + fork.getForklift().getId() + " e' stato coinvolto in una collisione!");
             // TODO: EVENTO ECCEZIONALE DI COLLISIONE AVVENUTA (TRA UNITà IN GUIDA MANUALE E
             // AUTOMATICA)
             // fork.getForklift().write("STOP,"+0+";");
-          } else if (fork.isRecalculating()) {
+          } if (fork.isRecalculating()) {
             String nextPath =
-                fork.getForklift().getPathToNextTaskWithObstacles(fork.getObstacles());
-            String currentPath = fork.getForklift().getCurrentPathString();
-            System.out.println("CURRENT PATH: " + currentPath);
-            System.out.println("NEXT PATH: " + nextPath);
+                forklift.getPathToNextTaskWithObstacles(fork.getObstacles());
+            String currentPath = forklift.getCurrentPathString();
             /*if(nextPath.equals(currentPath)) {
               System.out.println("*****PERCORSO UGUALE AL PRECEDENTE*****");
               fork.getForklift().addMove(Move.STOP);
             }
             else {*/
-            fork.getForklift().write("PATH," + nextPath + ";");
+            forklift.write("PATH," + nextPath + ";");
             /*}*/
 
           } else if (fork.isInStop()) {
             int stops = fork.getStops();
-            System.out.println("SENDING STOP..." + stops);
-            fork.getForklift().write("STOP," + stops + ";");
+            if(forklift.isActive()) System.out.println("SENDING STOP..." + stops);
+            forklift.write("STOP," + stops + ";");
             for (int i = 0; i < stops; ++i) {
-              fork.getForklift().addMove(Move.STOP);
+              if(forklift.isActive()) forklift.addMove(Move.STOP);
             }
           }
         });
 
-    /*
-    response.forEach((fork,actions)->{
-      if(!actions.isEmpty()){
-        Forklift forklift=forkliftsList.getForklift(fork);
-        if(actions.needRecalculation()){
-          //forklift.clearPath();
-          String nextPath = forklift.getPathToNextTaskWithObstacle(Array.asList(actions.getObstacle()));
-          System.out.println(nextPath);
-          forklift.write("PATH," + nextPath + ";");
-        }
-        else{
-          int stops=actions.stopCount();
-          System.out.println("SENDING STOP..." + stops);
-          forklift.write("STOP,"+stops+";");
-          for(int i=0; i<stops; ++i) {
-            forklift.addMove(Move.STOP);
-          }
-        }
-      }
-    });
-    */
+ 
 
     forkliftsList.goWithNextMove();
 
-    // ad ogni mossa eseguita, bisogna scalare le mosse
 
     StringBuilder b = new StringBuilder();
     if (!exceptionalEvents.isEmpty()) {

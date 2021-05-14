@@ -2,6 +2,8 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.collision;
 
 import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
+import it.unipd.threewaymilkshake.portacs.server.engine.clients.Forklift;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,20 +12,21 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
   @Override
   public List<CollisionForklift> process(List<CollisionForklift> input) {
     int ALERT_DEADLOCK = 3; // causa un ricalcolo del muletto
-    int CRITICAL_DEADLOCK = 10; // invio evento eccezionale
+    int CRITICAL_DEADLOCK = 6; // invio evento eccezionale
 
     for (CollisionForklift f : input) {
-      if (f.getForklift().isInDeadlock(ALERT_DEADLOCK)) { // TODO: Nicolò
-        System.out.println("DEADLOCK ALERT!!! " + f.getForklift().getId());
-        SimplePoint positionForklift = f.getForklift().getPosition().getPoint();
-        SimplePoint obstacle = f.getForklift().getPosition().getPoint();
+      Forklift forklift = f.getForklift();
+      if (forklift.isInDeadlock(ALERT_DEADLOCK)) { // TODO: Nicolò
+        System.out.println("DEADLOCK ALERT! " + forklift.getId() + " has been in stall for " + forklift.getNumberOfStalls() + " turns");
+        SimplePoint positionForklift = forklift.getPosition().getPoint();
+        SimplePoint obstacle = forklift.getPosition().getPoint();
 
         for (int i = 1; obstacle.equals(positionForklift); i++) {
-          obstacle = f.getForklift().getNextPositions(i).get(i);
+          obstacle = forklift.getNextPositions(i).get(i);
         }
 
         SimplePoint randomObstacle =
-            f.getForklift().getPosition().generateNearRandomPoint(positionForklift);
+            forklift.getPosition().generateNearRandomPoint(positionForklift);
 
         System.out.println(
             "Calculating new path with obstacle at "
@@ -34,15 +37,11 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
                 + randomObstacle.getX()
                 + ";"
                 + randomObstacle.getY());
-        f.getForklift().setDeadlock(false);
+        forklift.setDeadlock(false);
         f.setRecalculate(Arrays.asList(obstacle, randomObstacle));
 
-        // f.setDeadlock(false);
-        // SEGNALARE RICALCOLO -> PROBLEMA: NON DEVE ESSERE SOVRASCRITTO DA UN EVENTUALE
-        // ALTRO MESSAGGIO DERIVANTE DALLA GESTIONE DELLE COLLISIONI (STOP/RICALCOLO)
-        // OPPURE SMINCHIARE IL BUFFER
-      } else if (f.getForklift().isInDeadlock(CRITICAL_DEADLOCK)) { // TODO: Nicolò
-        // SEGNALARE EVENTO ECCEZIONALE
+      } else if (forklift.isInDeadlock(CRITICAL_DEADLOCK)) { // TODO: Nicolò
+        forklift.addExceptionalEvent("Il muletto " + forklift.getId() +" è in stallo. Probabilmente è richiesto l'intervento dell'operatore");
       }
     }
     return input;
