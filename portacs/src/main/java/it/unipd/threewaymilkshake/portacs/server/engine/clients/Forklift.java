@@ -219,6 +219,13 @@ public class Forklift extends Client {
     Integer newX = Integer.parseInt(pos[1]);
     Integer newY = Integer.parseInt(pos[2]);
     Orientation newOrientation = Orientation.values()[Integer.parseInt(pos[3])];
+
+    if(newX!=position.getX() || newY !=position.getY()){
+      System.out.println("\n\t\t\t\t"+id+")"+newX+","+newY+" != "+position.toString());
+      if(tasks!=null){
+        parked=false;
+      }
+    }
     if (newX == position.getX()
         && newY == position.getY()
         && newOrientation == position.getOrientation()
@@ -227,9 +234,6 @@ public class Forklift extends Client {
     } else {
       position.setPosition(newX, newY, newOrientation);
       numberOfStalls = 0;
-      if(tasks!=null){
-        parked=false;
-      }
     }
   }
 
