@@ -76,7 +76,7 @@ public class Engine /* implements Runnable */ {
     response.forEach(
         (fork) -> {
           Forklift forklift = fork.getForklift();
-          if (fork.hasCollisionOccurred()) {
+          if (fork.hasCollisionOccurred() && !warehouseMap.isBasePOI(forklift.getPosition().getPoint()) && forklift.isActive()) {
             System.out.println(
                 "***********COLLISIONE AVVENUTA**********: unita' " + fork.getForklift().getId());
             if(forklift.isActive()) forklift.addExceptionalEvent("Attenzione! Il muletto " + fork.getForklift().getId() + " e' stato coinvolto in una collisione!");

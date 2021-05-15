@@ -251,4 +251,10 @@ public class WarehouseMap {
   public int getColumns() {
     return map[0].length;
   }
+
+  public boolean isBasePOI(SimplePoint point) {
+    return pois.values()
+      .stream()
+      .anyMatch(p -> p.getType()==PoiType.EXIT && p.getLocation().equals(point));
+  }
 }

@@ -267,7 +267,7 @@ public class ForkliftsList {
   public List<CollisionForklift> getCollisionForklifts() {
     return forkliftsMap.values().stream()
         //.filter(f -> f.isActive())
-        .filter(f -> !f.isParked())
+        //.filter(f -> !f.isParked())
         .peek(s -> System.out.println("DENTRO ALL'ALGORITMO COLLISIONI: " + s.getId()))
         .map(f -> new CollisionForklift(f))
 

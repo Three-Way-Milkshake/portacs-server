@@ -29,9 +29,11 @@ class CollisionCell {
 
 class CollisionMap {
   private CollisionCell[][] map;
+  WarehouseMap warehouseMap;
 
-  public CollisionMap(int rows, int columns) {
-    map = new CollisionCell[rows][columns];
+  public CollisionMap(WarehouseMap warehouseMap) {
+    this.warehouseMap = warehouseMap;
+    map = new CollisionCell[warehouseMap.getRows()][warehouseMap.getColumns()];
   }
 
   public void sum(Map<CollisionForklift, List<SimplePoint>> nextMoves) {
@@ -39,8 +41,8 @@ class CollisionMap {
       List<SimplePoint> positions = nextMoves.get(key);
       for (SimplePoint point : positions) {
         // System.out.println("POSIZIONEEEE " +point.getX() + ";" + point.getY());
-
-        if (checkMapDomain(point)) {
+        Boolean isBasePOI = warehouseMap.isBasePOI(point);
+        if (checkMapDomain(point) && !isBasePOI) {
 
           if (map[point.getX()][point.getY()] == null) {
             map[point.getX()][point.getY()] = new CollisionCell();
@@ -51,8 +53,12 @@ class CollisionMap {
     }
   }
 
-  private boolean checkMapDomain(SimplePoint point) {
+  public boolean checkMapDomain(SimplePoint point) {
     return point.getX() < map.length && point.getY() < map[0].length && point.getX() >= 0 && point.getY() >= 0;
+  }
+
+  public CollisionCell[][] getMap() {
+    return map;
   }
 
   public Map<SimplePoint, List<CollisionForklift>> getCollisions() {
@@ -82,12 +88,10 @@ public class CollisionDetection
   static int NUMBER_OF_FUTURE_MOVES = 2;
   // @Autowired
   private WarehouseMap warehouseMap;
+  private CollisionMap collisionSum;
 
   public Map<SimplePoint, List<CollisionForklift>> process(List<CollisionForklift> forklifts) {
 
-    int rows = warehouseMap.getRows();
-    int columns = warehouseMap.getColumns();
-    // System.out.println("+++++++++++" + rows + " " + columns);
 
     Map<CollisionForklift, List<SimplePoint>> nextPositions =
         new HashMap<CollisionForklift, List<SimplePoint>>();
@@ -104,10 +108,14 @@ public class CollisionDetection
       }
       System.out.print("\n");
     }
-
-    CollisionMap collisionSum = new CollisionMap(rows, columns);
+    collisionSum = new CollisionMap(warehouseMap);
     collisionSum.sum(nextPositions);
     return collisionSum.getCollisions();
+  }
+
+  public CollisionDetection setCollisionMap(CollisionMap collisionMap) {
+    this.collisionSum = collisionMap;
+    return this;
   }
 
   public CollisionDetection setWarehouseMap(WarehouseMap warehouseMap) {

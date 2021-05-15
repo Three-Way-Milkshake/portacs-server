@@ -198,7 +198,7 @@ public class Forklift extends Client {
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
-  private void updatePositionAndDeadlock(String... pos) {
+  /*private void updatePositionAndDeadlock(String... pos) {
     Integer newX = Integer.parseInt(pos[1]);
     Integer newY = Integer.parseInt(pos[2]);
     Orientation newOrientation = Orientation.values()[Integer.parseInt(pos[3])];
@@ -217,6 +217,23 @@ public class Forklift extends Client {
     } else {
       position.setPosition(newX, newY, newOrientation);
       numberOfStalls = 0;
+    }
+  }*/
+    private void updatePositionAndDeadlock(String... pos) {
+    Integer newX = Integer.parseInt(pos[1]);
+    Integer newY = Integer.parseInt(pos[2]);
+    Orientation newOrientation = Orientation.values()[Integer.parseInt(pos[3])];
+    if (newX == position.getX()
+        && newY == position.getY()
+        && newOrientation == position.getOrientation()
+        && hasPath()) {
+      numberOfStalls++;
+    } else {
+      position.setPosition(newX, newY, newOrientation);
+      numberOfStalls = 0;
+      if(tasks!=null){
+        parked=false;
+      }
     }
   }
 
