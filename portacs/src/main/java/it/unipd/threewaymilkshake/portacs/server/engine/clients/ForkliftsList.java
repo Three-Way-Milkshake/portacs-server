@@ -268,9 +268,7 @@ public class ForkliftsList {
     return forkliftsMap.values().stream()
         //.filter(f -> f.isActive())
         //.filter(f -> !f.isParked())
-        .peek(s -> System.out.println("DENTRO ALL'ALGORITMO COLLISIONI: " + s.getId()))
         .map(f -> new CollisionForklift(f))
-
         .collect(Collectors.toList());
   }
 }

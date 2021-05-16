@@ -14,6 +14,7 @@ public class NearestToCollision
 
   @Override
   public Set<CollisionForklift> process(Map<SimplePoint, List<CollisionForklift>> collisions) {
+    System.out.println("CIAO");
 
     for (SimplePoint key : collisions.keySet()) {
       int min = Integer.MAX_VALUE;
@@ -36,7 +37,7 @@ public class NearestToCollision
                     + unit.getForklift().getId()
                     + " stops because its distance to the collision point is "
                     + distance
-                    + "which is < than "
+                    + " which is < than "
                     + min);
             unit.addStop();
           } else if (distance == min) {
@@ -44,8 +45,8 @@ public class NearestToCollision
           }
         }
       }
-      if (equals.size() > 1) {
 
+      if (equals.size() > 1) {
         Random rand = new Random();
         int random = rand.nextInt(equals.size());
         for (int i = 0; i < equals.size(); i++) {

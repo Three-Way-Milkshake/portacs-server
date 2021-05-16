@@ -91,22 +91,7 @@ public class CollisionDetectionTest {
         
 
         Map<SimplePoint, List<CollisionForklift>> collisionsReturned = collisionDetection.process(collisionForklift);
-        System.out.println("************************************");
-        for (SimplePoint key : collisionsReturned.keySet()) {
-                System.out.println(key.getX() + " " + key.getY());
-            for (CollisionForklift s : collisionsReturned.get(key)) {
-                System.out.print("unit " + s);
-            }
-        System.out.print("\n");
-        }
-        System.out.println("************************************");
-        for (SimplePoint key : collisionsToCompareWith.keySet()) {
-                System.out.println(key.getX() + " " + key.getY());
-            for (CollisionForklift s : collisionsToCompareWith.get(key)) {
-                System.out.print("unit " + s);
-            }
-        System.out.print("\n");
-        }
+    
     
 
         assertEquals(collisionsToCompareWith,collisionsReturned);

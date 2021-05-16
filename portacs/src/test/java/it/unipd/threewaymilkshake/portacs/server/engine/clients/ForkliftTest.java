@@ -29,6 +29,7 @@ import org.mockito.internal.matchers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AppConfig.class})
@@ -41,9 +42,10 @@ public class ForkliftTest {
   @Captor private ArgumentCaptor<String> outCaptor;
 
   @Test
-  @DisplayName("Tests if getNextPositions work as expected")
-  public void getNextPositionsTest() {
+  @DisplayName("Tests if the next positions are returned correctly: unit is active")
+  public void getNextPositionsWithActiveUnitTest() {
     forklift = new Forklift("forklift", "abcdefghi1234");
+    ReflectionTestUtils.setField(forklift, "active", true);
     forklift.setPosition(new Position(3, 4, Orientation.RIGHT));
     List<Move> pathToNextTask = Arrays.asList(Move.GOSTRAIGHT, Move.TURNLEFT, Move.GOSTRAIGHT);
     forklift.setPathToNextTask(pathToNextTask);
@@ -53,43 +55,32 @@ public class ForkliftTest {
         Arrays.asList(
             new SimplePoint(3, 4),
             new SimplePoint(3, 5),
-            new SimplePoint(3, 5),
             new SimplePoint(3, 5));
-    // System.out.println("*****************************************************");
-    IntStream.range(0, returned.size())
-        .forEach(
-            i -> {
-              assertEquals(returned.get(i), toCompare.get(i));
-            });
-    // System.out.println("*****************************************************");
+
+    assertEquals(toCompare,returned);
+
   }
 
   @Test
-  @DisplayName("Tests if getNextPositions work as expected")
-  public void getNextPositions2Test() {
+  @DisplayName("Tests if the next positions are returned correctly: unit is not active")
+  public void getNextPositionsWithNotActiveUnitTest() {
     forklift = new Forklift("forklift", "abcdefghi1234");
-    forklift.setPosition(new Position(0, 0, Orientation.UP));
-    List<Move> pathToNextTask = Arrays.asList(Move.GOSTRAIGHT);
+    ReflectionTestUtils.setField(forklift, "active", false);
+    forklift.setPosition(new Position(3, 4, Orientation.RIGHT));
+    List<Move> pathToNextTask = Arrays.asList(Move.GOSTRAIGHT, Move.TURNLEFT, Move.GOSTRAIGHT);
     forklift.setPathToNextTask(pathToNextTask);
 
     List<SimplePoint> returned = forklift.getNextPositions(2);
-    /*List<SimplePoint> toCompare =
-    Arrays.asList(
-        new SimplePoint(0, 0),
-        new SimplePoint(0, 0),
-        new SimplePoint(1, 0));*/
+    List<SimplePoint> toCompare =
+        Arrays.asList(
+            new SimplePoint(3, 4),
+            new SimplePoint(3, 4),
+            new SimplePoint(3, 4));
 
-    for (SimplePoint s : returned) {
-      System.out.println("-+-" + s.getX() + " " + s.getY());
-    }
-    // System.out.println("*****************************************************");
-    /*IntStream.range(0, returned.size())
-    .forEach(
-        i -> {
-          assertEquals(returned.get(i), toCompare.get(i));
-        });*/
-    // System.out.println("*****************************************************");
+    assertEquals(toCompare,returned);
+
   }
+
 
   @Test
   public void testTasksToString() throws IOException {
