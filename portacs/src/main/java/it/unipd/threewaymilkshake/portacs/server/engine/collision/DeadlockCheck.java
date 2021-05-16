@@ -24,13 +24,14 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
         System.out.println("DEADLOCK ALERT! " + forklift.getId() + " has been in stall for " + forklift.getNumberOfStalls() + " turns");
         SimplePoint positionForklift = forklift.getPosition().getPoint();
         SimplePoint obstacle = forklift.getPosition().getPoint();
+          System.out.println("COMPARING "+ obstacle.getX() + " " + obstacle.getY() + " e " + positionForklift.getX() + " " + positionForklift.getY());
 
         for (int i = 1; obstacle.equals(positionForklift); i++) {
           obstacle = forklift.getNextPositions(i).get(i);
         }
 
         SimplePoint randomObstacle =
-            forklift.getPosition().generateNearRandomPoint(positionForklift);
+            positionForklift.generateNearRandomPoint();
 
         System.out.println(
             "Calculating new path with obstacle at "

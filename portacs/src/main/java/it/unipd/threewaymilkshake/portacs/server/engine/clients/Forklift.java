@@ -344,6 +344,7 @@ public class Forklift extends Client {
   }*/
 
   public void addExceptionalEvent(String message) {
+    System.out.println("ADDING EXCEPTIONAL EVENT");
     exceptionalEvents.add("ECC," + message + ";");
 
   }
