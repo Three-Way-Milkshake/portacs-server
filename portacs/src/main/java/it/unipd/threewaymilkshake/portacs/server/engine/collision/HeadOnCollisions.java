@@ -40,6 +40,8 @@ public class HeadOnCollisions
 
   public void setCollisions(CollisionForklift a, CollisionForklift b) {
     if (headOnRisk(a, b)) { // c'è rischio frontale
+    Position positionA = a.getForklift().getPosition();
+    Position positionB = b.getForklift().getPosition();
       System.out.println("Head on risk: ");
       if (a.isInStop()) {
         System.out.println(
@@ -47,10 +49,10 @@ public class HeadOnCollisions
                 + a.getForklift().getId()
                 + " will stop, while "
                 + b.getForklift().getId()
-                + " will recalculate based on the position "
-                + a.getForklift().getPosition());
+                + " will recalculateasdf based on the position "
+                + positionA);
         a.addStop();
-        b.setRecalculate(a.getForklift().getPosition());
+        b.setRecalculate(positionA);
       } else if (b.isInStop()) {
         System.out.println(
             "Unit "
@@ -58,12 +60,12 @@ public class HeadOnCollisions
                 + " will stop, while "
                 + a.getForklift().getId()
                 + " will recalculate based on the position "
-                + b.getForklift().getPosition());
+                + positionB);
         b.addStop();
-        a.setRecalculate(b.getForklift().getPosition());
+        a.setRecalculate(positionB);
       } else {
         Random rand = new Random();
-        int random = rand.nextInt(1);
+        int random = rand.nextInt(2);
         if (random == 0) {
           System.out.println(
               "Unit "
@@ -71,9 +73,9 @@ public class HeadOnCollisions
                   + " will stop, while "
                   + b.getForklift().getId()
                   + " will recalculate based on the position "
-                  + a.getForklift().getPosition());
+                  + positionA);
           a.addStop();
-          b.setRecalculate(a.getForklift().getPosition());
+          b.setRecalculate(positionA);
         } else {
           System.out.println(
               "Unit "
@@ -81,9 +83,9 @@ public class HeadOnCollisions
                   + " will stop, while "
                   + a.getForklift().getId()
                   + " will recalculate based on the position "
-                  + b.getForklift().getPosition());
+                  + positionB);
           b.addStop();
-          a.setRecalculate(b.getForklift().getPosition());
+          a.setRecalculate(positionB);
         }
       }
     }
