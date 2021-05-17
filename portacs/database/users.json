@@ -1,0 +1,20 @@
+[
+  {
+    "type": "Admin",
+    "properties": {
+      "firstName": "Giovanni",
+      "lastName": "Muletto",
+      "pwdHash": "$2a$10$GhuNBtuYJw.Ja7aUt1JrEOv6GeFPJgXKvTv/29.lDpcidDO7dGULS",
+      "id": "giovanni.muletto"
+    }
+  },
+  {
+    "type": "Manager",
+    "properties": {
+      "firstName": "Davide",
+      "lastName": "Cesare",
+      "pwdHash": "$2a$10$GhuNBtuYJw.Ja7aUt1JrEOv6GeFPJgXKvTv/29.lDpcidDO7dGULS",
+      "id": "davide.cesare"
+    }
+  }
+]

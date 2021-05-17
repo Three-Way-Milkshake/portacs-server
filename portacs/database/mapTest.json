@@ -1,0 +1,51 @@
+{
+  "map": [
+    [
+      "OBSTACLE",
+      "NEUTRAL",
+      "UP",
+      "RIGHT"
+    ],
+    [
+      "DOWN",
+      "LEFT",
+      "POI",
+      "POI"
+    ],
+    [
+      "POI",
+      "OBSTACLE",
+      "LEFT",
+      "LEFT"
+    ]
+  ],
+  "pois": {
+    "1": {
+      "id": 1,
+      "name": "firstPoi",
+      "location": {
+        "x": 1,
+        "y": 2
+      },
+      "type": "LOAD"
+    },
+    "2": {
+      "id": 2,
+      "name": "secondPoi",
+      "location": {
+        "x": 1,
+        "y": 2
+      },
+      "type": "LOAD"
+    },
+    "3": {
+      "id": 3,
+      "name": "thirdPoi",
+      "location": {
+        "x": 2,
+        "y": 1
+      },
+      "type": "LOAD"
+    }
+  }
+}
