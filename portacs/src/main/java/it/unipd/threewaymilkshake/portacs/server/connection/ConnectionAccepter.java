@@ -5,11 +5,16 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import javax.net.ssl.SSLServerSocketFactory;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 class ConnectionAccepter implements Runnable {
+  // private final static String CERT_FILE=System.getProperty("user.dir")+"/trust.jks";
+  
   private ConnectionHandler handler;
   private ServerSocket ssocket;
   private static final int PORT = 1723;
@@ -18,8 +23,14 @@ class ConnectionAccepter implements Runnable {
   ConnectionAccepter(ConnectionHandler connectionHandler) {
     this.handler = connectionHandler;
     try {
+      /* System.setProperty("jdk.tls.server.protocols", "TLSv1.2");
+      System.setProperty("javax.net.ssl.keyStore", CERT_FILE);
+      System.out.println(CERT_FILE);
+      System.setProperty("javax.net.ssl.keyStorePassword", "portacs"); */
+
       addr = InetAddress.getByName("0.0.0.0");
       ssocket = new ServerSocket(PORT, 0, addr);
+      // ssocket=SSLServerSocketFactory.getDefault().createServerSocket(PORT, 0, addr);
     } catch (IOException e) {
       e.printStackTrace();
     }
