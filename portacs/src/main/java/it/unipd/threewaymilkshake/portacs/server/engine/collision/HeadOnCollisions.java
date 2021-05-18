@@ -40,8 +40,8 @@ public class HeadOnCollisions
 
   public void setCollisions(CollisionForklift a, CollisionForklift b) {
     if (headOnRisk(a, b)) { // c'è rischio frontale
-    Position positionA = a.getForklift().getPosition();
-    Position positionB = b.getForklift().getPosition();
+      Position positionA = a.getForklift().getPosition();
+      Position positionB = b.getForklift().getPosition();
       System.out.println("Head on risk: ");
       if (a.isInStop()) {
         System.out.println(

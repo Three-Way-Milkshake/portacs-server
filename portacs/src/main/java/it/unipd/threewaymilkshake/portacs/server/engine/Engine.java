@@ -76,16 +76,22 @@ public class Engine /* implements Runnable */ {
     response.forEach(
         (fork) -> {
           Forklift forklift = fork.getForklift();
-          if (fork.hasCollisionOccurred() && !warehouseMap.isBasePOI(forklift.getPosition().getPoint()) && forklift.isActive()) {
+          if (fork.hasCollisionOccurred()
+              && !warehouseMap.isBasePOI(forklift.getPosition().getPoint())
+              && forklift.isActive()) {
             System.out.println(
                 "***********COLLISIONE AVVENUTA**********: unita' " + fork.getForklift().getId());
-            if(forklift.isActive()) forklift.addExceptionalEvent("Attenzione! Il muletto " + fork.getForklift().getId() + " e' stato coinvolto in una collisione!");
+            if (forklift.isActive())
+              forklift.addExceptionalEvent(
+                  "Attenzione! Il muletto "
+                      + fork.getForklift().getId()
+                      + " e' stato coinvolto in una collisione!");
             // TODO: EVENTO ECCEZIONALE DI COLLISIONE AVVENUTA (TRA UNITà IN GUIDA MANUALE E
             // AUTOMATICA)
             // fork.getForklift().write("STOP,"+0+";");
-          } if (fork.isRecalculating()) {
-            String nextPath =
-                forklift.getPathToNextTaskWithObstacles(fork.getObstacles());
+          }
+          if (fork.isRecalculating()) {
+            String nextPath = forklift.getPathToNextTaskWithObstacles(fork.getObstacles());
             String currentPath = forklift.getCurrentPathString();
             /*if(nextPath.equals(currentPath)) {
               System.out.println("*****PERCORSO UGUALE AL PRECEDENTE*****");
@@ -97,18 +103,15 @@ public class Engine /* implements Runnable */ {
 
           } else if (fork.isInStop()) {
             int stops = fork.getStops();
-            if(forklift.isActive()) System.out.println("SENDING STOP..." + stops);
+            if (forklift.isActive()) System.out.println("SENDING STOP..." + stops);
             forklift.write("STOP," + stops + ";");
             for (int i = 0; i < stops; ++i) {
-              if(forklift.isActive()) forklift.addMove(Move.STOP);
+              if (forklift.isActive()) forklift.addMove(Move.STOP);
             }
           }
         });
 
- 
-
     forkliftsList.goWithNextMove();
-
 
     StringBuilder b = new StringBuilder();
     if (!exceptionalEvents.isEmpty()) {
@@ -134,13 +137,13 @@ public class Engine /* implements Runnable */ {
               u.write(activeForkliftsTasks);
               u.write(activeForkliftsPositions);
               // u.writeAndSend(activeForkliftsPositions);
-              for(int i=0; i<5; ++i){
+              for (int i = 0; i < 5; ++i) {
                 u.writeAndSend("");
                 u.processCommunication();
-                try{
+                try {
                   Thread.sleep(8);
+                } catch (InterruptedException e) {
                 }
-                catch(InterruptedException e){}
               }
               // u.writeAndSend(activeForkliftsTasks+activeForkliftsPositions);
             });
@@ -148,27 +151,27 @@ public class Engine /* implements Runnable */ {
     // USERS JOBS
     // usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
 
-    //TODO multiple interactions with users to recduce time for operations
+    // TODO multiple interactions with users to recduce time for operations
     /* usersList.getActiveUsers().stream()
         .parallel()
         .forEach(
             u -> {
-              
+
               u.write(activeForkliftsTasks);
               u.writeAndSend(activeForkliftsPositions);
             });
-    
-    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication); 
+
+    usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);
 
     usersList.getActiveUsers().stream()
         .parallel()
         .forEach(
             u -> {
-              
+
               u.write(activeForkliftsTasks);
               u.writeAndSend(activeForkliftsPositions);
             });
-    
+
     usersList.getActiveUsers().stream().parallel().forEach(Client::processCommunication);  */
   }
 }

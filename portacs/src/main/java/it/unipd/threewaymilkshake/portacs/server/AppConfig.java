@@ -57,7 +57,7 @@ public class AppConfig {
     return new JsonMap(mapFilePath);
   }
 
-  @Value("${server.database.json-map-test}") 
+  @Value("${server.database.json-map-test}")
   private String mapTestFilePath;
 
   @Bean("jsonMapTest")
@@ -70,7 +70,7 @@ public class AppConfig {
     return new JsonUser(usersFilePath);
   }
 
-  @Value("${server.database.json-users-test}") 
+  @Value("${server.database.json-users-test}")
   String usersTestFilePath;
 
   @Bean("jsonUserTest")
@@ -83,9 +83,8 @@ public class AppConfig {
     return new JsonForklift(forkliftsFilePath);
   }
 
-  @Value("${server.database.json-forklifts-test}") 
+  @Value("${server.database.json-forklifts-test}")
   String forkliftsTestFilePath;
-  
 
   @Bean("jsonForkliftTest")
   public JsonForklift jsonForkliftTest() {

@@ -2,9 +2,6 @@
 package it.unipd.threewaymilkshake.portacs.server.engine.clients;
 
 import it.unipd.threewaymilkshake.portacs.server.connection.Connection;
-import it.unipd.threewaymilkshake.portacs.server.engine.Orientation;
-import it.unipd.threewaymilkshake.portacs.server.engine.Position;
-import it.unipd.threewaymilkshake.portacs.server.engine.SimplePoint;
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionForklift;
 import it.unipd.threewaymilkshake.portacs.server.engine.map.WarehouseMap;
@@ -102,7 +99,7 @@ public class ForkliftsList {
       f.initializeFields();
       f.setWarehouseMap(warehouseMap);
       forkliftsMap.put(newId, f);
-      res += "OK," + token+";";
+      res += "OK," + token + ";";
     }
 
     return res;
@@ -162,7 +159,8 @@ public class ForkliftsList {
   public String getActiveForkliftsTasks() {
     StringBuilder b = new StringBuilder();
     b.append("LIST,");
-    var activeForklifts = getActiveForklifts()/* .stream().filter(f->!f.isParked()).collect(Collectors.toList()) */;
+    var activeForklifts =
+        getActiveForklifts() /* .stream().filter(f->!f.isParked()).collect(Collectors.toList()) */;
     b.append(activeForklifts.size());
     b.append(',');
     activeForklifts.forEach(
@@ -251,7 +249,6 @@ public class ForkliftsList {
     return forkliftsMap.get(a).getPosition();
   }*/
 
-
   public void goWithNextMove() {
     getActiveForklifts().parallelStream().forEach(Forklift::removeFirstMove);
     /*
@@ -266,10 +263,9 @@ public class ForkliftsList {
 
   public List<CollisionForklift> getCollisionForklifts() {
     return forkliftsMap.values().stream()
-        //.filter(f -> f.isActive())
-        //.filter(f -> !f.isParked())
+        // .filter(f -> f.isActive())
+        // .filter(f -> !f.isParked())
         .map(f -> new CollisionForklift(f))
         .collect(Collectors.toList());
   }
 }
- 

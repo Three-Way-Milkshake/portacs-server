@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -84,22 +83,24 @@ public class WarehouseMap {
     this.strategy = pathFindingStrategy;
   }
 
-  public long getClosestExit(Position forklift){
-    TreeMap<Integer, Long> exits=new TreeMap<>();
-    pois.values()
-      .stream()
-      .filter(p->p.getType()==PoiType.EXIT)
-      .map(exit->exit.getId())
-      .forEach(exitId->{
-        try{
-          exits.put(getPath(forklift, exitId).size(), exitId);
-        }
-        catch(RuntimeException e){
-          //no way to exitID from this position
-        }
-      });
+  public long getClosestExit(Position forklift) {
+    TreeMap<Integer, Long> exits = new TreeMap<>();
+    pois.values().stream()
+        .filter(p -> p.getType() == PoiType.EXIT)
+        .map(exit -> exit.getId())
+        .forEach(
+            exitId -> {
+              try {
+                exits.put(getPath(forklift, exitId).size(), exitId);
+              } catch (RuntimeException e) {
+                // no way to exitID from this position
+              }
+            });
 
-    System.out.println("\n\n\n\n==================Found exit: "+exits.firstEntry().getValue().toString()+"\n\n\n\n");
+    System.out.println(
+        "\n\n\n\n==================Found exit: "
+            + exits.firstEntry().getValue().toString()
+            + "\n\n\n\n");
 
     return exits.firstEntry().getValue();
   }
@@ -185,12 +186,12 @@ public class WarehouseMap {
     mapDao.updateMap(this);
   }
 
-  public void setCell(int x, int y, String... actions) { //TODO refactor
+  public void setCell(int x, int y, String... actions) { // TODO refactor
     // CELL,X,Y,A[,ID,T,NAME]
 
     CellType type = CellType.values()[Integer.valueOf(actions[0])];
 
-    if(actions.length==2){
+    if (actions.length == 2) {
       // è o era POI
       long poiId = Long.parseLong(actions[1]);
       pois.remove(poiId);
@@ -253,8 +254,7 @@ public class WarehouseMap {
   }
 
   public boolean isBasePOI(SimplePoint point) {
-    return pois.values()
-      .stream()
-      .anyMatch(p -> p.getType()==PoiType.EXIT && p.getLocation().equals(point));
+    return pois.values().stream()
+        .anyMatch(p -> p.getType() == PoiType.EXIT && p.getLocation().equals(point));
   }
 }

@@ -54,7 +54,10 @@ class CollisionMap {
   }
 
   public boolean checkMapDomain(SimplePoint point) {
-    return point.getX() < map.length && point.getY() < map[0].length && point.getX() >= 0 && point.getY() >= 0;
+    return point.getX() < map.length
+        && point.getY() < map[0].length
+        && point.getX() >= 0
+        && point.getY() >= 0;
   }
 
   public CollisionCell[][] getMap() {
@@ -92,12 +95,11 @@ public class CollisionDetection
 
   public Map<SimplePoint, List<CollisionForklift>> process(List<CollisionForklift> forklifts) {
 
-
     Map<CollisionForklift, List<SimplePoint>> nextPositions =
         new HashMap<CollisionForklift, List<SimplePoint>>();
 
     for (CollisionForklift key : forklifts) {
-        nextPositions.put(key, key.getForklift().getNextPositions(NUMBER_OF_FUTURE_MOVES));
+      nextPositions.put(key, key.getForklift().getNextPositions(NUMBER_OF_FUTURE_MOVES));
     }
 
     for (CollisionForklift key : nextPositions.keySet()) {

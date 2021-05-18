@@ -92,12 +92,12 @@ public class WarehouseMapTest {
   }
 
   @Test
-  public void testGetClosestPoi(){
+  public void testGetClosestPoi() {
     CellType[][] arr = {
-      {CellType.POI     , CellType.POI      , CellType.RIGHT    , CellType.NEUTRAL },
-      {CellType.NEUTRAL , CellType.OBSTACLE , CellType.NEUTRAL , CellType.NEUTRAL },
-      {CellType.NEUTRAL , CellType.POI      , CellType.POI      , CellType.POI },
-      {CellType.LEFT    , CellType.POI      , CellType.LEFT     , CellType.LEFT    }
+      {CellType.POI, CellType.POI, CellType.RIGHT, CellType.NEUTRAL},
+      {CellType.NEUTRAL, CellType.OBSTACLE, CellType.NEUTRAL, CellType.NEUTRAL},
+      {CellType.NEUTRAL, CellType.POI, CellType.POI, CellType.POI},
+      {CellType.LEFT, CellType.POI, CellType.LEFT, CellType.LEFT}
     };
     List<Poi> pois = new ArrayList<>();
     pois.add(new Poi(1L, "test", new SimplePoint(0, 0), PoiType.EXIT));
@@ -108,8 +108,8 @@ public class WarehouseMapTest {
     pois.add(new Poi(6L, "the second", new SimplePoint(2, 3), PoiType.LOAD));
     WarehouseMap map = new WarehouseMap(arr, pois, new StrategyBreadthFirst());
 
-    Position p1=new Position(1,0,Orientation.DOWN);
-    Position p2=new Position(0,3,Orientation.UP);
+    Position p1 = new Position(1, 0, Orientation.DOWN);
+    Position p2 = new Position(0, 3, Orientation.UP);
 
     assertEquals(1L, map.getClosestExit(p1));
     assertEquals(3L, map.getClosestExit(p2));

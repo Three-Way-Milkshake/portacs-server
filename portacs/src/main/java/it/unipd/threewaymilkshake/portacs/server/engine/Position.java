@@ -1,8 +1,6 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine;
 
-import java.util.Random;
-
 public class Position extends AbstractLocation {
   private Orientation orientation;
 
@@ -146,8 +144,6 @@ public class Position extends AbstractLocation {
     ;
     return this;
   }
-
-  
 
   public SimplePoint getPoint() { // TODO:
     return new SimplePoint(x, y);

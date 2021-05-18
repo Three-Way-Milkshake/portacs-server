@@ -52,13 +52,9 @@ public class ForkliftTest {
 
     List<SimplePoint> returned = forklift.getNextPositions(2);
     List<SimplePoint> toCompare =
-        Arrays.asList(
-            new SimplePoint(3, 4),
-            new SimplePoint(3, 5),
-            new SimplePoint(3, 5));
+        Arrays.asList(new SimplePoint(3, 4), new SimplePoint(3, 5), new SimplePoint(3, 5));
 
-    assertEquals(toCompare,returned);
-
+    assertEquals(toCompare, returned);
   }
 
   @Test
@@ -72,15 +68,10 @@ public class ForkliftTest {
 
     List<SimplePoint> returned = forklift.getNextPositions(2);
     List<SimplePoint> toCompare =
-        Arrays.asList(
-            new SimplePoint(3, 4),
-            new SimplePoint(3, 4),
-            new SimplePoint(3, 4));
+        Arrays.asList(new SimplePoint(3, 4), new SimplePoint(3, 4), new SimplePoint(3, 4));
 
-    assertEquals(toCompare,returned);
-
+    assertEquals(toCompare, returned);
   }
-
 
   @Test
   public void testTasksToString() throws IOException {

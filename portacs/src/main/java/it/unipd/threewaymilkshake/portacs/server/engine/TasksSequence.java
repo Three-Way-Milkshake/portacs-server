@@ -14,7 +14,7 @@ public class TasksSequence {
     this.tasks = new LinkedBlockingDeque<>();
   }
 
-  public TasksSequence(long sth){
+  public TasksSequence(long sth) {
     this();
     tasks.add(sth);
   }

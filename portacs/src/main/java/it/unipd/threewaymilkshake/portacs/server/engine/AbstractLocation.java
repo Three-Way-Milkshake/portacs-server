@@ -54,7 +54,7 @@ public abstract class AbstractLocation {
   }
 
   @Override
-  public String toString(){
-    return "("+x+", "+y+")";
+  public String toString() {
+    return "(" + x + ", " + y + ")";
   }
 }

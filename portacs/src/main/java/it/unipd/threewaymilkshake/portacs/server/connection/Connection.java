@@ -5,8 +5,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class Connection {
   private Socket socket;
@@ -34,11 +32,10 @@ public class Connection {
 
   public boolean writeToBuffer(String msg) {
     // out.print(msg);
-    if(nextMessageToSend==null){
-      nextMessageToSend=msg;
-    }
-    else{
-      nextMessageToSend+=msg;
+    if (nextMessageToSend == null) {
+      nextMessageToSend = msg;
+    } else {
+      nextMessageToSend += msg;
     }
     return !out.checkError();
   }
@@ -46,7 +43,7 @@ public class Connection {
   public boolean send(String msg) {
     writeToBuffer(msg);
     out.println(nextMessageToSend);
-    nextMessageToSend=null;
+    nextMessageToSend = null;
     return !out.checkError();
   }
 
@@ -83,17 +80,16 @@ public class Connection {
       // if(lastMessage==null) throw new IOException();
 
       // lastMessage=in.readLine();
-      lastMessage="";
-      if(in.ready()){
-        while(in.ready()){
-          lastMessage+=in.readLine();
+      lastMessage = "";
+      if (in.ready()) {
+        while (in.ready()) {
+          lastMessage += in.readLine();
         }
-      }
-      else{
+      } else {
         // alive=false; //TODO FIX
         // close();
       }
-      
+
     } catch (IOException e) {
       alive = false;
       close();

@@ -19,9 +19,9 @@ public class Forklift extends Client {
   private TasksSequence tasks;
   private List<Move> pathToNextTask;
   private Position position;
-  //private Position foreseenPosition;
+  // private Position foreseenPosition;
   private Deque<String> exceptionalEvents;
-  private boolean parked=false;
+  private boolean parked = false;
   private int numberOfStalls; // TODO: Nicolò
   // ad ogni ricezione della posizione bisogna controllare
   // se il la posizione vecchia è uguale alla posizione
@@ -29,8 +29,6 @@ public class Forklift extends Client {
   // se no -> azzerarla
 
   // private TasksSequencesList tasksSequencesList;
-
-
 
   public Forklift(String id, String token) {
     super(id);
@@ -49,7 +47,7 @@ public class Forklift extends Client {
   public void initializeFields() {
     this.pathToNextTask = new LinkedList<>();
     this.position = new Position(0, 1, Orientation.RIGHT);
-    parked=false;
+    parked = false;
   }
 
   public void setPosition(Position position) { // TODO: visibility
@@ -60,7 +58,7 @@ public class Forklift extends Client {
     this.exceptionalEvents = exceptionalEvents;
   }
 
-  public boolean isParked(){
+  public boolean isParked() {
     return parked;
   }
 
@@ -108,29 +106,25 @@ public class Forklift extends Client {
                       if (tasks == null || tasks.isEmpty()) {
                         tasks = tasksSequencesList.getTasksSequence();
                       }
-                      if(tasks!=null){
+                      if (tasks != null) {
                         connection.writeToBuffer(tasks.toString());
-                      }
-                      else{
-                        if(parked){
+                      } else {
+                        if (parked) {
                           connection.writeToBuffer("NULL;");
+                        } else {
+                          long closestExit = warehouseMap.getClosestExit(position);
+                          tasks = new TasksSequence(closestExit);
+                          connection.writeToBuffer("LISTB," + String.valueOf(closestExit) + ";");
                         }
-                        else{
-                          long closestExit=warehouseMap.getClosestExit(position);
-                          tasks=new TasksSequence(closestExit);
-                          connection.writeToBuffer("LISTB,"
-                            + String.valueOf(closestExit)
-                            + ";");
-                        }
-                        //TODO goingBase / parked
+                        // TODO goingBase / parked
                       }
 
                       break;
 
                     case "BASE":
-                      if(!parked && pathToNextTask.isEmpty()){
-                        parked=true;
-                        tasks=null;
+                      if (!parked && pathToNextTask.isEmpty()) {
+                        parked = true;
+                        tasks = null;
                       }
 
                       break;
@@ -154,7 +148,6 @@ public class Forklift extends Client {
     } else {
       clearConnection();
     }
-    
   }
 
   public void printNextMoves() {
@@ -219,7 +212,7 @@ public class Forklift extends Client {
       numberOfStalls = 0;
     }
   }*/
-    private void updatePositionAndDeadlock(String... pos) {
+  private void updatePositionAndDeadlock(String... pos) {
     Integer newX = Integer.parseInt(pos[1]);
     Integer newY = Integer.parseInt(pos[2]);
     Orientation newOrientation = Orientation.values()[Integer.parseInt(pos[3])];
@@ -231,8 +224,8 @@ public class Forklift extends Client {
     } else {
       position.setPosition(newX, newY, newOrientation);
       numberOfStalls = 0;
-      if(tasks!=null){
-        parked=false;
+      if (tasks != null) {
+        parked = false;
       }
     }
   }
@@ -252,7 +245,9 @@ public class Forklift extends Client {
 
   /** @return next tasks number and ids only e.g.: given 3 tasks 1,2,3 will return: 3,1,2,3 */
   public String getTasksString() {
-    return tasks!=null?String.valueOf(tasks.size()) + ',' + tasks.toString().replaceAll("(LIST,|;)", ""):"0";
+    return tasks != null
+        ? String.valueOf(tasks.size()) + ',' + tasks.toString().replaceAll("(LIST,|;)", "")
+        : "0";
   }
 
   public String getToken() {
@@ -261,14 +256,13 @@ public class Forklift extends Client {
 
   public List<SimplePoint> getNextPositions(int numberOfNextMoves) {
     List<SimplePoint> positionsToReturn = new LinkedList<SimplePoint>();
-    if(!isActive()) {
-      for(int i = 0; i < numberOfNextMoves + 1; i++) {
+    if (!isActive()) {
+      for (int i = 0; i < numberOfNextMoves + 1; i++) {
         positionsToReturn.add(new SimplePoint(position.getX(), position.getY()));
       }
       return positionsToReturn;
-    }
-    else {
-      
+    } else {
+
       Position positionParameter =
           new Position(position.getX(), position.getY(), position.getOrientation());
       return getNextPositionsRecursive(
@@ -345,10 +339,9 @@ public class Forklift extends Client {
 
   public void addExceptionalEvent(String message) {
     exceptionalEvents.add("ECC," + message + ";");
-
   }
 
-    public int getNumberOfStalls() {
+  public int getNumberOfStalls() {
     return numberOfStalls;
   }
 }

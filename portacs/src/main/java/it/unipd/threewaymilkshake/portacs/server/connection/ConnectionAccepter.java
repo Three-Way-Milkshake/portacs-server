@@ -5,16 +5,13 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import javax.net.ssl.SSLServerSocketFactory;
-
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 class ConnectionAccepter implements Runnable {
   // private final static String CERT_FILE=System.getProperty("user.dir")+"/trust.jks";
-  
+
   private ConnectionHandler handler;
   private ServerSocket ssocket;
   private static final int PORT = 1723;
