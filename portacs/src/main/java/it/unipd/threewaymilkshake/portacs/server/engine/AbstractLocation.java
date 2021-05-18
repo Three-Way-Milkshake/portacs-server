@@ -52,4 +52,9 @@ public abstract class AbstractLocation {
     if (y != other.y) return false;
     return true;
   }
+
+  @Override
+  public String toString(){
+    return "("+x+", "+y+")";
+  }
 }
