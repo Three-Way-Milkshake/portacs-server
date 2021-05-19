@@ -55,17 +55,7 @@ public class StrategyBreadthFirst implements PathFindingStrategy {
     Node start = null;
     Node end = null;
 
-    for (int row = 0; row < nodes.length; row++) {
-      for (int column = 0; column < nodes[row].length; column++) {
-        if (nodes[row][column] == 9) {
-          start = new Node(row, column, nodes[row][column]);
-          break; // might add for condition to avoid
-        }
-      }
-      if (start != null) {
-        break; // might add for condition to avoid
-      }
-    }
+    start = processNodes();
 
     if (start == null) {
       throw new RuntimeException("can't find start node");
@@ -138,6 +128,22 @@ public class StrategyBreadthFirst implements PathFindingStrategy {
     }
     printPath(path);
     return path;
+  }
+
+  private Node processNodes() {
+    Node start = null;
+    for (int row = 0; row < nodes.length; row++) {
+      for (int column = 0; column < nodes[row].length; column++) {
+        if (nodes[row][column] == 9) {
+          start = new Node(row, column, nodes[row][column]);
+          break; // might add for condition to avoid
+        }
+      }
+      if (start != null) {
+        break; // might add for condition to avoid
+      }
+    }
+    return start;
   }
 
   private List<Node> getChildren(Node parent) {

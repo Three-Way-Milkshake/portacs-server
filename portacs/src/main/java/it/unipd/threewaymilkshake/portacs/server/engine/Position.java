@@ -40,59 +40,107 @@ public class Position extends AbstractLocation {
     if (xn == x && yn == y) r = Move.STOP;
     else if (xn < x) {
       // up
-      r =
-          switch (orientation) {
-            case UP -> {
-              --x;
-              yield Move.GOSTRAIGHT;
-            }
-            case DOWN -> Move.TURNAROUND;
-            case LEFT -> Move.TURNRIGHT;
-            case RIGHT -> Move.TURNLEFT;
-          };
+      r = moveUp();
       orientation = Orientation.UP;
     } else if (xn > x) {
       // down
-      r =
-          switch (orientation) {
-            case UP -> Move.TURNAROUND;
-            case DOWN -> {
-              ++x;
-              yield Move.GOSTRAIGHT;
-            }
-            case LEFT -> Move.TURNLEFT;
-            case RIGHT -> Move.TURNRIGHT;
-          };
+      r = moveDown();
       orientation = Orientation.DOWN;
     } else if (yn < y) {
       // left
-      r =
-          switch (orientation) {
-            case UP -> Move.TURNLEFT;
-            case DOWN -> Move.TURNRIGHT;
-            case LEFT -> {
-              --y;
-              yield Move.GOSTRAIGHT;
-            }
-            case RIGHT -> Move.TURNAROUND;
-          };
+      r = moveLeft();
       orientation = Orientation.LEFT;
     } else {
       // right
-      r =
-          switch (orientation) {
-            case UP -> Move.TURNRIGHT;
-            case DOWN -> Move.TURNLEFT;
-            case LEFT -> Move.TURNAROUND;
-            case RIGHT -> {
-              ++y;
-              yield Move.GOSTRAIGHT;
-            }
-          };
+      r = moveRight();
       orientation = Orientation.RIGHT;
     }
 
     return r;
+  }
+
+  private Move moveRight() {
+    return switch (orientation) {
+      case UP -> Move.TURNRIGHT;
+      case DOWN -> Move.TURNLEFT;
+      case LEFT -> Move.TURNAROUND;
+      case RIGHT -> {
+        ++y;
+        yield Move.GOSTRAIGHT;
+      }
+    };
+  }
+
+  private Move moveLeft() {
+    return switch (orientation) {
+      case UP -> Move.TURNLEFT;
+      case DOWN -> Move.TURNRIGHT;
+      case LEFT -> {
+        --y;
+        yield Move.GOSTRAIGHT;
+      }
+      case RIGHT -> Move.TURNAROUND;
+    };
+  }
+
+  private Move moveDown() {
+    return switch (orientation) {
+      case UP -> Move.TURNAROUND;
+      case DOWN -> {
+        ++x;
+        yield Move.GOSTRAIGHT;
+      }
+      case LEFT -> Move.TURNLEFT;
+      case RIGHT -> Move.TURNRIGHT;
+    };
+  }
+
+  private Move moveUp() {
+    return switch (orientation) {
+      case UP -> {
+        --x;
+        yield Move.GOSTRAIGHT;
+      }
+      case DOWN -> Move.TURNAROUND;
+      case LEFT -> Move.TURNRIGHT;
+      case RIGHT -> Move.TURNLEFT;
+    };
+  }
+
+  private void computeStraight() {
+    switch (orientation) {
+      case UP -> this.x--;
+      case RIGHT -> this.y++;
+      case DOWN -> this.x++;
+      case LEFT -> this.y--;
+    }
+  }
+
+  private void computeLeft() {
+    switch (orientation) {
+      case UP -> this.orientation = Orientation.LEFT;
+      case RIGHT -> this.orientation = Orientation.UP;
+      case DOWN -> this.orientation = Orientation.RIGHT;
+      case LEFT -> this.orientation = Orientation.DOWN;
+    }
+  }
+
+  private void computeRight() {
+    switch (orientation) {
+      case UP -> this.orientation = Orientation.RIGHT;
+      case RIGHT -> this.orientation = Orientation.DOWN;
+      case DOWN -> this.orientation = Orientation.LEFT;
+      case LEFT -> this.orientation = Orientation.UP;
+    }
+  }
+
+  private void computeTurnAround() {
+    switch (orientation) {
+      case UP -> this.orientation = Orientation.DOWN;
+      case RIGHT -> this.orientation = Orientation.LEFT;
+      case DOWN -> this.orientation = Orientation.UP;
+      case LEFT -> this.orientation = Orientation.RIGHT;
+    }
   }
 
   public Position computeNextPosition(Move move) {
@@ -100,43 +148,14 @@ public class Position extends AbstractLocation {
     // this.getOrientation());
     // System.out.println("Move:" + move + ")");
     switch (move) {
-      case GOSTRAIGHT -> {
-        switch (orientation) {
-          case UP -> this.x--;
-          case RIGHT -> this.y++;
-          case DOWN -> this.x++;
-          case LEFT -> this.y--;
-        }
-        ;
-      }
+      case GOSTRAIGHT -> computeStraight();
 
-      case TURNLEFT -> {
-        switch (orientation) {
-          case UP -> this.orientation = Orientation.LEFT;
-          case RIGHT -> this.orientation = Orientation.UP;
-          case DOWN -> this.orientation = Orientation.RIGHT;
-          case LEFT -> this.orientation = Orientation.DOWN;
-        }
-        ;
-      }
-      case TURNRIGHT -> {
-        switch (orientation) {
-          case UP -> this.orientation = Orientation.RIGHT;
-          case RIGHT -> this.orientation = Orientation.DOWN;
-          case DOWN -> this.orientation = Orientation.LEFT;
-          case LEFT -> this.orientation = Orientation.UP;
-        }
-        ;
-      }
-      case TURNAROUND -> {
-        switch (orientation) {
-          case UP -> this.orientation = Orientation.DOWN;
-          case RIGHT -> this.orientation = Orientation.LEFT;
-          case DOWN -> this.orientation = Orientation.UP;
-          case LEFT -> this.orientation = Orientation.RIGHT;
-        }
-        ;
-      }
+      case TURNLEFT -> computeLeft();
+
+      case TURNRIGHT -> computeRight();
+
+      case TURNAROUND -> computeTurnAround();
+
       case STOP -> {
       }
       default -> throw new IllegalArgumentException("Unexpected value: " + move);
