@@ -62,7 +62,7 @@ public class AppConfig {
 
   @Bean("jsonMapTest")
   public JsonMap jsonMapTest() {
-    return new JsonMap(mapFilePath);
+    return new JsonMap(mapTestFilePath);
   }
 
   @Bean("jsonUser")
