@@ -1,8 +1,6 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server;
 
-import static org.mockito.Mockito.mock;
-
 import it.unipd.threewaymilkshake.portacs.server.engine.TasksSequencesList;
 import it.unipd.threewaymilkshake.portacs.server.engine.clients.ForkliftsList;
 import it.unipd.threewaymilkshake.portacs.server.engine.collision.CollisionDetection;
@@ -103,13 +101,13 @@ public class AppConfig {
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(4L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L)));
-    /*t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 8L, 7L, 1L, 8L )));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(1L, 8L, 7L, 1L, 8L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(10L, 16L, 6L, 8L, 7L, 8L, 6L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(15L, 3L, 2L, 15L, 3L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L, 6L, 15L, 3L, 2L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L, 7L, 8L, 6L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L, 6L, 15L, 3L, 16L, 6L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L, 6L, 15L, 7L, 8L, 6L))); */
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L, 6L, 15L, 7L, 8L, 6L)));
     return t;
   }
 
@@ -134,13 +132,6 @@ public class AppConfig {
     // return new UsersList(userDaoMock(), passwordEncoder());
   } */
 
-  // TODO: remove -> BIG code smell (imported mockito here and changed gradle)
-  @Bean
-  public UserDao userDaoMock() {
-    UserDao u = mock(UserDao.class);
-    return u;
-  }
-
   @Bean
   public ForkliftsList forkliftsList() {
     return new ForkliftsList(
@@ -149,13 +140,6 @@ public class AppConfig {
         tasksSequencesListTest(),
         exceptionalEvents()); // TODO set real one
     // return new ForkliftsList(forkliftDaoMock());
-  }
-
-  // TODO: remove -> BIG code smell (imported mockito here and changed gradle)
-  @Bean
-  public ForkliftDao forkliftDaoMock() {
-    ForkliftDao f = mock(ForkliftDao.class);
-    return f;
   }
 
   @Bean
