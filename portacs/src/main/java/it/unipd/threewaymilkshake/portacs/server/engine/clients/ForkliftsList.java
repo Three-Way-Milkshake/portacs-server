@@ -155,7 +155,7 @@ public class ForkliftsList {
     return b.toString();
   }
 
-  /** @return string representng all forklifts and their tasks (LIST,IDF,N,IDP1,IDP2;LIST...) */
+  /** @return string representng all forklifts and their tasks (LIST,NF,IDF,N,IDP1,IDP2;LIST...) */
   public String getActiveForkliftsTasks() {
     StringBuilder b = new StringBuilder();
     b.append("LIST,");
