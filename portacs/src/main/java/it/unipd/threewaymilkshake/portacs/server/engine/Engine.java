@@ -83,7 +83,7 @@ public class Engine /* implements Runnable */ {
 
     response.forEach(
         (fork) -> {
-          /*if (fork.hasCollisionOccurred()) {
+          if (fork.hasCollisionOccurred()) {
             System.out.println(
                 "***********COLLISIONE AVVENUTA**********: unita' " + fork.getForklift().getId());
             // TODO: EVENTO ECCEZIONALE DI COLLISIONE AVVENUTA (TRA UNITà IN GUIDA MANUALE E
@@ -94,7 +94,7 @@ public class Engine /* implements Runnable */ {
             String nextPath = fork.getForklift().getPathToNextTaskWithRandomMidpoint();
             fork.getForklift().write("PATH," + nextPath + ";");
           }
-          else*/ if (fork.isRecalculating()) {
+          else if (fork.isRecalculating()) {
             String nextPath =
                 fork.getForklift().getPathToNextTaskWithObstacles(fork.getObstacles());
             /*if(nextPath.equals(currentPath)) {

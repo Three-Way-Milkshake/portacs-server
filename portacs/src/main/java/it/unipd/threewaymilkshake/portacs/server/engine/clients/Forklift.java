@@ -175,11 +175,16 @@ public class Forklift extends Client {
   }
 
   public String getPathToNextTaskWithRandomMidpoint() { 
-    SimplePoint randomMapPoint = warehouseMap.getRandomPoint();
+    SimplePoint randomMapPoint = warehouseMap.getRandomPoint(position);
     String path = null;
     List<Move> firstPath = warehouseMap.getPathFromStartToEnd(position, randomMapPoint);
+    Position tmpPosition=new Position(position);
+    firstPath.stream().forEach(m->{
+      tmpPosition.computeNextPosition(m);
+    });
+
     System.out.println("For unit " + getId() + " random midpoint at " + randomMapPoint.getX() + " " + randomMapPoint.getY());
-    List<Move> secondPath = warehouseMap.getPath(new Position(randomMapPoint.getX(),randomMapPoint.getY(),null), tasks.getNext());
+    List<Move> secondPath = warehouseMap.getPath(tmpPosition, tasks.getNext());
 
     pathToNextTask = Stream.concat(firstPath.stream(), secondPath.stream())
                              .collect(Collectors.toList());

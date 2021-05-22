@@ -245,4 +245,24 @@ public class WarehouseMap {
     }
     return toReturn;
   }
+
+  public SimplePoint getRandomPoint(AbstractLocation p) {
+    Random rand = new Random();
+    SimplePoint toReturn = null;
+    boolean found = false;
+    int counter=0;
+    while(!found && counter++<1000) {
+      int x_rand = rand.nextInt(map.length);
+      int y_rand = rand.nextInt(map[0].length);
+      CellType cell = map[x_rand][y_rand];
+      if(cell != CellType.OBSTACLE && cell != CellType.POI 
+        && Math.abs(x_rand-p.getX())<2
+        && Math.abs(y_rand-p.getY())<2)
+      {
+        toReturn = new SimplePoint(x_rand,y_rand);
+        found = true;
+      }
+    }
+    return toReturn!=null?toReturn:getRandomPoint();
+  }
 }

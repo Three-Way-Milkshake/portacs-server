@@ -14,11 +14,11 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
     int FATAL_DEADLOCK = 10;
 
     for (CollisionForklift f : input) {
-      /*if(f.getForklift().isInDeadlock(CRITICAL_DEADLOCK)) {
+      if(f.getForklift().isInDeadlock(CRITICAL_DEADLOCK)) {
         System.out.println("CRITICAL DEADLOCK! Unit " + f.getForklift().getId() + " has been in stall for " + f.getForklift().getNumberOfStalls() + " turns");
         f.setCriticalRecalculate();
       }
-      else*/ if (f.getForklift().isInDeadlock(SIMPLE_DEADLOCK)) { // TODO: Nicolò
+      else if (f.getForklift().isInDeadlock(SIMPLE_DEADLOCK)) { // TODO: Nicolò
         System.out.println("DEADLOCK ALERT! Unit " + f.getForklift().getId() + " has been in stall for " + f.getForklift().getNumberOfStalls() + " turns");
         SimplePoint positionForklift = f.getForklift().getPosition().getPoint();
         SimplePoint obstacle = f.getForklift().getPosition().getPoint();
