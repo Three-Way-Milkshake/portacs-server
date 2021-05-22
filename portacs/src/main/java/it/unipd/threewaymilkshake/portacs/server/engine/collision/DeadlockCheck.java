@@ -11,11 +11,11 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
   @Override
   public List<CollisionForklift> process(List<CollisionForklift> input) {
     int ALERT_DEADLOCK = 3; // causa un ricalcolo del muletto
-    int CRITICAL_DEADLOCK = 6; // invio evento eccezionale
+    // int CRITICAL_DEADLOCK = 6; // invio evento eccezionale
 
     for (CollisionForklift f : input) {
       Forklift forklift = f.getForklift();
-      if (forklift.isInDeadlock(CRITICAL_DEADLOCK)) { // TODO: Nicolò
+      /* if (forklift.isInDeadlock(CRITICAL_DEADLOCK)) {
         System.out.println(
             "CRITICAL DEADLOCK!! "
                 + forklift.getId()
@@ -26,7 +26,7 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
             "Il muletto "
                 + forklift.getId()
                 + " è in stallo. Probabilmente è richiesto l'intervento dell'operatore");
-      } else if (forklift.isInDeadlock(ALERT_DEADLOCK)) { // TODO: Nicolò
+      } else  */if (forklift.isInDeadlock(ALERT_DEADLOCK)) { 
         System.out.println(
             "DEADLOCK ALERT! "
                 + forklift.getId()

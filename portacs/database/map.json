@@ -1,14 +1,29 @@
 {
   "map": [
     [
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
       "POI",
       "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
+      "NEUTRAL",
+      "NEUTRAL",
       "POI",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL"
+    ],
+    [
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
@@ -16,112 +31,112 @@
       "NEUTRAL"
     ],
     [
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
-      "POI",
-      "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
       "POI",
       "NEUTRAL",
       "NEUTRAL",
+      "POI",
+      "OBSTACLE",
+      "POI",
       "NEUTRAL",
+      "NEUTRAL",
+      "POI",
+      "OBSTACLE",
+      "POI",
       "NEUTRAL",
       "NEUTRAL"
     ],
     [
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
-      "POI",
-      "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
       "POI",
       "NEUTRAL",
       "NEUTRAL",
+      "POI",
+      "OBSTACLE",
+      "POI",
       "NEUTRAL",
+      "NEUTRAL",
+      "POI",
+      "OBSTACLE",
+      "POI",
       "NEUTRAL",
       "NEUTRAL"
     ],
     [
+      "POI",
       "NEUTRAL",
       "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
+      "POI",
       "OBSTACLE",
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL",
+      "POI",
       "OBSTACLE",
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL"
+    ],
+    [
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
+      "NEUTRAL",
       "POI"
     ],
     [
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
-      "NEUTRAL"
-    ],
-    [
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
       "POI",
       "NEUTRAL",
-      "OBSTACLE",
+      "NEUTRAL",
+      "POI",
       "OBSTACLE",
       "POI",
       "NEUTRAL",
       "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
-      "NEUTRAL"
-    ],
-    [
-      "NEUTRAL",
-      "NEUTRAL",
+      "POI",
       "OBSTACLE",
       "POI",
-      "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
-      "POI",
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
-      "NEUTRAL"
-    ],
-    [
-      "NEUTRAL",
-      "NEUTRAL",
-      "OBSTACLE",
-      "POI",
-      "NEUTRAL",
-      "OBSTACLE",
-      "OBSTACLE",
-      "POI",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL"
     ],
     [
+      "POI",
       "NEUTRAL",
+      "NEUTRAL",
+      "POI",
+      "OBSTACLE",
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL",
+      "POI",
+      "OBSTACLE",
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL"
+    ],
+    [
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL",
+      "POI",
+      "OBSTACLE",
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL",
+      "POI",
+      "OBSTACLE",
+      "POI",
+      "NEUTRAL",
+      "NEUTRAL"
+    ],
+    [
+      "POI",
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
@@ -136,29 +151,14 @@
       "NEUTRAL"
     ],
     [
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL",
-      "NEUTRAL"
-    ],
-    [
+      "POI",
       "NEUTRAL",
       "NEUTRAL",
       "NEUTRAL",
       "POI",
       "NEUTRAL",
-      "POI",
       "NEUTRAL",
-      "POI",
+      "NEUTRAL",
       "NEUTRAL",
       "POI",
       "NEUTRAL",
@@ -169,156 +169,363 @@
   "pois": {
     "1": {
       "id": 1,
-      "name": "p1",
+      "name": "e3",
       "location": {
         "x": 0,
-        "y": 3
+        "y": 0
       },
-      "type": "LOAD"
+      "type": "EXIT"
     },
     "2": {
       "id": 2,
-      "name": "p2",
+      "name": "z2",
       "location": {
-        "x": 0,
-        "y": 7
+        "x": 1,
+        "y": 0
       },
       "type": "LOAD"
     },
     "3": {
       "id": 3,
-      "name": "p3",
+      "name": "a1",
       "location": {
-        "x": 1,
+        "x": 2,
         "y": 3
       },
       "type": "LOAD"
     },
     "4": {
       "id": 4,
-      "name": "p4",
+      "name": "a2",
       "location": {
-        "x": 1,
-        "y": 7
+        "x": 3,
+        "y": 3
       },
       "type": "LOAD"
     },
     "5": {
       "id": 5,
-      "name": "p5",
+      "name": "a3",
       "location": {
-        "x": 2,
+        "x": 4,
         "y": 3
       },
       "type": "LOAD"
     },
     "6": {
       "id": 6,
-      "name": "p6",
+      "name": "a4",
       "location": {
-        "x": 2,
-        "y": 7
+        "x": 6,
+        "y": 3
       },
       "type": "LOAD"
     },
     "7": {
       "id": 7,
-      "name": "p7",
+      "name": "a5",
       "location": {
-        "x": 5,
+        "x": 7,
         "y": 3
       },
       "type": "LOAD"
     },
     "8": {
       "id": 8,
-      "name": "p8",
+      "name": "a6",
       "location": {
-        "x": 5,
-        "y": 7
+        "x": 8,
+        "y": 3
       },
       "type": "LOAD"
     },
     "9": {
       "id": 9,
-      "name": "p9",
+      "name": "b1",
       "location": {
-        "x": 6,
-        "y": 3
+        "x": 2,
+        "y": 5
       },
       "type": "LOAD"
     },
     "10": {
       "id": 10,
-      "name": "p10",
+      "name": "b2",
       "location": {
-        "x": 6,
-        "y": 7
+        "x": 3,
+        "y": 5
       },
       "type": "LOAD"
     },
     "11": {
       "id": 11,
-      "name": "p11",
+      "name": "b3",
       "location": {
-        "x": 7,
-        "y": 3
+        "x": 4,
+        "y": 5
       },
-      "type": "EXIT"
+      "type": "LOAD"
     },
     "12": {
       "id": 12,
-      "name": "p12",
+      "name": "b4",
+      "location": {
+        "x": 6,
+        "y": 5
+      },
+      "type": "LOAD"
+    },
+    "13": {
+      "id": 13,
+      "name": "b5",
       "location": {
         "x": 7,
-        "y": 7
+        "y": 5
       },
       "type": "LOAD"
     },
     "14": {
       "id": 14,
-      "name": "p13",
+      "name": "b6",
       "location": {
-        "x": 10,
-        "y": 3
+        "x": 8,
+        "y": 5
       },
-      "type": "EXIT"
+      "type": "LOAD"
     },
     "15": {
       "id": 15,
-      "name": "p14",
+      "name": "c1",
       "location": {
-        "x": 10,
-        "y": 5
+        "x": 2,
+        "y": 8
       },
       "type": "LOAD"
     },
     "16": {
       "id": 16,
-      "name": "p15",
+      "name": "c2",
       "location": {
-        "x": 10,
-        "y": 7
+        "x": 3,
+        "y": 8
       },
       "type": "LOAD"
     },
     "17": {
       "id": 17,
+      "name": "c3",
+      "location": {
+        "x": 4,
+        "y": 8
+      },
+      "type": "LOAD"
+    },
+    "18": {
+      "id": 18,
+      "name": "c4",
+      "location": {
+        "x": 6,
+        "y": 8
+      },
+      "type": "LOAD"
+    },
+    "19": {
+      "id": 19,
+      "name": "c5",
+      "location": {
+        "x": 7,
+        "y": 8
+      },
+      "type": "LOAD"
+    },
+    "20": {
+      "id": 20,
+      "name": "c6",
+      "location": {
+        "x": 8,
+        "y": 8
+      },
+      "type": "LOAD"
+    },
+    "21": {
+      "id": 21,
+      "name": "d1",
+      "location": {
+        "x": 2,
+        "y": 10
+      },
+      "type": "LOAD"
+    },
+    "22": {
+      "id": 22,
+      "name": "d2",
+      "location": {
+        "x": 3,
+        "y": 10
+      },
+      "type": "LOAD"
+    },
+    "23": {
+      "id": 23,
+      "name": "d3",
+      "location": {
+        "x": 4,
+        "y": 10
+      },
+      "type": "LOAD"
+    },
+    "24": {
+      "id": 24,
+      "name": "d4",
+      "location": {
+        "x": 6,
+        "y": 10
+      },
+      "type": "LOAD"
+    },
+    "25": {
+      "id": 25,
+      "name": "d5",
+      "location": {
+        "x": 7,
+        "y": 10
+      },
+      "type": "LOAD"
+    },
+    "26": {
+      "id": 26,
+      "name": "d6",
+      "location": {
+        "x": 8,
+        "y": 10
+      },
+      "type": "LOAD"
+    },
+    "27": {
+      "id": 27,
       "name": "e1",
       "location": {
-        "x": 10,
+        "x": 0,
+        "y": 4
+      },
+      "type": "EXIT"
+    },
+    "28": {
+      "id": 28,
+      "name": "e2",
+      "location": {
+        "x": 0,
         "y": 9
       },
       "type": "EXIT"
     },
-    "18": {
-      "id": 18,
-      "name": "p16",
+    "29": {
+      "id": 29,
+      "name": "s1",
       "location": {
-        "x": 3,
+        "x": 10,
+        "y": 4
+      },
+      "type": "UNLOAD"
+    },
+    "30": {
+      "id": 30,
+      "name": "s2",
+      "location": {
+        "x": 10,
+        "y": 9
+      },
+      "type": "UNLOAD"
+    },
+    "31": {
+      "id": 31,
+      "name": "s3",
+      "location": {
+        "x": 5,
         "y": 12
       },
       "type": "UNLOAD"
+    },
+    "32": {
+      "id": 32,
+      "name": "z3",
+      "location": {
+        "x": 2,
+        "y": 0
+      },
+      "type": "LOAD"
+    },
+    "33": {
+      "id": 33,
+      "name": "z4",
+      "location": {
+        "x": 3,
+        "y": 0
+      },
+      "type": "LOAD"
+    },
+    "34": {
+      "id": 34,
+      "name": "z5",
+      "location": {
+        "x": 4,
+        "y": 0
+      },
+      "type": "LOAD"
+    },
+    "35": {
+      "id": 35,
+      "name": "z6",
+      "location": {
+        "x": 5,
+        "y": 0
+      },
+      "type": "LOAD"
+    },
+    "36": {
+      "id": 36,
+      "name": "z7",
+      "location": {
+        "x": 6,
+        "y": 0
+      },
+      "type": "LOAD"
+    },
+    "37": {
+      "id": 37,
+      "name": "z8",
+      "location": {
+        "x": 7,
+        "y": 0
+      },
+      "type": "LOAD"
+    },
+    "38": {
+      "id": 38,
+      "name": "z9",
+      "location": {
+        "x": 8,
+        "y": 0
+      },
+      "type": "LOAD"
+    },
+    "39": {
+      "id": 39,
+      "name": "z10",
+      "location": {
+        "x": 9,
+        "y": 0
+      },
+      "type": "LOAD"
+    },
+    "40": {
+      "id": 40,
+      "name": "z11",
+      "location": {
+        "x": 10,
+        "y": 0
+      },
+      "type": "LOAD"
     }
   }
 }
