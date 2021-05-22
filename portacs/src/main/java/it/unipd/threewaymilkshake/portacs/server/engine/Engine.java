@@ -90,7 +90,12 @@ public class Engine /* implements Runnable */ {
             // AUTOMATICA)
             // fork.getForklift().write("STOP,"+0+";");
           }
-          if (fork.isRecalculating()) {
+          else if(fork.isCriticalRecalculating()) {
+            System.out.println("Dealing with a critical recalculation");
+            String nextPath = fork.getForklift().getPathToNextTaskWithRandomMidpoint();
+            fork.getForklift().write("PATH," + nextPath + ";");
+          }
+          else if (fork.isRecalculating()) {
             String nextPath = forklift.getPathToNextTaskWithObstacles(fork.getObstacles());
             String currentPath = forklift.getCurrentPathString();
             /*if(nextPath.equals(currentPath)) {

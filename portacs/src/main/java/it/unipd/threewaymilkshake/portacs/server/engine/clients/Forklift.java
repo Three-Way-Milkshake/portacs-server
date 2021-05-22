@@ -13,6 +13,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Forklift extends Client {
   @Expose String token;
@@ -189,6 +190,32 @@ public class Forklift extends Client {
 
     return path;
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
+  }
+
+  public String getPathToNextTaskWithRandomMidpoint() { 
+    SimplePoint randomMapPoint = warehouseMap.getRandomPoint(position);
+    String path = null;
+    List<Move> firstPath = warehouseMap.getPathFromStartToEnd(position, randomMapPoint);
+    Position tmpPosition=new Position(position);
+    firstPath.stream().forEach(m->{
+      tmpPosition.computeNextPosition(m);
+    });
+
+    System.out.println("For unit " + getId() + " random midpoint at " + randomMapPoint.getX() + " " + randomMapPoint.getY());
+    List<Move> secondPath = warehouseMap.getPath(tmpPosition, tasks.getNext());
+
+    pathToNextTask = Stream.concat(firstPath.stream(), secondPath.stream())
+                             .collect(Collectors.toList());
+    path =
+        pathToNextTask.stream()
+            .map(m -> m.ordinal())
+            .collect(Collectors.toList())
+            .toString()
+            .replaceAll("\\[|\\]| ", "");
+
+    System.out.println("CALCULATED PATH IS: " + pathToNextTask);
+
+    return path;
   }
 
   /*private void updatePositionAndDeadlock(String... pos) {

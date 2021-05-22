@@ -10,23 +10,16 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
 
   @Override
   public List<CollisionForklift> process(List<CollisionForklift> input) {
-    int ALERT_DEADLOCK = 3; // causa un ricalcolo del muletto
-    // int CRITICAL_DEADLOCK = 6; // invio evento eccezionale
+    int SIMPLE_DEADLOCK = 2; // causa un ricalcolo del muletto
+    int CRITICAL_DEADLOCK = 4; // ricalcolo casuale
 
     for (CollisionForklift f : input) {
       Forklift forklift = f.getForklift();
-      /* if (forklift.isInDeadlock(CRITICAL_DEADLOCK)) {
-        System.out.println(
-            "CRITICAL DEADLOCK!! "
-                + forklift.getId()
-                + " has been in stall for "
-                + forklift.getNumberOfStalls()
-                + " turns");
-        forklift.addExceptionalEvent(
-            "Il muletto "
-                + forklift.getId()
-                + " è in stallo. Probabilmente è richiesto l'intervento dell'operatore");
-      } else  */if (forklift.isInDeadlock(ALERT_DEADLOCK)) { 
+      if(forklift.isInDeadlock(CRITICAL_DEADLOCK)) {
+        System.out.println("CRITICAL DEADLOCK! Unit " + f.getForklift().getId() + " has been in stall for " + f.getForklift().getNumberOfStalls() + " turns");
+        f.setCriticalRecalculate();
+      }
+      else if (forklift.isInDeadlock(SIMPLE_DEADLOCK)) { 
         System.out.println(
             "DEADLOCK ALERT! "
                 + forklift.getId()
