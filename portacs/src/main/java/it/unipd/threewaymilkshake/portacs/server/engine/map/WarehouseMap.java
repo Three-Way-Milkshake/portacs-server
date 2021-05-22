@@ -229,22 +229,6 @@ public class WarehouseMap {
     return map[0].length;
   }
 
-  public SimplePoint getRandomPoint() {
-    Random rand = new Random();
-    SimplePoint toReturn = null;
-    boolean found = false;
-    while(!found) {
-      int x_rand = rand.nextInt(map.length);
-      int y_rand = rand.nextInt(map[0].length);
-      CellType cell = map[x_rand][y_rand];
-      if(cell != CellType.OBSTACLE && cell != CellType.POI)
-      {
-        toReturn = new SimplePoint(x_rand,y_rand);
-        found = true;
-      }
-    }
-    return toReturn;
-  }
 
   public SimplePoint getRandomPoint(AbstractLocation p) {
     Random rand = new Random();
@@ -257,12 +241,13 @@ public class WarehouseMap {
       CellType cell = map[x_rand][y_rand];
       if(cell != CellType.OBSTACLE && cell != CellType.POI 
         && Math.abs(x_rand-p.getX())<2
-        && Math.abs(y_rand-p.getY())<2)
+        && Math.abs(y_rand-p.getY())<2
+        && x_rand!=p.getX() && y_rand!=p.getY())
       {
         toReturn = new SimplePoint(x_rand,y_rand);
         found = true;
       }
     }
-    return toReturn!=null?toReturn:getRandomPoint();
+    return toReturn;
   }
 }
