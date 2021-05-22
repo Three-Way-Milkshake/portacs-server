@@ -125,6 +125,8 @@ public class UsersList {
     newUser.setWarehouseMap(warehouseMap);
     usersMap.put(newUserId, newUser);
 
+    userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
+    
     return "ADU," + newUserId + ',' + pwd + ';';
   }
 
@@ -139,6 +141,8 @@ public class UsersList {
       res = "RMU,OK";
     }
 
+    userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
+    
     return res + ';';
   }
 
@@ -151,6 +155,8 @@ public class UsersList {
       res += "OK";
     }
 
+    userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
+    
     return res + ';';
   }
 
@@ -163,6 +169,8 @@ public class UsersList {
       res += "OK";
     }
 
+    userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
+    
     return res + ';';
   }
 
@@ -177,6 +185,8 @@ public class UsersList {
       res += "OK," + newPwd;
     }
 
+    userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
+    
     return res + ';';
   }
 

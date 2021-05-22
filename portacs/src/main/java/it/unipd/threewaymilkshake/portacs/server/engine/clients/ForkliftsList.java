@@ -102,6 +102,8 @@ public class ForkliftsList {
       res += "OK," + token + ";";
     }
 
+    forkliftDao.updateForklifts(forkliftsMap.values().stream().collect(Collectors.toList()));
+
     return res;
   }
 
@@ -116,6 +118,8 @@ public class ForkliftsList {
       res += "OK;";
     }
 
+    forkliftDao.updateForklifts(forkliftsMap.values().stream().collect(Collectors.toList()));
+    
     return res;
   }
 
