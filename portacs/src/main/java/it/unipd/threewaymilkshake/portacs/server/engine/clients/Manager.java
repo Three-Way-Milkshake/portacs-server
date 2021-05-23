@@ -51,11 +51,11 @@ public class Manager extends User {
               c -> {
                 String[] par = c.split(",");
 
-                System.out.print("(manager) " + id + ") Command: " + par[0] + ", params: ");
+                /* System.out.print("(manager) " + id + ") Command: " + par[0] + ", params: ");
                 for (int i = 1; i < par.length; ++i) {
                   System.out.print(par[i] + " ");
                 }
-                System.out.println();
+                System.out.println(); */
 
                 switch (par[0]) {
                   case "ADL":

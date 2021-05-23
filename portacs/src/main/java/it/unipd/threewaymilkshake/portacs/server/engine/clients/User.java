@@ -89,11 +89,11 @@ public abstract class User extends Client implements Serializable {
                 c -> {
                   String[] par = c.split(",");
 
-                  System.out.print("(user) " + id + ") Command: " + par[0] + ", params: ");
+                  /* System.out.print("(user) " + id + ") Command: " + par[0] + ", params: ");
                   for (int i = 1; i < par.length; ++i) {
                     System.out.print(par[i] + " ");
                   }
-                  System.out.println();
+                  System.out.println(); */
 
                   switch (par[0]) {
                     case "LOGOUT":
