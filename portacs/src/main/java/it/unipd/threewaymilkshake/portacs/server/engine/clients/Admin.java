@@ -48,6 +48,10 @@ public class Admin extends User {
     connection.writeToBuffer("CELL,OK");
   }
 
+  private boolean isMapEditable(){
+    return forkliftsList.getActiveForklifts().size()==0;
+  }
+
   private void addUser(String type, String firstName, String lastName) {
     String msg = usersList.addUser(type, firstName, lastName);
     connection.writeToBuffer(msg);
@@ -99,33 +103,43 @@ public class Admin extends User {
               c -> {
                 String[] par = c.split(",");
 
-                System.out.print("(admin) " + id + ") Command: " + par[0] + ", params: ");
+                /* System.out.print("(admin) " + id + ") Command: " + par[0] + ", params: ");
                 for (int i = 1; i < par.length; ++i) {
                   System.out.print(par[i] + " ");
                 }
-                System.out.println();
+                System.out.println(); */
 
                 switch (par[0]) {
                   case "MAP":
-                    editMap(
-                        Integer.valueOf(par[1]), Integer.valueOf(par[2]), par[3]
-                        /* Arrays.stream(par)
-                        .skip(3) //TODO check, should be 3
-                        .map(Integer::parseInt)
-                        .collect(Collectors.toList()) */
-                        );
+                    if(isMapEditable()){
+                      editMap(
+                          Integer.valueOf(par[1]), Integer.valueOf(par[2]), par[3]
+                          /* Arrays.stream(par)
+                          .skip(3) //TODO check, should be 3
+                          .map(Integer::parseInt)
+                          .collect(Collectors.toList()) */
+                          );
+                    }
+                    else{
+                      connection.writeToBuffer("MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!");
+                    }
                     break;
 
                   case "CELL":
-                    editCell(
-                        Integer.valueOf(par[1]),
-                        Integer.valueOf(par[2]),
-                        Arrays.stream(par)
-                            .skip(3) // TODO check, should be 3
-                            .toArray(String[]::new)
-                        // .collect(Collectors.toList())
-                        // .toArray()
-                        );
+                    if(isMapEditable()){
+                      editCell(
+                          Integer.valueOf(par[1]),
+                          Integer.valueOf(par[2]),
+                          Arrays.stream(par)
+                              .skip(3) // TODO check, should be 3
+                              .toArray(String[]::new)
+                          // .collect(Collectors.toList())
+                          // .toArray()
+                          );
+                    }
+                    else{
+                      connection.writeToBuffer("MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!");
+                    }
                     break;
 
                   case "ADU":
