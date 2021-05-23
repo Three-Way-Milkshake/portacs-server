@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-class ConnectionAccepter implements Runnable {
+class ConnectionAccepter /* implements Runnable */ {
   // private final static String CERT_FILE=System.getProperty("user.dir")+"/trust.jks";
 
   private ConnectionHandler handler;

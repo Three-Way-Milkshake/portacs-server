@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConnectionHandler implements Runnable {
+public class ConnectionHandler /* implements Runnable */ {
 
   private AbstractQueue<Socket> buffer = new ConcurrentLinkedQueue<>();
   private UsersList users;
@@ -70,26 +70,13 @@ public class ConnectionHandler implements Runnable {
     }
   }
 
-  @Override
+  //@Override
   // @Scheduled(fixedDelay = 100000, initialDelay = 500)
-  public void run() {
-    /* Socket s;
-    BufferedReader in;
-    PrintWriter out; */
-
-    /* Callable<ClientType> task=()->{
-      return ClientType.FORKLIFT;
-    }; */
-
+  /* public void run() {
     while (true) {
       try {
         System.out.println("Handler started");
         while (!buffer.isEmpty()) {
-          // s=buffer.poll();
-          /**
-           * might stream pending connections and submit using task callable, getting results as
-           * type and assing, it is a possible evolution --> buffer.stream()...
-           */
           buffer.stream()
               .parallel()
               .forEach(
@@ -120,7 +107,7 @@ public class ConnectionHandler implements Runnable {
         e.printStackTrace();
       }
     }
-  }
+  } */
 
   public void addToBuffer(Socket s) {
     buffer.add(s);
