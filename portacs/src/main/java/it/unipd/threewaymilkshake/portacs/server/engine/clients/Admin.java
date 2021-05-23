@@ -121,7 +121,7 @@ public class Admin extends User {
                           );
                     }
                     else{
-                      connection.writeToBuffer("MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!");
+                      connection.writeToBuffer("MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!;");
                     }
                     break;
 
@@ -138,7 +138,7 @@ public class Admin extends User {
                           );
                     }
                     else{
-                      connection.writeToBuffer("MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!");
+                      connection.writeToBuffer("MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!;");
                     }
                     break;
 
