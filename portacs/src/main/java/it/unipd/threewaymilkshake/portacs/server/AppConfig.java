@@ -98,11 +98,11 @@ public class AppConfig {
   // @Scope("prototype")
   public TasksSequencesList tasksSequencesListTest() {
     TasksSequencesList t = new TasksSequencesList();
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(29L, 3L, 26L, 13L, 10L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(30L, 15L, 6L, 23L, 36L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(31L, 32L, 24L, 23L, 4L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(39L, 2L, 19L, 24L, 29L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(10L, 12L, 17L, 36L, 30L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 29L, 3L, */ 31L, 35L /* 26L, 13L, 10L */)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 30L, 15L, */ 31L, 35L /* 6L, 23L, 36L */)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 31L, 32L, */ 31L, 35L /* 24L, 23L, 4L */)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 39L, 2L, */ 31L, 35L /* 19L, 24L, 29L */)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 10L, 12L, */ 31L, 35L /* 17L, 36L, 30L */)));
     /* t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(4L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(12L)));
