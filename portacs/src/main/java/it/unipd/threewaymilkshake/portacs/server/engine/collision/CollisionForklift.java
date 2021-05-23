@@ -39,6 +39,14 @@ public class CollisionForklift {
     response.setRecalculate(obstacle.getPoint());
   }
 
+  public boolean isCriticalRecalculating() {
+    return response.isCriticalRecalculating();
+  }
+
+  public void setCriticalRecalculate() {
+    response.setCriticalRecalculate();
+  }
+
   public void setRecalculate(List<SimplePoint> obstacles) {
     response.setRecalculate(obstacles);
   }
