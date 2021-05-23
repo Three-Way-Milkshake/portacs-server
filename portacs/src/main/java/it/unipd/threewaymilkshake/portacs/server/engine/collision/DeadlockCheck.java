@@ -53,7 +53,7 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
                 + randomObstacle.getX()
                 + ";"
                 + randomObstacle.getY());
-        forklift.setDeadlock(false);
+        //forklift.setDeadlock(false);
         f.setRecalculate(Arrays.asList(obstacle, randomObstacle));
       }
     }
