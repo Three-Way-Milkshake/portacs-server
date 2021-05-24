@@ -33,8 +33,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @PropertySource("classpath:application.properties")
 public class AppConfig {
-  // private final static String MAP_FILE="Map.json";
-  // private static final String FORKLIFT_FILE = "Forklift.json";
 
   @Value("${server.database.json-users}")
   private String usersFilePath;
@@ -94,25 +92,15 @@ public class AppConfig {
     return new StrategyBreadthFirst();
   }
 
-  @Bean("tasksSequencesListTest") // TODO: for testing only
-  // @Scope("prototype")
+  @Bean("tasksSequencesListTest")
   public TasksSequencesList tasksSequencesListTest() {
     TasksSequencesList t = new TasksSequencesList();
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 29L, 3L, */ 31L, 35L /* 26L, 13L, 10L */)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 30L, 15L, */ 31L, 35L /* 6L, 23L, 36L */)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 31L, 32L, */ 31L, 35L /* 24L, 23L, 4L */)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 39L, 2L, */ 31L, 35L /* 19L, 24L, 29L */)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(/* 10L, 12L, */ 31L, 35L /* 17L, 36L, 30L */)));
-    /* t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(4L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(12L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(12L, 8L, 7L, 12L, 8L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(10L, 16L, 6L, 8L, 7L, 8L, 6L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(15L, 3L, 2L, 15L, 3L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L, 6L, 15L, 3L, 2L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(7L, 8L, 7L, 8L, 6L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L, 6L, 15L, 3L, 16L, 6L)));
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(8L, 6L, 15L, 7L, 8L, 6L))); */
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(29L, 3L,  26L, 13L, 10L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(30L, 15L, 6L, 23L, 36L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(31L, 32L, 24L, 23L, 4L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(39L, 2L, 19L, 24L, 29L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(10L, 12L, 17L, 36L, 30L)));
+
     return t;
   }
 
@@ -143,8 +131,7 @@ public class AppConfig {
         jsonForklift(),
         warehouseMap(),
         tasksSequencesListTest(),
-        exceptionalEvents()); // TODO set real one
-    // return new ForkliftsList(forkliftDaoMock());
+        exceptionalEvents());
   }
 
   @Bean
