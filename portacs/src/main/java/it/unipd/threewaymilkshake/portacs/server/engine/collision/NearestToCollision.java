@@ -14,7 +14,7 @@ public class NearestToCollision
 
   @Override
   public Set<CollisionForklift> process(Map<SimplePoint, List<CollisionForklift>> collisions) {
-    System.out.println("CIAO");
+    // System.out.println("CIAO");
 
     for (SimplePoint key : collisions.keySet()) {
       int min = Integer.MAX_VALUE;
