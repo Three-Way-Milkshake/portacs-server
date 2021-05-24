@@ -18,6 +18,7 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
       if(forklift.isInDeadlock(CRITICAL_DEADLOCK)) {
         System.out.println("CRITICAL DEADLOCK! Unit " + f.getForklift().getId() + " has been in stall for " + f.getForklift().getNumberOfStalls() + " turns");
         f.setCriticalRecalculate();
+        forklift.setDeadlock(false);
       }
       else if (forklift.isInDeadlock(SIMPLE_DEADLOCK)) { 
         System.out.println(

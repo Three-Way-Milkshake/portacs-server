@@ -206,6 +206,8 @@ public class Forklift extends Client {
 
     pathToNextTask = Stream.concat(firstPath.stream(), secondPath.stream())
                              .collect(Collectors.toList());
+
+    pathToNextTask.add(0, Move.STOP);
     path =
         pathToNextTask.stream()
             .map(m -> m.ordinal())
