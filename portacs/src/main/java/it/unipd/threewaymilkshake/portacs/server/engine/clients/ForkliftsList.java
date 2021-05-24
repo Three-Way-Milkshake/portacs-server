@@ -119,7 +119,7 @@ public class ForkliftsList {
     }
 
     forkliftDao.updateForklifts(forkliftsMap.values().stream().collect(Collectors.toList()));
-    
+
     return res;
   }
 

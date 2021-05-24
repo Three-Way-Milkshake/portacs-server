@@ -128,7 +128,8 @@ public class WarehouseMap {
     return strategy.getPath(mat, start, end);
   }
 
-  public synchronized List<Move> getPathFromStartToEnd(AbstractLocation start, AbstractLocation end) {
+  public synchronized List<Move> getPathFromStartToEnd(
+      AbstractLocation start, AbstractLocation end) {
     return strategy.getPath(getIntMatrix(), start, end);
   }
 
@@ -267,21 +268,21 @@ public class WarehouseMap {
     Random rand = new Random();
     SimplePoint toReturn = null;
     boolean found = false;
-    int counter=0;
-    while(!found && counter++<1000) {
+    int counter = 0;
+    while (!found && counter++ < 1000) {
       int x_rand = rand.nextInt(map.length);
       int y_rand = rand.nextInt(map[0].length);
       CellType cell = map[x_rand][y_rand];
-      if(cell != CellType.OBSTACLE && cell != CellType.POI 
-        && Math.abs(x_rand-p.getX())<2
-        && Math.abs(y_rand-p.getY())<2
-        && x_rand!=p.getX() && y_rand!=p.getY())
-      {
-        toReturn = new SimplePoint(x_rand,y_rand);
+      if (cell != CellType.OBSTACLE
+          && cell != CellType.POI
+          && Math.abs(x_rand - p.getX()) < 2
+          && Math.abs(y_rand - p.getY()) < 2
+          && x_rand != p.getX()
+          && y_rand != p.getY()) {
+        toReturn = new SimplePoint(x_rand, y_rand);
         found = true;
       }
     }
     return toReturn;
   }
-
 }

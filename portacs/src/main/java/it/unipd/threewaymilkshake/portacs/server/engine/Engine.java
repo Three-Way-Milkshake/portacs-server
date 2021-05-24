@@ -89,13 +89,11 @@ public class Engine /* implements Runnable */ {
             // TODO: EVENTO ECCEZIONALE DI COLLISIONE AVVENUTA (TRA UNITà IN GUIDA MANUALE E
             // AUTOMATICA)
             // fork.getForklift().write("STOP,"+0+";");
-          }
-          else if(fork.isCriticalRecalculating()) {
+          } else if (fork.isCriticalRecalculating()) {
             System.out.println("Dealing with a critical recalculation");
             String nextPath = fork.getForklift().getPathToNextTaskWithRandomMidpoint();
             fork.getForklift().write("PATH," + nextPath + ";");
-          }
-          else if (fork.isRecalculating()) {
+          } else if (fork.isRecalculating()) {
             String nextPath = forklift.getPathToNextTaskWithObstacles(fork.getObstacles());
             String currentPath = forklift.getCurrentPathString();
             /*if(nextPath.equals(currentPath)) {

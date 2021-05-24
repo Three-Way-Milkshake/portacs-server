@@ -95,7 +95,7 @@ public class AppConfig {
   @Bean("tasksSequencesListTest")
   public TasksSequencesList tasksSequencesListTest() {
     TasksSequencesList t = new TasksSequencesList();
-    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(29L, 3L,  26L, 13L, 10L)));
+    t.addTasksSequence(new LinkedBlockingDeque<>(List.of(29L, 3L, 26L, 13L, 10L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(30L, 15L, 6L, 23L, 36L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(31L, 32L, 24L, 23L, 4L)));
     t.addTasksSequence(new LinkedBlockingDeque<>(List.of(39L, 2L, 19L, 24L, 29L)));
@@ -128,10 +128,7 @@ public class AppConfig {
   @Bean
   public ForkliftsList forkliftsList() {
     return new ForkliftsList(
-        jsonForklift(),
-        warehouseMap(),
-        tasksSequencesListTest(),
-        exceptionalEvents());
+        jsonForklift(), warehouseMap(), tasksSequencesListTest(), exceptionalEvents());
   }
 
   @Bean

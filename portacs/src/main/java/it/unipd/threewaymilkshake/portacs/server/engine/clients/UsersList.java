@@ -126,7 +126,7 @@ public class UsersList {
     usersMap.put(newUserId, newUser);
 
     userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
-    
+
     return "ADU," + newUserId + ',' + pwd + ';';
   }
 
@@ -142,7 +142,7 @@ public class UsersList {
     }
 
     userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
-    
+
     return res + ';';
   }
 
@@ -156,7 +156,7 @@ public class UsersList {
     }
 
     userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
-    
+
     return res + ';';
   }
 
@@ -170,7 +170,7 @@ public class UsersList {
     }
 
     userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
-    
+
     return res + ';';
   }
 
@@ -186,7 +186,7 @@ public class UsersList {
     }
 
     userDao.updateUsers(usersMap.values().stream().collect(Collectors.toList()));
-    
+
     return res + ';';
   }
 

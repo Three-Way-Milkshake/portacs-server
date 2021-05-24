@@ -70,7 +70,7 @@ public class ConnectionHandler /* implements Runnable */ {
     }
   }
 
-  //@Override
+  // @Override
   // @Scheduled(fixedDelay = 100000, initialDelay = 500)
   /* public void run() {
     while (true) {

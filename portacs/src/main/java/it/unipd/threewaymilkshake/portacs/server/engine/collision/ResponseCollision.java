@@ -49,6 +49,7 @@ public class ResponseCollision {
     }
     recalculate = true;
   }
+
   public void setCriticalRecalculate() {
     criticalRecalculate = true;
   }

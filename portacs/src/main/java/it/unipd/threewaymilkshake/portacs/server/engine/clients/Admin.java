@@ -48,8 +48,8 @@ public class Admin extends User {
     connection.writeToBuffer("CELL,OK");
   }
 
-  private boolean isMapEditable(){
-    return forkliftsList.getActiveForklifts().size()==0;
+  private boolean isMapEditable() {
+    return forkliftsList.getActiveForklifts().size() == 0;
   }
 
   private void addUser(String type, String firstName, String lastName) {
@@ -111,7 +111,7 @@ public class Admin extends User {
 
                 switch (par[0]) {
                   case "MAP":
-                    if(isMapEditable()){
+                    if (isMapEditable()) {
                       editMap(
                           Integer.valueOf(par[1]), Integer.valueOf(par[2]), par[3]
                           /* Arrays.stream(par)
@@ -119,16 +119,16 @@ public class Admin extends User {
                           .map(Integer::parseInt)
                           .collect(Collectors.toList()) */
                           );
-                    }
-                    else{
-                      connection.writeToBuffer("MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!;");
+                    } else {
+                      connection.writeToBuffer(
+                          "MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!;");
                       writeMap();
                       writePois();
                     }
                     break;
 
                   case "CELL":
-                    if(isMapEditable()){
+                    if (isMapEditable()) {
                       editCell(
                           Integer.valueOf(par[1]),
                           Integer.valueOf(par[2]),
@@ -138,9 +138,9 @@ public class Admin extends User {
                           // .collect(Collectors.toList())
                           // .toArray()
                           );
-                    }
-                    else{
-                      connection.writeToBuffer("MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!;");
+                    } else {
+                      connection.writeToBuffer(
+                          "MAP,FAIL,La mappa si può modificare solo se nessun muletto è attivo!;");
                       // writeMap();
                       // writePois();
                     }

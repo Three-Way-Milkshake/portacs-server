@@ -15,12 +15,16 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
 
     for (CollisionForklift f : input) {
       Forklift forklift = f.getForklift();
-      if(forklift.isInDeadlock(CRITICAL_DEADLOCK)) {
-        System.out.println("CRITICAL DEADLOCK! Unit " + f.getForklift().getId() + " has been in stall for " + f.getForklift().getNumberOfStalls() + " turns");
+      if (forklift.isInDeadlock(CRITICAL_DEADLOCK)) {
+        System.out.println(
+            "CRITICAL DEADLOCK! Unit "
+                + f.getForklift().getId()
+                + " has been in stall for "
+                + f.getForklift().getNumberOfStalls()
+                + " turns");
         f.setCriticalRecalculate();
         forklift.setDeadlock(false);
-      }
-      else if (forklift.isInDeadlock(SIMPLE_DEADLOCK)) { 
+      } else if (forklift.isInDeadlock(SIMPLE_DEADLOCK)) {
         System.out.println(
             "DEADLOCK ALERT! "
                 + forklift.getId()
@@ -54,7 +58,7 @@ public class DeadlockCheck implements Handler<List<CollisionForklift>, List<Coll
                 + randomObstacle.getX()
                 + ";"
                 + randomObstacle.getY());
-        //forklift.setDeadlock(false);
+        // forklift.setDeadlock(false);
         f.setRecalculate(Arrays.asList(obstacle, randomObstacle));
       }
     }

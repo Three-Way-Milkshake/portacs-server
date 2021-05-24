@@ -192,20 +192,28 @@ public class Forklift extends Client {
     // return pathToNextTask.toString().replaceAll("\\[|\\]", "");
   }
 
-  public String getPathToNextTaskWithRandomMidpoint() { 
+  public String getPathToNextTaskWithRandomMidpoint() {
     SimplePoint randomMapPoint = warehouseMap.getRandomPoint(position);
     String path = null;
     List<Move> firstPath = warehouseMap.getPathFromStartToEnd(position, randomMapPoint);
-    Position tmpPosition=new Position(position);
-    firstPath.stream().forEach(m->{
-      tmpPosition.computeNextPosition(m);
-    });
+    Position tmpPosition = new Position(position);
+    firstPath.stream()
+        .forEach(
+            m -> {
+              tmpPosition.computeNextPosition(m);
+            });
 
-    System.out.println("For unit " + getId() + " random midpoint at " + randomMapPoint.getX() + " " + randomMapPoint.getY());
+    System.out.println(
+        "For unit "
+            + getId()
+            + " random midpoint at "
+            + randomMapPoint.getX()
+            + " "
+            + randomMapPoint.getY());
     List<Move> secondPath = warehouseMap.getPath(tmpPosition, tasks.getNext());
 
-    pathToNextTask = Stream.concat(firstPath.stream(), secondPath.stream())
-                             .collect(Collectors.toList());
+    pathToNextTask =
+        Stream.concat(firstPath.stream(), secondPath.stream()).collect(Collectors.toList());
 
     pathToNextTask.add(0, Move.STOP);
     path =
