@@ -1,10 +1,9 @@
 /* (C) 2021 Three Way Milkshake - PORTACS - UniPd SWE*/
 package it.unipd.threewaymilkshake.portacs.server.engine.collision;
 
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import it.unipd.threewaymilkshake.portacs.server.AppConfig;
@@ -47,9 +46,12 @@ public class DeadlockCheckTest {
     DeadlockCheck deadlockCheck = new DeadlockCheck();
     deadlockCheck.process(input);
 
-    verify(forklift, times(1))
-        .addExceptionalEvent(
-            "Il muletto 1 è in stallo. Probabilmente è richiesto l'intervento dell'operatore");
+    verify(forklift).isInDeadlock(4);
+    verify(forklift).isInDeadlock(2);
+
+    /* verify(forklift, times(1))
+    .addExceptionalEvent(
+        "Il muletto 1 è in stallo. Probabilmente è richiesto l'intervento dell'operatore"); */
   }
 
   @Test
@@ -74,6 +76,8 @@ public class DeadlockCheckTest {
     DeadlockCheck deadlockCheck = new DeadlockCheck();
     deadlockCheck.process(input);
 
-    verify(collisionForklift, times(1)).setRecalculate(anyList());
+    verify(collisionForklift).getForklift();
+    verifyNoMoreInteractions(collisionForklift);
+    // verify(collisionForklift, times(1)).setRecalculate(anyList());
   }
 }

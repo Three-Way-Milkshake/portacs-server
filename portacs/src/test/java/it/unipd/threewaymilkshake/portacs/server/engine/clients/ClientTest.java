@@ -26,6 +26,7 @@ public class ClientTest {
   @Test
   public void testConnectionBindingAndActiveStatus() {
     Client c = mock(Client.class, Mockito.CALLS_REAL_METHODS);
+    c.setWarehouseMap(mock(WarehouseMap.class));
     assertFalse(c.isActive());
     Connection conn = mock(Connection.class);
     c.bindConnection(conn);

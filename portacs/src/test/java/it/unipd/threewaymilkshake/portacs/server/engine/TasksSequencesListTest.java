@@ -28,12 +28,13 @@ public class TasksSequencesListTest {
     l2.add(9L);
     long id1 = tsl.addTasksSequence(l1);
     long id2 = tsl.addTasksSequence(l2);
-    assertEquals(1, id1);
-    assertEquals(2, id2);
+    assertEquals(6, id1);
+    assertEquals(7, id2);
 
-    assertFalse(tsl.removeTasksSequence(3));
-    assertTrue(tsl.removeTasksSequence(2));
+    assertFalse(tsl.removeTasksSequence(10));
+    assertTrue(tsl.removeTasksSequence(7));
 
+    for (int i = 1; i <= 5; ++i) tsl.removeTasksSequence(i);
     TasksSequence ts1 = tsl.getTasksSequence();
     l1.stream()
         .forEach(

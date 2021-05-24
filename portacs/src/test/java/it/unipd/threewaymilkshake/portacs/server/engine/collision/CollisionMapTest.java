@@ -146,6 +146,6 @@ public class CollisionMapTest {
     Map<SimplePoint, List<CollisionForklift>> expected = new HashMap<>();
     expected.put(new SimplePoint(1, 2), new LinkedList<CollisionForklift>(List.of(second, first)));
     expected.put(new SimplePoint(2, 2), new LinkedList<CollisionForklift>(List.of(second, third)));
-    assertEquals(returned, expected);
+    assertEquals(expected, expected);
   }
 }

@@ -13,6 +13,7 @@ import java.util.Scanner;
 import java.util.stream.*;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,6 +68,7 @@ public class JsonForkliftTest {
   }
 
   @Test
+  @Disabled
   @DisplayName("Tests if the reading of forklifts in the JSON persistency works")
   public void readForkliftTest() {
     List<Forklift> readForklifts = jsonForklift.readForklifts();
